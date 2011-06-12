@@ -18,6 +18,17 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
+	
+	----------------------------------------------------------------------------------------
+	
+	Documentation, more shapes and more optimized version are all on their way, so stay tuned.
+	If you like the idea, join me for a ride and fork the repo on GitHub, let's make a cool, easy-to-use, HTML based preloader for the design and dev community together!
+	
+	Check out my GitHub:	https://github.com/heartcode/
+	Send me an email:		heartcode@robertpataki.com
+	Follow me on Twitter:	http://twitter.com/#iHeartcode
+	Blog:					http://heartcode.robertpataki.com
+	
  * */
 
 (function(window, document, undefined){
