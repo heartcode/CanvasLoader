@@ -46,14 +46,28 @@
 	<script type="text/javascript">
 		// Create a new CanvasLoader instance.
 		myCl = CanvasLoader.create( { parentId:"holder", canvasId:"canvas", diameter:40, color:"#222222", fade:false, scale:true, range:1, speed:1, density:60, fps:24} );
+		// Start the loader animation
 		myCl.start();
 		
 		<!-- Feel free to play with these settings and explore all the possibilites (You can control the loader instances through the console as well)-->
+		
+		// Set the rendering speed
 		myCl.fps = 32;
+		// Set the rotation speed
 		myCl.speed = 2;
+		// Set the amount of shapes drawn on the canvas. The size of the shapes is calculated using the diameter and the density values. 
 		myCl.density = 200;
+		// Set the diameter of the loader. The canvas element has the same width and height, the size of the shapes is calculated using the diameter and the density values. 
 		myCl.diameter = 150;
+		// Set the color of the loader
 		myCl.color = "#0099ff";
+		// Set the fading of the shapes
+		myCl.fade = true;
+		// Set the scaling of the shapes
+		myCl.scale = false;
+		
+		// Stop the loader animation
+		//myCl.stop();
 		
 		// Eliminate and remove the CanvasLoader instance
 		function removeIndicator() {
