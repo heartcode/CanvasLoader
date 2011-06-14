@@ -52,7 +52,7 @@
 					speed:		0.1,				//0-1
 					scale:		false,
 					fade:		false,
-					caching:	true
+					center:		true
 				},
 			
 			// Return if the Stage instance is ready
@@ -181,17 +181,28 @@
 				// Create the canvas elements in the parent element
 				try
 				{
-					var parentElement = this.settings.parentId != document ? document.getElementById(this.settings.parentId) : this.settings.parentId;
-					this.canvas = document.createElement("canvas");
-					if(parentElement == document) document.body.appendChild(this.canvas);
-					else parentElement.appendChild(this.canvas);
-					this.canvasCtx = this.canvas.getContext("2d");
-					this.canvas.id = this.settings.canvasId;
-					this.canvas.width = this.canvas.height = this.settings.diameter;
+					// First try to find the reference canvas by its ID
+					if(document.getElementById(this.settings.canvasId)){
+						this.canvas = document.getElementById(this.settings.canvasId);
+					}
+					else {
+						var parentElement = this.settings.parentId != document ? document.getElementById(this.settings.parentId) : this.settings.parentId;
+						this.canvas = document.createElement("canvas");
+						if(parentElement == document) document.body.appendChild(this.canvas);
+						else parentElement.appendChild(this.canvas);
+						this.canvas.id = this.settings.canvasId;
+						this.canvas.width = this.canvas.height = this.settings.diameter;
+					}
 					
+					if(this.settings.center) {
+						this.canvas.style.position = "absolute";
+						this.canvas.style.left = -this.diameter*0.5 + "px";
+						this.canvas.style.top = -this.diameter*0.5 + "px";
+					}
+					
+					this.canvasCtx = this.canvas.getContext("2d");
 					this.ccanvas = document.createElement("canvas");
-					if(parentElement == document) document.body.appendChild(this.ccanvas);
-					else parentElement.appendChild(this.ccanvas);
+					document.body.appendChild(this.ccanvas);
 					this.ccanvasCtx = this.ccanvas.getContext("2d");
 					this.ccanvas.id = "c" + this.settings.canvasId;
 					this.ccanvas.width = this.ccanvas.height = this.settings.diameter;
