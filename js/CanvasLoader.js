@@ -31,339 +31,358 @@
 	
  * */
 
-(function(window, document, undefined){
+(function(window) {
 
-	// Define the CanvasLoader object
-	var CanvasLoader = {
-			
-			// Array containing all indicators created by CanvasLoader on the current page
-			indicatorList: [],
-			
-			//Default settings
-			settings: {
-					parentId:	document,
-					canvasId:	"CanvasLoaderCanvas",
-					fps:		1,
-					shape:		"circle",
-					density:	12,
-					range:		1,
-					diameter:	60,
-					color:		"#ff0000",
-					speed:		0.1,				//0-1
-					scale:		false,
-					fade:		false,
-					center:		true
-				},
-			
-			// Return if the Stage instance is ready
-			canvasReady: function (instance) {
-				return instance.canvasCtx != undefined;
-			},
-			
-			// Return a HEX color in RGB
-			getRGB: function(color) {				
-				var hexObject = {};
-				
-				color = color.charAt(0) == "#" ? color.substring(1, 7) : color;
-						
-				hexObject.r = parseInt(color.substring(0,2),16);
-				hexObject.g = parseInt(color.substring(2,4),16);
-				hexObject.b = parseInt(color.substring(4,6),16);
-					
-				return hexObject;
-			},
-			
-			// Redraw the passed instance's Stage object
-			redraw: function (instance) {
-				if(this.canvasReady(instance)) {
-					CanvasLoader.removeShapes(instance);
-					CanvasLoader.addShapes(instance);
-				}
-			},
-				
-			// Draw the appropriate shapes into the passed instance's Stage object
-			addShapes: function (instance) {
-				
-				if(this.canvasReady(instance))
-				{										
-					var i = 0;
-					var l = instance.density;
-					var size = instance.diameter * .07;
-					var radians;
-					var x, y, a;
-					var animBits = Math.round(instance.density * instance.range);
-					var minBitMod = 1/animBits;
-					var bitMod;	
-					
-					if(CanvasLoader.canvasReady(instance))
-					{
-						instance.ccanvasCtx.clearRect(0, 0, instance.ccanvas.width, instance.ccanvas.height);
-						instance.ccanvas.width = instance.ccanvas.height = instance.diameter;
-						
-					}
-					
-					switch(instance.shape)
-					{
-						case "circle":
-							while(i<l)
-							{						
-								if(i <= animBits) bitMod = 1-i*minBitMod;
-								
-								radians = (instance.density - i) * ((Math.PI * 2) / instance.density);
-								x = instance.canvas.width*.5 + Math.cos(radians) * (instance.diameter*.45 - size) - instance.canvas.width*.5;
-								y = instance.canvas.height*.5 + Math.sin(radians) * (instance.diameter*.45 - size) - instance.canvas.height*.5;
-								
-								instance.ccanvasCtx.beginPath();
-								if(instance.fade) instance.ccanvasCtx.fillStyle = "rgba(" + instance.colorRGB.r + "," + instance.colorRGB.g + "," + instance.colorRGB.b + "," + bitMod + ")";
-								else instance.ccanvasCtx.fillStyle = "rgba(" + instance.colorRGB.r + "," + instance.colorRGB.g + "," + instance.colorRGB.b + ",1)";
-								if(instance.scale) instance.ccanvasCtx.arc(instance.ccanvas.width*0.5 + x,instance.ccanvas.height*0.5 + y,size*bitMod,0,Math.PI*2,false);
-								else instance.ccanvasCtx.arc(instance.ccanvas.width*0.5 + x,instance.ccanvas.height*0.5 + y,size,0,Math.PI*2,false);
-								instance.ccanvasCtx.closePath();
-								instance.ccanvasCtx.fill();
-								
-								++i;
-							}
-						break;
-					}
-					
-					instance.bitmapData = instance.ccanvasCtx.getImageData(0, 0, instance.ccanvas.width, instance.ccanvas.height);
-					//console.log("FileSize: " + instance.bitmapData.data.length / 1024);
-					
-					// Init refresh
-					instance.tick(true);
-				}
-			},
-			
-			// Remove all shapes from the passed instance's Stage object 
-			removeShapes: function(instance) {
-				instance.canvasCtx.clearRect(0, 0, instance.canvas.width, instance.canvas.height);
-			},
-			
-			// Define the core class
-			core: function (options) {
-				
-				// Add the canvas to the indicator list on the global object
-				this.id = CanvasLoader.indicatorList.push(this) - 1;
-				this.canvas = {};
-				this.canvasCtx = undefined;
-				
-				// Cache canvas
-				this.ccanvas = {};
-				this.ccanvasCtx = undefined;
-				this.bitmapData = {};
-				
-				// Instance activity
-				this.running = false;
-				
-				// Create an object for the RGB color values
-				this.colorRGB = {};
-				
-				// The active shape id in the refresh sequence
-				this.activeId = 0;
-				
-				// Store default settings in the settings object
-				this.settings = CanvasLoader.settings;
-				
-				// Set up default settings of the Indicator instance
-				var r;
-				for(r in CanvasLoader.settings)
-				{
-					if(typeof(this[r] != undefined)) this[r] = this.settings[r];
-				}
-				
-				// Set up user defined settings
-				for(r in options)
-				{
-					if(typeof(this.settings[r] != undefined)) this.settings[r] = options[r];
-					if(typeof(this[r] != undefined)) this[r] = options[r];
-				}
-				
-				// Create the canvas elements in the parent element
-				try
-				{
-					// First try to find the reference canvas by its ID
-					if(document.getElementById(this.settings.canvasId)){
-						this.canvas = document.getElementById(this.settings.canvasId);
-					}
-					else {
-						var parentElement = this.settings.parentId != document ? document.getElementById(this.settings.parentId) : this.settings.parentId;
-						this.canvas = document.createElement("canvas");
-						if(parentElement == document) document.body.appendChild(this.canvas);
-						else parentElement.appendChild(this.canvas);
-						this.canvas.id = this.settings.canvasId;
-						this.canvas.width = this.canvas.height = this.settings.diameter;
-					}
-					
-					if(this.settings.center) {
-						this.canvas.style.position = "absolute";
-						this.canvas.style.left = -this.diameter*0.5 + "px";
-						this.canvas.style.top = -this.diameter*0.5 + "px";
-					}
-					
-					this.canvasCtx = this.canvas.getContext("2d");
-					this.ccanvas = document.createElement("canvas");
-					document.body.appendChild(this.ccanvas);
-					this.ccanvasCtx = this.ccanvas.getContext("2d");
-					this.ccanvas.id = "c" + this.settings.canvasId;
-					this.ccanvas.width = this.ccanvas.height = this.settings.diameter;
-					this.ccanvas.style.display = "none";
-					CanvasLoader.addShapes(this);
-				}
-				catch (error)
-				{
-					console.log("parent element doesn't exist! [" + this.settings.parentId + "]" + error);
-				}
-			},
-			
-			// Function for creating a new instance of CanvasLoader
-			create: function (settings) {
-				// Create the new instance and return it
-				return new CanvasLoader.core(settings);
-			},
-			
-			// Remove the passed CanvasLoader instance
-			remove: function(instance) {
-				instance.stop();
-				CanvasLoader.removeShapes(instance);
-				var r;
-				for(r in instance)
-				{
-					delete instance[r];
-				}
-				instance.settings = null;
-				delete instance.settings;
-				instance = null;
-				delete instance;
-				
-				return true;
-			}
-		};	
+	/**
+	* 
+	* @class CanvasLoader
+	* @constructor
+	* @param {String} id
+	* @param {String} diameter
+	* @param {String} color
+	**/
+	CanvasLoader = function(options) {
+		this.initialize(options);
+	};
+	var p = CanvasLoader.prototype;
 	
-	// Methods the core instances will have access to
-	CanvasLoader.core.prototype = {
+	/** 
+	* Initialization method.
+	* @method initialize
+	* @protected
+	*/
+	p.initialize = function(options) {
 		
-		// Method for setting and getting the diameter of the Indicator instance
-		set diameter(value) {
-			if(!isNaN(value)){
-				this.settings.diameter = value;
-				if(CanvasLoader.canvasReady(this)) this.canvas.width = this.canvas.height = this.diameter;
-				CanvasLoader.redraw(this);
+		// Store the user settings
+		for(var r in options) {
+			if(this[r] !== undefined) this[r] = options[r];
+		}
+		
+		// Define the loader instance variables
+		this.container = undefined;
+		this.canvas = undefined;
+		this.context = undefined;
+		this.cacheCanvas = undefined;
+		this.cacheContext = undefined;
+		this.colorRGB = null;
+		this.activeId = 0;
+		this.timer = null;
+		this.running = false;
+		
+		/*
+		* Find the containing div by id (passed by the user).
+		* If the container element cannot be found we use the document body itself
+		*/
+		try {
+			// Look for the parent element
+			if(document.getElementById(options["id"]) != undefined) {
+				this.container = document.getElementById(options["id"]);
 			}
-		},
-		get diameter() {
-			return this.settings.diameter;
-		},
-		// Method for setting and getting the fading of the Indicator instance
-		set fade(value) {
-			this.settings.fade = value;
-			CanvasLoader.redraw(this);
-		},
-		get fade() {
-			return this.settings.fade;
-		},
-		
-		// Method for setting and getting the scaling of the Indicator instance bits
-		set scale(value) {
-			this.settings.scale = value;
-			CanvasLoader.redraw(this);
-		},
-		get scale() {
-			return this.settings.scale;
-		},
-		
-		// Method for setting and getting the color of the Indicator instance
-		set color(value) {
-			this.settings.color = value;
-			this.colorRGB = CanvasLoader.getRGB(value);
-			CanvasLoader.redraw(this);
-		},
-		get color() {
-			return this.settings.color;
-		},
-		
-		// Method for setting and getting the shape of the Indicator instance
-		set shape(value) {
-			this.settings.shape = value;
-			CanvasLoader.redraw(this);
-		},
-		get shape() {
-			return this.settings.shape;
-		},
-		
-		// Method for setting and getting the density of the Indicator instance
-		set density(value) {
-			this.settings.density = value;
-			CanvasLoader.redraw(this);
-		},
-		get density() {
-			return this.settings.density;
-		},
-		
-		// Method for setting and getting the range of the Indicator instance
-		set range(value) {
-			this.settings.range = value;
-			CanvasLoader.redraw(this);
-		},
-		get range() {
-			return this.settings.range;
-		},
-		
-		// Method for setting and getting the refreshing speed of the Indicator instance
-		set speed(value) {
-			this.activeId = 0;
-			this.settings.speed = parseInt(value);
-		},
-		get speed() {
-			return this.settings.speed;
-		},
-		
-		// Method for setting and getting the fps of the Indicator instance
-		set fps(value) {
-			this.settings.fps = value;
-			if(this.running) {
-				this.stop();
-				this.start();
+			else {
+				console.log("No parent element found!");
+				this.container = document.body;
 			}
-		},
-		get fps() {
-			return this.settings.fps;
-		},
+		}
+		catch(error) {
+			console.log("No parent element found!");
+			this.container = document.body;
+		}
 		
+		// Create the canvas element
+		this.canvas = document.createElement("canvas");
+		this.context = this.canvas.getContext("2d");
+		this.canvas.id = "CanvasLoader";
+		this.container.appendChild(this.canvas);
+		this.canvas.width = this.canvas.height = this.diameter;
 		
-		// Refresh the indicator instance
-		tick: function(initialize) {
-			var rotUnit = this.density > 360 ? this.density / 360 : 360 / this.density;
-			rotUnit *= this.speed;
-			if(!initialize) this.activeId += rotUnit;
-			if(this.activeId > 360) this.activeId -= 360;
+		// Create the cache canvas element
+		this.cacheCanvas = document.createElement("canvas");
+		document.body.appendChild(this.cacheCanvas);
+		this.cacheContext = this.cacheCanvas.getContext("2d");
+		this.cacheCanvas.width = this.cacheCanvas.height = this.diameter;
+		this.cacheCanvas.style.display = "none";
+		
+		// Set the aligning of the loader
+		this.align();
+		
+		p._colorRGB = p.getRGB(p._color);
+		
+		// Draw the shapes on the canvas
+		this.draw();
+	};
+	
+	/**
+	* The div we draw the shapes into.
+	* @property div
+	* @type String
+	**/
+	p._div = null;
+	
+	/**
+	* Tell if the loader rendering is running.
+	* @property _running
+	* @type Boolean
+	**/
+	p._running = false;
+	
+	/**
+	* The diameter of the loader.
+	* @property color
+	* @type String
+	**/
+	p._diameter = 50;
+	// [GS]etter for the diameter of the loader
+	p.__defineGetter__("diameter", function(){ return this._diameter; });
+	p.__defineSetter__("diameter", function(diameter){ if(!isNaN(diameter))this._diameter = Math.round(Math.abs(diameter)); if(this.redraw !== undefined) this.redraw(); });
+
+	/**
+	* The color of the loader shapes.
+	* @property _color
+	* @type String
+	**/
+	p._color = "#000000";
+	// [GS]etter for the color of the loader shapes
+	p.__defineGetter__("color", function(){ return this._color; });
+	p.__defineSetter__("color", function(color){ this._color = color; this._colorRGB = this.getRGB(color); if(this.redraw !== undefined) this.redraw(); });
+	
+	/**
+	* The type of the loader shapes.
+	* @property _shape
+	* @type String
+	**/
+	p._shape = "circle";
+	// [GS]etter for the Shapes of the loader
+	p.__defineGetter__("shape", function(){ return this._shape; });
+	p.__defineSetter__("shape", function(shape){ this._shape = shape; if(this.redraw !== undefined) this.redraw(); });
+	
+	/**
+	* The number of shapes drawn on the loader canvas.
+	* @property _density
+	* @type Number
+	**/
+	p._density = 120;
+	// [GS]etter for the density of the loader shapes
+	p.__defineGetter__("density", function(){ return this._density; });
+	p.__defineSetter__("density", function(density){ this._density = density; if(this.redraw !== undefined) this.redraw(); });
+	
+	/**
+	* The range of the animated loader shapes.
+	* @property _range
+	* @type Number (between 0 and 1)
+	**/
+	p._range = 0.95;
+	// [GS]etter for the range of the animated loader shapes
+	p.__defineGetter__("range", function(){ return this._range; });
+	p.__defineSetter__("range", function(range){ this._range = range; if(this.redraw !== undefined) this.redraw(); });
+	
+	/**
+	* The scaling of the loader shapes.
+	* @property _scale
+	* @type Boolean
+	**/
+	p._scale = true;
+	// [GS]etter for the scaling of the loader shapes
+	p.__defineGetter__("scale", function(){ return this._scale; });
+	p.__defineSetter__("scale", function(scale){ this._scale = scale; if(this.redraw !== undefined) this.redraw(); });
+	
+	/**
+	* The fading of the loader shapes.
+	* @property _fade
+	* @type Boolean
+	**/
+	p._fade = true;
+	// [GS]etter for the fading of the loader shapes
+	p.__defineGetter__("fade", function(){ return this._fade; });
+	p.__defineSetter__("fade", function(fade){ this._fade = fade; if(this.redraw !== undefined) this.redraw(); });
+	
+	/**
+	* The speed of the loader animation.
+	* @property _speed
+	* @type Number
+	**/
+	p._speed = 1;
+	// [GS]etter for the speed of the circular loader animation
+	p.__defineGetter__("speed", function(){ return this._speed; });
+	p.__defineSetter__("speed", function(speed){ this._speed = speed; });
+	
+	/**
+	* The aligning of the canvas element.
+	* @property _center
+	* @type Boolean
+	**/
+	p._center = false;
+	// [GS]etter for the aligning of the canvas parent (center-center or top-left)
+	p.__defineGetter__("center", function(){ return this._center; });
+	p.__defineSetter__("center", function(center){ this._center = center; this.align(); });
+	
+	/**
+	* The FPS of the loader animation rendering.
+	* @property _fps
+	* @type Number
+	**/
+	p._fps = 12;
+	// [GS]etter for the FPS
+	p.__defineGetter__("fps", function(){ return this._fps; });
+	p.__defineSetter__("fps", function(fps){ this._fps = fps; this.reset(); });	
+	
+	/**
+	* Set the aligning of the canvas
+	*/
+	p.align = function() {
+		if(this.canvas != undefined && this.context != undefined) {
+			if(this.center) {
+				with(this.canvas) {
+					style["left"] = "50%";
+					style["top"] = "50%";
+					style["margin-left"] = -this.diameter*0.5 + "px";
+					style["margin-top"] = -this.diameter*0.5 + "px";
+				}
+			}
+			else {
+				with(this.canvas) {
+					style.position = "relative";
+					style.left = "0px";
+					style.top = "0px";
+				}
+			}
+		}
+	};
+	
+	/**
+	* Return the RGB values of the passed color.
+	*/
+	p.getRGB = function(color) {
+		var hexObject = {};
+		
+		color = color.charAt(0) == "#" ? color.substring(1, 7) : color;
+				
+		hexObject.r = parseInt(color.substring(0,2),16);
+		hexObject.g = parseInt(color.substring(2,4),16);
+		hexObject.b = parseInt(color.substring(4,6),16);
 			
-			this.canvasCtx.save();
-			this.canvasCtx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-			this.canvasCtx.translate(this.canvas.width*0.5, this.canvas.height*0.5);
-			this.canvasCtx.rotate(Math.PI/180*this.activeId);
-			this.canvasCtx.translate(-this.canvas.width*0.5, -this.canvas.height*0.5);
-			this.canvasCtx.drawImage(this.ccanvas, 0, 0, this.ccanvas.width, this.ccanvas.height);
-			this.canvasCtx.restore();
-		},
+		return hexObject;
+	};
+	
+	/**
+	* Draw the shapes on the canvas
+	*/
+	p.draw = function() {
+		console.log("Draw");
 		
-		// Add the timer to refresh the indicator instance
-		start: function() {
+		var i = 0;
+		var size = this.diameter * .07;
+		var radians;
+		var x, y, a;
+		var animBits = Math.round(this.density * this.range);
+		var minBitMod = 1/animBits;
+		var bitMod;
+		
+		// Clean the cache canvas
+		this.cacheContext.clearRect(0, 0, this.diameter, this.diameter);
+		this.canvas.width = this.canvas.height = this.cacheCanvas.width = this.cacheCanvas.height = this.diameter;
+		
+		// Draw the shapes
+		switch(this.shape)
+		{
+			case "circle":
+				while(i<this.density)
+				{						
+					if(i <= animBits) bitMod = 1-i*minBitMod;
+					
+					radians = (this.density - i) * ((Math.PI * 2) / this.density);
+					x = this.canvas.width*.5 + Math.cos(radians) * (this.diameter*.45 - size) - this.canvas.width*.5;
+					y = this.canvas.height*.5 + Math.sin(radians) * (this.diameter*.45 - size) - this.canvas.height*.5;
+					
+					this.cacheContext.beginPath();
+					if(this.fade) this.cacheContext.fillStyle = "rgba(" + this._colorRGB.r + "," + this._colorRGB.g + "," + this._colorRGB.b + "," + bitMod + ")";
+					else this.cacheContext.fillStyle = "rgba(" + this._colorRGB.r + "," + this._colorRGB.g + "," + this._colorRGB.b + ",1)";
+					if(this.scale) this.cacheContext.arc(this.diameter*0.5 + x,this.diameter*0.5 + y,size*bitMod,0,Math.PI*2,false);
+					else this.cacheContext.arc(this.diameter*0.5 + x,this.diameter*0.5 + y,size,0,Math.PI*2,false);
+					this.cacheContext.closePath();
+					this.cacheContext.fill();
+					
+					++i;
+				}
+			break;
+		}
+		
+		// Render the changes on the canvas
+		this.tick(true);
+	};
+	
+	/**
+	* Clean the canvas
+	*/
+	p.clean = function() {
+		this.context.clearRect(0, 0, this.diameter, this.diameter);
+	};
+	
+	/**
+	* Redraw the loader
+	*/
+	p.redraw = function() {
+		if(this.canvas != undefined && this.context != undefined) {
+			this.clean();
+			this.draw();
+		}
+	};
+	
+	/**
+	* Reset the timer
+	*/
+	p.reset = function() {
+		if(this.running) {
+			this.stop();
+			this.start();
+		}
+	};
+	
+	/**
+	* Remove the CanvasLoader instance
+	*/
+	p.remove = function() {};
+	
+	/**
+	* Render the loader
+	*/
+	p.tick = function(initialize) {
+		var rotUnit = this.density > 360 ? this.density / 360 : 360 / this.density;
+		rotUnit *= this.speed;
+		if(!initialize) this.activeId += rotUnit;
+		if(this.activeId > 360) this.activeId -= 360;
+		
+		this.context.save();
+		this.context.clearRect(0, 0, this.diameter, this.diameter);
+		this.context.translate(this.diameter*0.5, this.diameter*0.5);
+		this.context.rotate(Math.PI/180*this.activeId);
+		this.context.translate(-this.diameter*0.5, -this.diameter*0.5);
+		this.context.drawImage(this.cacheCanvas, 0, 0, this.diameter, this.diameter);
+		this.context.restore();
+	};
+	
+	/**
+	* Start the rendering
+	*/
+	p.start = function() {
+		if(!this.running) {
 			this.running = true;
 			var t = this;
 			this.timer = self.setInterval(function(){t.tick();}, Math.round(1000/this.fps));
-		},
-		
-		// Remove the refreshing timer
-		stop: function() {
+		}
+	};
+	
+	/**
+	* Stop the rendering
+	*/
+	p.stop = function() {
+		if(this.running) {
 			this.running = false;
 			clearInterval(this.timer);
 			this.timer = null;
 			delete this.timer;
 		}
 	};
-		
-	// Attach the CanvasLoader object to the window object for access outside of this file
+	
 	window.CanvasLoader = CanvasLoader;
 	
-
 })(window, document);

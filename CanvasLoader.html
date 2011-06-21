@@ -40,51 +40,26 @@
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
 	<script type="application/javascript" src="js/CanvasLoader.js"></script>
+	<style type="text/css">
+		.preloader {float:left; margin:20px; width:200px; height:200px; background:rgba(0, 0, 0, 0.05);}
+	</style>
 </head>
 <body>
-	<div id="holder"></div>
+	<div class="preloader" id="preloader"></div>
+	<div class="preloader" id="preloader2"></div>
+	<div class="preloader" id="preloader3"></div>
+	<div class="preloader" id="preloader4"></div>
 	<script type="text/javascript">
-		// Create a new CanvasLoader instance.
-		var myCl = CanvasLoader.create( { parentId:"holder", canvasId:"canvasLoader", diameter:40, color:"#222222", fade:false, scale:true, range:1, speed:1, density:60, fps:24} );
-		// Start the loader animation
+		var myCl = new CanvasLoader({id:"preloader", fps:32, speed:5, range:0.5});
 		myCl.start();
-		
-		<!-- Feel free to play with these settings and explore all the possibilites (You can control the loader instances through the console as well)-->
-		
-		// Set the rendering speed
-		myCl.fps = 32;
-		// Set the rotation speed
-		myCl.speed = 2;
-		// Set the amount of shapes drawn on the canvas. The size of the shapes is calculated using the diameter and the density values. 
-		myCl.density = 200;
-		// Set the diameter of the loader. The canvas element has the same width and height, the size of the shapes is calculated using the diameter and the density values. 
-		myCl.diameter = 150;
-		// Set the color of the loader
-		myCl.color = "#0099ff";
-		// Set the fading of the shapes
-		myCl.fade = true;
-		// Set the scaling of the shapes
-		myCl.scale = false;
-		
-		// Create a new CanvasLoader instance.
-		var myCl2 = CanvasLoader.create( { parentId:"holder", canvasId:"canvasLoader2", diameter:40, color:"#222222", fade:true, scale:true, range:1, speed:2, density:40, fps:12} );
-		// Start the loader animation
+		myCl.diameter = 30;
+		myCl.color = "#ffff00";
+		myCl.center = true;
+		var myCl2 = new CanvasLoader({id:"preloader2", color:"#000000", diameter:50, density:10});
 		myCl2.start();
-		
-		// Create a new CanvasLoader instance.
-		var myCl3 = CanvasLoader.create( { parentId:"holder", canvasId:"canvasLoader3", diameter:30, color:"#ff00ff", fade:true, scale:false, range:1, speed:1, density:16, fps:6} );
-		// Start the loader animation
-		myCl3.start();
-		
-		// Stop the loader animation
-		//myCl.stop();
-		
-		// Eliminate and remove the CanvasLoader instance
-		function removeIndicator() {
-			CanvasLoader.remove(myCl);
-			myCl = null;
-			delete myCl;
-		}
+		var myCl3 = new CanvasLoader({id:"preloader3", color:"#ff00ff", diameter:100, density:100, fade:true, scale:false, center:true});
+		var myCl4 = new CanvasLoader({id:"preloader4", color:"#0099ff", diameter:25, density:12, fade:true, scale:false, range:1.5, center:true});
+		myCl4.start();
 	</script>
 </body>
 </html>
