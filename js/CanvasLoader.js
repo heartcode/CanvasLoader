@@ -53,22 +53,6 @@
 	*/
 	p.initialize = function(options) {
 		
-		// Store the user settings
-		for(var r in options) {
-			if(this[r] !== undefined) this[r] = options[r];
-		}
-		
-		// Define the loader instance variables
-		this.container = undefined;
-		this.canvas = undefined;
-		this.context = undefined;
-		this.cacheCanvas = undefined;
-		this.cacheContext = undefined;
-		this.colorRGB = null;
-		this.activeId = 0;
-		this.timer = null;
-		this.running = false;
-		
 		/*
 		* Find the containing div by id (passed by the user).
 		* If the container element cannot be found we use the document body itself
@@ -76,47 +60,87 @@
 		try {
 			// Look for the parent element
 			if(document.getElementById(options["id"]) != undefined) {
-				this.container = document.getElementById(options["id"]);
+				this._container = document.getElementById(options["id"]);
 			}
 			else {
 				console.log("No parent element found!");
-				this.container = document.body;
+				this._container = document.body;
 			}
 		}
 		catch(error) {
 			console.log("No parent element found!");
-			this.container = document.body;
+			this._container = document.body;
 		}
 		
 		// Create the canvas element
-		this.canvas = document.createElement("canvas");
-		this.context = this.canvas.getContext("2d");
-		this.canvas.id = "CanvasLoader";
-		this.container.appendChild(this.canvas);
-		this.canvas.width = this.canvas.height = this.diameter;
+		this._canvas = document.createElement("canvas");
+		this._context = this._canvas.getContext("2d");
+		this._canvas.id = "CanvasLoader";
+		this._container.appendChild(this._canvas);
+		this._canvas.width = this._canvas.height = this.diameter;
 		
 		// Create the cache canvas element
-		this.cacheCanvas = document.createElement("canvas");
-		document.body.appendChild(this.cacheCanvas);
-		this.cacheContext = this.cacheCanvas.getContext("2d");
-		this.cacheCanvas.width = this.cacheCanvas.height = this.diameter;
-		this.cacheCanvas.style.display = "none";
+		this._cacheCanvas = document.createElement("canvas");
+		document.body.appendChild(this._cacheCanvas);
+		this._cacheContext = this._cacheCanvas.getContext("2d");
+		this._cacheCanvas.width = this._cacheCanvas.height = this.diameter;
+		this._cacheCanvas.style.display = "none";
 		
-		// Set the aligning of the loader
-		this.align();
+		// Set the RGB color object
+		this.color = this.color;
 		
-		p._colorRGB = p.getRGB(p._color);
+		// Store the user settings
+		for(var r in options) {
+			if(this[r] != undefined) this[r] = options[r];
+		}
+		
+		// Set the instance ready
+		p._ready = true;
 		
 		// Draw the shapes on the canvas
 		this.draw();
+		
+		// Set the aligning of the loader
+		this.align();
 	};
+	
+/////////////////////////////////////////////////////////////////////////////////////////////
+// Property declarations
+	
+	/**
+	* The div we place the canvas object into.
+	* @property _container
+	* @type Object
+	**/
+	p._container = null;
 	
 	/**
 	* The div we draw the shapes into.
-	* @property div
-	* @type String
+	* @property _canvas
+	* @type Object
 	**/
-	p._div = null;
+	p._canvas = null;
+	
+	/**
+	* The canvas context.
+	* @property _context
+	* @type Object
+	**/
+	p._context = null;
+	
+	/**
+	* The canvas we use for caching.
+	* @property _cacheCanvas
+	* @type Object
+	**/
+	p._cacheCanvas = null;
+	
+	/**
+	* The context of the cache canvas.
+	* @property _cacheContext
+	* @type Object
+	**/
+	p._cacheContext = null;
 	
 	/**
 	* Tell if the loader rendering is running.
@@ -126,6 +150,27 @@
 	p._running = false;
 	
 	/**
+	* Tell if the canvas and its context is ready.
+	* @property _ready
+	* @type Boolean
+	**/
+	p._ready = false;
+	
+	/**
+	* Add a timer for the rendering.
+	* @property _timer
+	* @type Boolean
+	**/
+	p._timer = null;
+	
+	/**
+	* The active shape id for rendering.
+	* @property _activeId
+	* @type Number
+	**/
+	p._activeId = 0;
+	
+	/**
 	* The diameter of the loader.
 	* @property color
 	* @type String
@@ -133,10 +178,17 @@
 	p._diameter = 50;
 	// [GS]etter for the diameter of the loader
 	p.__defineGetter__("diameter", function(){ return this._diameter; });
-	p.__defineSetter__("diameter", function(diameter){ if(!isNaN(diameter))this._diameter = Math.round(Math.abs(diameter)); if(this.redraw !== undefined) this.redraw(); });
+	p.__defineSetter__("diameter", function(diameter){ if(!isNaN(diameter))this._diameter = Math.round(Math.abs(diameter)); if(this.redraw !== undefined) this.redraw(); this.align(); });
 
 	/**
-	* The color of the loader shapes.
+	* The color of the loader shapes in RGB.
+	* @property _colorRGB
+	* @type Object
+	**/
+	p._colorRGB = null;
+	
+	/**
+	* The color of the loader shapes in HEX.
 	* @property _color
 	* @type String
 	**/
@@ -225,13 +277,16 @@
 	p.__defineGetter__("fps", function(){ return this._fps; });
 	p.__defineSetter__("fps", function(fps){ this._fps = fps; this.reset(); });	
 	
+// End of Property declarations
+/////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	* Set the aligning of the canvas
 	*/
 	p.align = function() {
-		if(this.canvas != undefined && this.context != undefined) {
+		if(this._ready) {
 			if(this.center) {
-				with(this.canvas) {
+				with(this._canvas) {
 					style["left"] = "50%";
 					style["top"] = "50%";
 					style["margin-left"] = -this.diameter*0.5 + "px";
@@ -239,7 +294,7 @@
 				}
 			}
 			else {
-				with(this.canvas) {
+				with(this._canvas) {
 					style.position = "relative";
 					style.left = "0px";
 					style.top = "0px";
@@ -266,9 +321,7 @@
 	/**
 	* Draw the shapes on the canvas
 	*/
-	p.draw = function() {
-		console.log("Draw");
-		
+	p.draw = function() {		
 		var i = 0;
 		var size = this.diameter * .07;
 		var radians;
@@ -278,8 +331,8 @@
 		var bitMod;
 		
 		// Clean the cache canvas
-		this.cacheContext.clearRect(0, 0, this.diameter, this.diameter);
-		this.canvas.width = this.canvas.height = this.cacheCanvas.width = this.cacheCanvas.height = this.diameter;
+		this._cacheContext.clearRect(0, 0, this.diameter, this.diameter);
+		this._canvas.width = this._canvas.height = this._cacheCanvas.width = this._cacheCanvas.height = this.diameter;
 		
 		// Draw the shapes
 		switch(this.shape)
@@ -290,16 +343,16 @@
 					if(i <= animBits) bitMod = 1-i*minBitMod;
 					
 					radians = (this.density - i) * ((Math.PI * 2) / this.density);
-					x = this.canvas.width*.5 + Math.cos(radians) * (this.diameter*.45 - size) - this.canvas.width*.5;
-					y = this.canvas.height*.5 + Math.sin(radians) * (this.diameter*.45 - size) - this.canvas.height*.5;
+					x = this._canvas.width*.5 + Math.cos(radians) * (this.diameter*.45 - size) - this._canvas.width*.5;
+					y = this._canvas.height*.5 + Math.sin(radians) * (this.diameter*.45 - size) - this._canvas.height*.5;
 					
-					this.cacheContext.beginPath();
-					if(this.fade) this.cacheContext.fillStyle = "rgba(" + this._colorRGB.r + "," + this._colorRGB.g + "," + this._colorRGB.b + "," + bitMod + ")";
-					else this.cacheContext.fillStyle = "rgba(" + this._colorRGB.r + "," + this._colorRGB.g + "," + this._colorRGB.b + ",1)";
-					if(this.scale) this.cacheContext.arc(this.diameter*0.5 + x,this.diameter*0.5 + y,size*bitMod,0,Math.PI*2,false);
-					else this.cacheContext.arc(this.diameter*0.5 + x,this.diameter*0.5 + y,size,0,Math.PI*2,false);
-					this.cacheContext.closePath();
-					this.cacheContext.fill();
+					this._cacheContext.beginPath();
+					if(this.fade) this._cacheContext.fillStyle = "rgba(" + this._colorRGB.r + "," + this._colorRGB.g + "," + this._colorRGB.b + "," + bitMod + ")";
+					else this._cacheContext.fillStyle = "rgba(" + this._colorRGB.r + "," + this._colorRGB.g + "," + this._colorRGB.b + ",1)";
+					if(this.scale) this._cacheContext.arc(this.diameter*0.5 + x,this.diameter*0.5 + y,size*bitMod,0,Math.PI*2,false);
+					else this._cacheContext.arc(this.diameter*0.5 + x,this.diameter*0.5 + y,size,0,Math.PI*2,false);
+					this._cacheContext.closePath();
+					this._cacheContext.fill();
 					
 					++i;
 				}
@@ -314,14 +367,14 @@
 	* Clean the canvas
 	*/
 	p.clean = function() {
-		this.context.clearRect(0, 0, this.diameter, this.diameter);
+		this._context.clearRect(0, 0, this.diameter, this.diameter);
 	};
 	
 	/**
 	* Redraw the loader
 	*/
 	p.redraw = function() {
-		if(this.canvas != undefined && this.context != undefined) {
+		if(this._ready) {
 			this.clean();
 			this.draw();
 		}
@@ -331,7 +384,7 @@
 	* Reset the timer
 	*/
 	p.reset = function() {
-		if(this.running) {
+		if(this._running) {
 			this.stop();
 			this.start();
 		}
@@ -348,26 +401,26 @@
 	p.tick = function(initialize) {
 		var rotUnit = this.density > 360 ? this.density / 360 : 360 / this.density;
 		rotUnit *= this.speed;
-		if(!initialize) this.activeId += rotUnit;
-		if(this.activeId > 360) this.activeId -= 360;
+		if(!initialize) this._activeId += rotUnit;
+		if(this._activeId > 360) this._activeId -= 360;
 		
-		this.context.save();
-		this.context.clearRect(0, 0, this.diameter, this.diameter);
-		this.context.translate(this.diameter*0.5, this.diameter*0.5);
-		this.context.rotate(Math.PI/180*this.activeId);
-		this.context.translate(-this.diameter*0.5, -this.diameter*0.5);
-		this.context.drawImage(this.cacheCanvas, 0, 0, this.diameter, this.diameter);
-		this.context.restore();
+		this._context.save();
+		this._context.clearRect(0, 0, this.diameter, this.diameter);
+		this._context.translate(this.diameter*0.5, this.diameter*0.5);
+		this._context.rotate(Math.PI/180*this._activeId);
+		this._context.translate(-this.diameter*0.5, -this.diameter*0.5);
+		this._context.drawImage(this._cacheCanvas, 0, 0, this.diameter, this.diameter);
+		this._context.restore();
 	};
 	
 	/**
 	* Start the rendering
 	*/
 	p.start = function() {
-		if(!this.running) {
-			this.running = true;
+		if(!this._running) {
+			this._running = true;
 			var t = this;
-			this.timer = self.setInterval(function(){t.tick();}, Math.round(1000/this.fps));
+			this._timer = self.setInterval(function(){t.tick();}, Math.round(1000/this.fps));
 		}
 	};
 	
@@ -375,11 +428,11 @@
 	* Stop the rendering
 	*/
 	p.stop = function() {
-		if(this.running) {
-			this.running = false;
-			clearInterval(this.timer);
-			this.timer = null;
-			delete this.timer;
+		if(this._running) {
+			this._running = false;
+			clearInterval(this._timer);
+			this._timer = null;
+			delete this._timer;
 		}
 	};
 	
