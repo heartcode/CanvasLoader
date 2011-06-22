@@ -40,29 +40,13 @@
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
 	<script type="application/javascript" src="js/CanvasLoader.js"></script>
-	<style type="text/css">
-		.preloader {float:left; margin:20px; width:200px; height:200px; background:rgba(0, 0, 0, 0.05);}
-	</style>
 </head>
 <body>
-	<div class="preloader" id="preloader"></div>
-	<div class="preloader" id="preloader2"></div>
-	<div class="preloader" id="preloader3"></div>
-	<div class="preloader" id="preloader4"></div>
 	<script type="text/javascript">
-		var myCl = new CanvasLoader({id:"preloader", fps:32, speed:5, range:0.5});
+		var myCl = new CanvasLoader();
 		myCl.start();
-		myCl.diameter = 30;
-		myCl.center = true;
-		var myCl2 = new CanvasLoader({id:"preloader2", color:"#000000", diameter:50, density:10});
-		myCl2.center = true;
-		myCl2.start();
-		var myCl3 = new CanvasLoader({id:"preloader3", color:"#ff00ff", diameter:40, density:40, fade:true, scale:false, fps:12, speed:1});
-		myCl3.center = true;
-		myCl3.start();
-		var myCl4 = new CanvasLoader({id:"preloader4", color:"#0099ff", diameter:25, density:12, fade:true, scale:false, range:1.1});
-		myCl4.start();
-		myCl4.center = true;
+		myCl.setDiameter(30);
+		
 	</script>
 </body>
 </html>
