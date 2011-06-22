@@ -30,8 +30,8 @@
 	Blog:					http://heartcode.robertpataki.com
 	
  * */
-
-(function(window) {
+ 
+(function(window, document) {
 
 	/**
 	* 
@@ -44,6 +44,12 @@
 	CanvasLoader = function(options) {
 		this.initialize(options);
 	};
+	// Define the shapes
+	var CIRCLE = "circle";
+	var SQUARE = "square";
+	var TRIANGLE = "triangle";
+	var shapes = [CIRCLE, SQUARE, TRIANGLE];
+	
 	var p = CanvasLoader.prototype;
 	
 	/** 
@@ -52,6 +58,11 @@
 	* @protected
 	*/
 	p.initialize = function(options) {
+		
+		// Store the user settings
+		for(var r in options) {
+			if(this[r] != undefined) this[r] = options[r];
+		}
 		
 		/*
 		* Find the containing div by id (passed by the user).
@@ -63,12 +74,10 @@
 				this._container = document.getElementById(options["id"]);
 			}
 			else {
-				console.log("No parent element found!");
 				this._container = document.body;
 			}
 		}
 		catch(error) {
-			console.log("No parent element found!");
 			this._container = document.body;
 		}
 		
@@ -87,21 +96,13 @@
 		this._cacheCanvas.style.display = "none";
 		
 		// Set the RGB color object
-		this.color = this.color;
-		
-		// Store the user settings
-		for(var r in options) {
-			if(this[r] != undefined) this[r] = options[r];
-		}
+		this.setColor(this.color);
 		
 		// Set the instance ready
 		p._ready = true;
 		
 		// Draw the shapes on the canvas
 		this.draw();
-		
-		// Set the aligning of the loader
-		this.align();
 	};
 	
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -144,7 +145,7 @@
 	
 	/**
 	* Tell if the loader rendering is running.
-	* @property _running
+	* @property running
 	* @type Boolean
 	**/
 	p._running = false;
@@ -172,13 +173,12 @@
 	
 	/**
 	* The diameter of the loader.
-	* @property color
-	* @type String
+	* @property diameter
+	* @type Number
 	**/
-	p._diameter = 50;
-	// [GS]etter for the diameter of the loader
-	p.__defineGetter__("diameter", function(){ return this._diameter; });
-	p.__defineSetter__("diameter", function(diameter){ if(!isNaN(diameter))this._diameter = Math.round(Math.abs(diameter)); if(this.redraw !== undefined) this.redraw(); this.align(); });
+	p.diameter = 50;
+	p.setDiameter = function(diameter) { if(!isNaN(diameter)) this.diameter = Math.round(Math.abs(diameter)); this.redraw(); };
+	p.getDiameter = function() { return this.diameter; };
 
 	/**
 	* The color of the loader shapes in RGB.
@@ -189,119 +189,86 @@
 	
 	/**
 	* The color of the loader shapes in HEX.
-	* @property _color
+	* @property color
 	* @type String
 	**/
-	p._color = "#000000";
-	// [GS]etter for the color of the loader shapes
-	p.__defineGetter__("color", function(){ return this._color; });
-	p.__defineSetter__("color", function(color){ this._color = color; this._colorRGB = this.getRGB(color); if(this.redraw !== undefined) this.redraw(); });
+	p.color = "#000000";
+	var colorReg = /^#([0-9a-f])\1([0-9a-f])\2([0-9a-f])\3$/;
+	p.setColor = function(color) { this.color = colorReg.test(color) ? color : "#000000"; this._colorRGB = this.getRGB(this.color); this.redraw(); };
+	p.getColor = function() { return this.color; };
 	
 	/**
 	* The type of the loader shapes.
-	* @property _shape
+	* @property shape
 	* @type String
 	**/
-	p._shape = "circle";
-	// [GS]etter for the Shapes of the loader
-	p.__defineGetter__("shape", function(){ return this._shape; });
-	p.__defineSetter__("shape", function(shape){ this._shape = shape; if(this.redraw !== undefined) this.redraw(); });
+	p.shape = CIRCLE;
+	p.setShape = function(shape) { 
+		var i = 0;
+		while(i < shapes.length) {
+			if(shape == shapes[i]) { this.shape = shape; this.redraw(); break; } 
+			++i;
+		}
+	};
+	p.getShape = function() { return this.shape; };
 	
 	/**
 	* The number of shapes drawn on the loader canvas.
-	* @property _density
+	* @property density
 	* @type Number
 	**/
-	p._density = 120;
-	// [GS]etter for the density of the loader shapes
-	p.__defineGetter__("density", function(){ return this._density; });
-	p.__defineSetter__("density", function(density){ this._density = density; if(this.redraw !== undefined) this.redraw(); });
+	p.density = 120;
+	p.setDensity = function(density) { if(!isNaN(density)) this.density = Math.round(Math.abs(density)); this.redraw(); };
+	p.getDensity = function() { return this.density; };
 	
 	/**
 	* The range of the animated loader shapes.
-	* @property _range
-	* @type Number (between 0 and 1)
+	* @property range
+	* @type Number
 	**/
-	p._range = 0.95;
-	// [GS]etter for the range of the animated loader shapes
-	p.__defineGetter__("range", function(){ return this._range; });
-	p.__defineSetter__("range", function(range){ this._range = range; if(this.redraw !== undefined) this.redraw(); });
+	p.range = 0.95;
+	p.setRange = function(range) {if(!isNaN(range)) this.range = Math.abs(range); this.redraw(); };
+	p.getRange = function() { return this.range; };
 	
 	/**
 	* The scaling of the loader shapes.
-	* @property _scale
+	* @property scaling
 	* @type Boolean
 	**/
-	p._scale = true;
-	// [GS]etter for the scaling of the loader shapes
-	p.__defineGetter__("scale", function(){ return this._scale; });
-	p.__defineSetter__("scale", function(scale){ this._scale = scale; if(this.redraw !== undefined) this.redraw(); });
+	p.scaling = true;
+	p.setScaling = function(scaling) { if(typeof(scaling) == "boolean") this.scaling = scaling; this.redraw(); };
+	p.getScaling = function() { return this.scaling; };
 	
 	/**
 	* The fading of the loader shapes.
-	* @property _fade
+	* @property fading
 	* @type Boolean
 	**/
-	p._fade = true;
-	// [GS]etter for the fading of the loader shapes
-	p.__defineGetter__("fade", function(){ return this._fade; });
-	p.__defineSetter__("fade", function(fade){ this._fade = fade; if(this.redraw !== undefined) this.redraw(); });
+	p.fading = true;
+	p.setFading = function(fading) { if(typeof(fading) == "boolean") this.fading = fading; this.redraw(); };
+	p.getFading = function() { return this.fading; };
 	
 	/**
 	* The speed of the loader animation.
 	* @property _speed
 	* @type Number
 	**/
-	p._speed = 1;
-	// [GS]etter for the speed of the circular loader animation
-	p.__defineGetter__("speed", function(){ return this._speed; });
-	p.__defineSetter__("speed", function(speed){ this._speed = speed; });
-	
-	/**
-	* The aligning of the canvas element.
-	* @property _center
-	* @type Boolean
-	**/
-	p._center = false;
-	// [GS]etter for the aligning of the canvas parent (center-center or top-left)
-	p.__defineGetter__("center", function(){ return this._center; });
-	p.__defineSetter__("center", function(center){ this._center = center; this.align(); });
+	p.speed = 1;
+	p.setSpeed = function(speed) {if(!isNaN(speed) && Math.abs(speed) > 0) this.speed = Math.round(Math.abs(speed)); this.reset();};
+	p.getSpeed = function() { return this.speed; };
 	
 	/**
 	* The FPS of the loader animation rendering.
-	* @property _fps
+	* @property fps
 	* @type Number
 	**/
-	p._fps = 12;
+	p.fps = 12;
 	// [GS]etter for the FPS
-	p.__defineGetter__("fps", function(){ return this._fps; });
-	p.__defineSetter__("fps", function(fps){ this._fps = fps; this.reset(); });	
+	p.getFPS = function() { return this.fps };
+	p.setFPS = function(fps) { if(!isNaN(fps)) this.fps = Math.round(Math.abs(fps)); this.reset();};
 	
 // End of Property declarations
 /////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	* Set the aligning of the canvas
-	*/
-	p.align = function() {
-		if(this._ready) {
-			if(this.center) {
-				with(this._canvas) {
-					style["left"] = "50%";
-					style["top"] = "50%";
-					style["margin-left"] = -this.diameter*0.5 + "px";
-					style["margin-top"] = -this.diameter*0.5 + "px";
-				}
-			}
-			else {
-				with(this._canvas) {
-					style.position = "relative";
-					style.left = "0px";
-					style.top = "0px";
-				}
-			}
-		}
-	};
 	
 	/**
 	* Return the RGB values of the passed color.
@@ -331,7 +298,7 @@
 		var bitMod;
 		
 		// Clean the cache canvas
-		this._cacheContext.clearRect(0, 0, this.diameter, this.diameter);
+		this._cacheContext.clearRect(0, 0, this._cacheCanvas.width, this._cacheCanvas.height);
 		this._canvas.width = this._canvas.height = this._cacheCanvas.width = this._cacheCanvas.height = this.diameter;
 		
 		// Draw the shapes
@@ -347,9 +314,9 @@
 					y = this._canvas.height*.5 + Math.sin(radians) * (this.diameter*.45 - size) - this._canvas.height*.5;
 					
 					this._cacheContext.beginPath();
-					if(this.fade) this._cacheContext.fillStyle = "rgba(" + this._colorRGB.r + "," + this._colorRGB.g + "," + this._colorRGB.b + "," + bitMod + ")";
+					if(this.fading) this._cacheContext.fillStyle = "rgba(" + this._colorRGB.r + "," + this._colorRGB.g + "," + this._colorRGB.b + "," + bitMod + ")";
 					else this._cacheContext.fillStyle = "rgba(" + this._colorRGB.r + "," + this._colorRGB.g + "," + this._colorRGB.b + ",1)";
-					if(this.scale) this._cacheContext.arc(this.diameter*0.5 + x,this.diameter*0.5 + y,size*bitMod,0,Math.PI*2,false);
+					if(this.scaling) this._cacheContext.arc(this.diameter*0.5 + x,this.diameter*0.5 + y,size*bitMod,0,Math.PI*2,false);
 					else this._cacheContext.arc(this.diameter*0.5 + x,this.diameter*0.5 + y,size,0,Math.PI*2,false);
 					this._cacheContext.closePath();
 					this._cacheContext.fill();
@@ -367,7 +334,7 @@
 	* Clean the canvas
 	*/
 	p.clean = function() {
-		this._context.clearRect(0, 0, this.diameter, this.diameter);
+		this._context.clearRect(0, 0, this._canvas.width, this._canvas.height);
 	};
 	
 	/**
@@ -404,8 +371,8 @@
 		if(!initialize) this._activeId += rotUnit;
 		if(this._activeId > 360) this._activeId -= 360;
 		
-		this._context.save();
 		this._context.clearRect(0, 0, this.diameter, this.diameter);
+		this._context.save();
 		this._context.translate(this.diameter*0.5, this.diameter*0.5);
 		this._context.rotate(Math.PI/180*this._activeId);
 		this._context.translate(-this.diameter*0.5, -this.diameter*0.5);
@@ -430,6 +397,7 @@
 	p.stop = function() {
 		if(this._running) {
 			this._running = false;
+			this._running = false;
 			clearInterval(this._timer);
 			this._timer = null;
 			delete this._timer;
@@ -437,5 +405,6 @@
 	};
 	
 	window.CanvasLoader = CanvasLoader;
+	document.CanvasLoader = CanvasLoader;
 	
 })(window, document);
