@@ -43,10 +43,16 @@
 </head>
 <body>
 	<script type="text/javascript">
-		var myCl = new CanvasLoader();
-		myCl.start();
-		myCl.setDiameter(30);
+		var circleLoader = new CanvasLoader();
+		circleLoader.setDiameter(30);
+		circleLoader.start();
 		
+		var rectLoader = new CanvasLoader();
+		rectLoader.setShape("rectangle");
+		rectLoader.setDensity(12);
+		rectLoader.setScaling(false);
+		rectLoader.setFading(false);
+		rectLoader.start();
 	</script>
 </body>
 </html>

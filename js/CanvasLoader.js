@@ -47,8 +47,9 @@
 	// Define the shapes
 	var CIRCLE = "circle";
 	var SQUARE = "square";
+	var RECTANGLE = "rectangle";
 	var TRIANGLE = "triangle";
-	var shapes = [CIRCLE, SQUARE, TRIANGLE];
+	var shapes = [CIRCLE, SQUARE, TRIANGLE, RECTANGLE];
 	
 	var p = CanvasLoader.prototype;
 	
@@ -304,7 +305,7 @@
 		// Draw the shapes
 		switch(this.shape)
 		{
-			case "circle":
+			case CIRCLE:
 				while(i<this.density)
 				{						
 					if(i <= animBits) bitMod = 1-i*minBitMod;
@@ -318,6 +319,33 @@
 					else this._cacheContext.fillStyle = "rgba(" + this._colorRGB.r + "," + this._colorRGB.g + "," + this._colorRGB.b + ",1)";
 					if(this.scaling) this._cacheContext.arc(this.diameter*0.5 + x,this.diameter*0.5 + y,size*bitMod,0,Math.PI*2,false);
 					else this._cacheContext.arc(this.diameter*0.5 + x,this.diameter*0.5 + y,size,0,Math.PI*2,false);
+					this._cacheContext.closePath();
+					this._cacheContext.fill();
+					
+					++i;
+				}
+			break;
+			case RECTANGLE:
+				while(i<this.density)
+				{						
+					if(i <= animBits) bitMod = 1-i*minBitMod;
+					
+					radians = (this.density - i) * ((Math.PI * 2) / this.density);
+					x = this._canvas.width*.5 + Math.cos(radians) * (this.diameter*.45 - size) - this._canvas.width*.5;
+					y = this._canvas.height*.5 + Math.sin(radians) * (this.diameter*.45 - size) - this._canvas.height*.5;
+					
+					this._cacheContext.beginPath();
+					if(this.fading) this._cacheContext.fillStyle = "rgba(" + this._colorRGB.r + "," + this._colorRGB.g + "," + this._colorRGB.b + "," + bitMod + ")";
+					else this._cacheContext.fillStyle = "rgba(" + this._colorRGB.r + "," + this._colorRGB.g + "," + this._colorRGB.b + ",1)";
+					
+					this._cacheContext.translate(this.diameter*0.5, this.diameter*0.5);
+					this._cacheContext.rotate(Math.PI/180*i);
+					this._cacheContext.translate(-this.diameter*0.5, -this.diameter*0.5);
+					
+					if(this.scaling) this._cacheContext.fillRect(this.diameter*0.5 + x,this.diameter*0.5 + y, size*bitMod, size*bitMod*2);
+					else this._cacheContext.fillRect(this.diameter*0.5 + x,this.diameter*0.5 + y,size,size*2);
+					
+					
 					this._cacheContext.closePath();
 					this._cacheContext.fill();
 					
