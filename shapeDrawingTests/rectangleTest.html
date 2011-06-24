@@ -21,16 +21,16 @@
 			context.clearRect(0, 0, context.width, context.height);
 		
 			var i = 0;
-			var w = canvas.width * .18;
-			var h = w*0.4;
+			var w = canvas.width * .4;
+			var h = w*0.3;
 			var radians;
 			var x, y, angle;
 			while(i<this.density)
 			{
 				angle = 360/density*i;
 				radians = (angle)/180*Math.PI;
-				x = Math.cos(radians) * w*0.9 + canvas.width*0.5;
-				y = Math.sin(radians) * w*0.9 + canvas.height*0.5;
+				x = Math.cos(radians) * (h + (canvas.height - h) * 0.2) + canvas.width*.5
+				y = Math.sin(radians) * (h + (canvas.height - h) * 0.2) + canvas.height*.5;
 				
 				context.save();
 				context.translate(x, y);
@@ -45,7 +45,7 @@
 				++i;
 			}
 			
-			context.fillRect(5, 5, canvas.width-10, canvas.height-10);
+			//context.fillRect(5, 5, canvas.width-10, canvas.height-10);
 		};
 		
 		drawGraphics();
