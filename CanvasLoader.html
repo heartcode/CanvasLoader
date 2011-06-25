@@ -40,19 +40,48 @@
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
 	<script type="application/javascript" src="js/CanvasLoader.js"></script>
+	<style type="text/css">
+		div {float:left; display:table; padding:20px;}
+	</style>
 </head>
 <body>
+	<div id="circle"></div>
+	<div id="circle2"></div>
+	<div id="square"></div>
+	<div id="rectangle"></div>
 	<script type="text/javascript">
-		var circleLoader = new CanvasLoader();
-		circleLoader.setDiameter(30);
-		circleLoader.start();
+		var cl = new CanvasLoader({id:"circle"});
+		cl.setShape("circle");
+		cl.setDensity(60);
+		cl.setFPS(12);
+		cl.setSpeed(2);
+		cl.setColor("#0099ff");
+		cl.start();
 		
-		var rectLoader = new CanvasLoader();
-		rectLoader.setShape("rectangle");
-		rectLoader.setDensity(12);
-		rectLoader.setScaling(false);
-		rectLoader.setFading(false);
-		rectLoader.start();
+		var cl1 = new CanvasLoader({id:"circle2"});
+		cl1.setShape("circle");
+		cl1.setDensity(60);
+		cl1.setFPS(24);
+		cl1.setSpeed(1);
+		cl1.setScaling(false);
+		cl1.setColor("#DA20DB");
+		cl1.start();
+		
+		var cl2 = new CanvasLoader({id:"square"});
+		cl2.setShape("square");
+		cl2.setDensity(12);
+		cl2.setFPS(6);
+		cl2.setSpeed(1);
+		cl2.setColor("#B7C40D");
+		cl2.start();
+		
+		var cl3 = new CanvasLoader({id:"rectangle"});
+		cl3.setShape("rectangle");
+		cl3.setDensity(12);
+		cl3.setFPS(12);
+		cl3.setSpeed(1);
+		cl3.setColor("#DE8E1A");
+		cl3.start();
 	</script>
 </body>
 </html>
