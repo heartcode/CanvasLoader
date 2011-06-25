@@ -289,7 +289,7 @@
 		var i = 0;
 		var size = this._diameter * .07;
 		var radians;
-		var x, y, a, angle, minBitMod;
+		var w, h, x, y, a, angle, minBitMod;
 		var animBits = Math.round(this._density * this._range);
 		var bitMod;
 		
@@ -306,11 +306,9 @@
 				{						
 					if(i <= animBits) bitMod = 1-((1-minBitMod)/animBits*i);
 					else bitMod = minBitMod;
-					
 					radians = (this._density - i) * ((Math.PI * 2) / this._density);
 					x = this._canvas.width*.5 + Math.cos(radians) * (this._diameter*.45 - size) - this._canvas.width*.5;
 					y = this._canvas.height*.5 + Math.sin(radians) * (this._diameter*.45 - size) - this._canvas.height*.5;
-					
 					this._cacheContext.beginPath();
 					if(this._fading) this._cacheContext.fillStyle = "rgba(" + this._colorRGB.r + "," + this._colorRGB.g + "," + this._colorRGB.b + "," + bitMod + ")";
 					else this._cacheContext.fillStyle = "rgba(" + this._colorRGB.r + "," + this._colorRGB.g + "," + this._colorRGB.b + ",1)";
@@ -318,7 +316,6 @@
 					else this._cacheContext.arc(this._diameter*0.5 + x,this._diameter*0.5 + y,size,0,Math.PI*2,false);
 					this._cacheContext.closePath();
 					this._cacheContext.fill();
-					
 					++i;
 				}
 			break;
@@ -333,7 +330,6 @@
 					radians = (angle)/180*Math.PI;
 					x = Math.cos(radians) * size*3 + this._cacheCanvas.width*0.5;
 					y = Math.sin(radians) * size*3 + this._cacheCanvas.height*0.5;
-					
 					this._cacheContext.save();
 					this._cacheContext.translate(x, y);
 					this._cacheContext.rotate(radians);
@@ -345,13 +341,12 @@
 					this._cacheContext.closePath();
 					this._cacheContext.fill();
 					this._cacheContext.restore();
-					
 					++i;
 				}
 			break;
 			case shapes[2]:
-				var w = this._cacheCanvas.width * .2;
-				var h = w*0.3;
+				w = this._cacheCanvas.width * .24;
+				h = w*.35;
 				minBitMod = 0.1;
 				while(i<this._density)
 				{				
@@ -359,15 +354,8 @@
 					else bitMod = minBitMod;
 					angle = 360-360/this._density*i;
 					radians = (angle)/180*Math.PI;
-					if(this._scaling) {
-						//w *= bitMod;
-						x = Math.cos(radians) * (h + (this._cacheCanvas.height - h) * 0.2) + this._cacheCanvas.width*.5;
-						y = Math.sin(radians) * (h + (this._cacheCanvas.height - h) * 0.2) + this._cacheCanvas.height*.5;
-					}
-					else {
-						x = Math.cos(radians) * (h + (this._cacheCanvas.height - h) * 0.2) + this._cacheCanvas.width*.5
-						y = Math.sin(radians) * (h + (this._cacheCanvas.height - h) * 0.2) + this._cacheCanvas.height*.5;
-					}
+					x = Math.cos(radians) * (h + (this._cacheCanvas.height - h) * 0.13) + this._cacheCanvas.width*.5
+					y = Math.sin(radians) * (h + (this._cacheCanvas.height - h) * 0.13) + this._cacheCanvas.height*.5;
 					this._cacheContext.save();
 					this._cacheContext.translate(x, y);
 					this._cacheContext.rotate(radians);
@@ -379,7 +367,41 @@
 					this._cacheContext.closePath();
 					this._cacheContext.fill();
 					this._cacheContext.restore();
-					
+					++i;
+				}
+			break;
+			case shapes[3]:
+				w = this._cacheCanvas.width * .24;
+				h = w*.35;
+				var radius = h*.65;
+				minBitMod = 0.1;
+				while(i<this._density)
+				{				
+					if(i <= animBits) bitMod = 1-((1-minBitMod)/animBits*i);
+					else bitMod = minBitMod;
+					angle = 360-360/this._density*i;
+					radians = (angle)/180*Math.PI;
+					x = Math.cos(radians) * (h + (this._cacheCanvas.height - h) * 0.13) + this._cacheCanvas.width*.5
+					y = Math.sin(radians) * (h + (this._cacheCanvas.height - h) * 0.13) + this._cacheCanvas.height*.5;
+					this._cacheContext.save();
+					this._cacheContext.translate(x, y);
+					this._cacheContext.rotate(radians);
+					this._cacheContext.translate(-x, -y);
+					if(this._fading) this._cacheContext.fillStyle = "rgba(" + this._colorRGB.r + "," + this._colorRGB.g + "," + this._colorRGB.b + "," + bitMod + ")";
+					else this._cacheContext.fillStyle = "rgba(" + this._colorRGB.r + "," + this._colorRGB.g + "," + this._colorRGB.b + ",1)";
+					this._cacheContext.beginPath();
+					this._cacheContext.moveTo(x + radius, y-h*.5);
+					this._cacheContext.lineTo(x + w - radius, y-h*.5);
+					this._cacheContext.quadraticCurveTo(x + w, y-h*.5, x + w, y-h*.5 + radius);
+					this._cacheContext.lineTo(x + w, y-h*.5 + h - radius);
+					this._cacheContext.quadraticCurveTo(x + w, y-h*.5 + h, x + w - radius, y-h*.5 + h);
+					this._cacheContext.lineTo(x + radius, y-h*.5 + h);
+					this._cacheContext.quadraticCurveTo(x, y-h*.5 + h, x, y-h*.5 + h - radius);
+					this._cacheContext.lineTo(x, y-h*.5 + radius);
+					this._cacheContext.quadraticCurveTo(x, y-h*.5, x + radius, y-h*.5);
+					this._cacheContext.closePath();
+					this._cacheContext.fill();
+					this._cacheContext.restore();
 					++i;
 				}
 			break;
