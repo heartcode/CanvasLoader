@@ -173,7 +173,7 @@
 	* @property _diameter
 	* @type Number
 	**/
-	p._diameter = 50;
+	p._diameter = 40;
 	p.setDiameter = function(diameter) { if(!isNaN(diameter)) this._diameter = Math.round(Math.abs(diameter)); this._redraw(); };
 	p.getDiameter = function() { return this._diameter; };
 
@@ -199,7 +199,7 @@
 	* @property _shape
 	* @type String
 	**/
-	p._shape = shapes[2];
+	p._shape = shapes[0];
 	p.setShape = function(shape) { 
 		var i = 0;
 		while(i < shapes.length) {
@@ -214,7 +214,7 @@
 	* @property _density
 	* @type Number
 	**/
-	p._density = 12;
+	p._density = 40;
 	p.setDensity = function(density) { if(!isNaN(density)) this._density = Math.round(Math.abs(density)); this._redraw(); };
 	p.getDensity = function() { return this._density; };
 	
@@ -223,7 +223,7 @@
 	* @property _range
 	* @type Number
 	**/
-	p._range = 0.95;
+	p._range = 1.3;
 	p.setRange = function(range) {if(!isNaN(range)) this._range = Math.abs(range); this._redraw(); };
 	p.getRange = function() { return this._range; };
 	
@@ -232,7 +232,7 @@
 	* @property _scaling
 	* @type Boolean
 	**/
-	p._scaling = true;
+	p._scaling = false;
 	p.setScaling = function(scaling) { if(typeof(scaling) == "boolean") this._scaling = scaling; this._redraw(); };
 	p.getScaling = function() { return this._scaling; };
 	
@@ -250,7 +250,7 @@
 	* @property _speed
 	* @type Number
 	**/
-	p._speed = 1;
+	p._speed = 2;
 	p.setSpeed = function(speed) {if(!isNaN(speed) && Math.abs(speed) > 0) this._speed = Math.round(Math.abs(speed)); this._reset();};
 	p.getSpeed = function() { return this._speed; };
 	
@@ -259,7 +259,7 @@
 	* @property _fps
 	* @type Number
 	**/
-	p._fps = 2;
+	p._fps = 24;
 	// [GS]etter for the FPS
 	p.getFPS = function() { return this._fps };
 	p.setFPS = function(fps) { if(!isNaN(fps)) this._fps = Math.round(Math.abs(fps)); this._reset();};
