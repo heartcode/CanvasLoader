@@ -1,4 +1,4 @@
-/*
+﻿/*
 	Copyright (c) 2011 Róbert Pataki
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -31,21 +31,19 @@
 	
  * */
  
-(function(window, document) {
+(function (window, document) {
 	
+	'use strict';
+
 	/**
 	* CanvasLoader is an Object which draws and animates a preloader into a canvas element
 	* @class CanvasLoader
 	* @constructor
 	* @param {String} id The id of the placeholder div
 	**/
-	CanvasLoader = function(id) {
+	var CanvasLoader = function (id) {
 		this.initialize(id);
-	}
-	var p = CanvasLoader.prototype;
-	
-	// Define the shapes
-	var shapes = ["circle", "square", "rectangle", "roundedRectangle"];
+	}, p = CanvasLoader.prototype, shapes = ["circle", "square", "rectangle", "roundedRectangle"], colorReg = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/;
 	
 	/** 
 	* Initialization method.
@@ -53,7 +51,7 @@
 	* @param (Object) 
 	* @protected
 	*/
-	p.initialize = function(id) {
+	p.initialize = function (id) {
 		
 		/*
 		* Find the containing div by id (passed by the user).
@@ -61,39 +59,37 @@
 		*/
 		try {
 			// Look for the parent element
-			if(document.getElementById(id) != undefined) {
-				this._container = document.getElementById(id);
+			if (document.getElementById(id) !== undefined) {
+				this.container = document.getElementById(id);
+			} else {
+				this.container = document.body;
 			}
-			else {
-				this._container = document.body;
-			}
-		}
-		catch(error) {
-			this._container = document.body;
+		} catch (error) {
+			this.container = document.body;
 		}
 		
 		// Create the canvas element
-		this._canvas = document.createElement("canvas");
-		this._context = this._canvas.getContext("2d");
-		this._canvas.id = "CanvasLoader";
-		this._container.appendChild(this._canvas);
-		this._canvas.width = this._canvas.height = this._diameter;
+		this.canvas = document.createElement("canvas");
+		this.context = this.canvas.getContext("2d");
+		this.canvas.id = "CanvasLoader";
+		this.container.appendChild(this.canvas);
+		this.canvas.width = this.canvas.height = this.diameter;
 		
 		// Create the cache canvas element
-		this._cacheCanvas = document.createElement("canvas");
-		document.body.appendChild(this._cacheCanvas);
-		this._cacheContext = this._cacheCanvas.getContext("2d");
-		this._cacheCanvas.width = this._cacheCanvas.height = this._diameter;
-		this._cacheCanvas.style.display = "none";
+		this.cacheCanvas = document.createElement("canvas");
+		document.body.appendChild(this.cacheCanvas);
+		this.cacheContext = this.cacheCanvas.getContext("2d");
+		this.cacheCanvas.width = this.cacheCanvas.height = this.diameter;
+		this.cacheCanvas.style.display = "none";
 		
 		// Set the RGB color object
-		this.setColor(this._color);
+		this.setColor(this.color);
 		
 		// Set the instance ready
-		p._ready = true;
+		p.ready = true;
 		
 		// Draw the shapes on the canvas
-		this._draw();
+		this.draw();
 		
 		// Start rendering the preloader
 		this.start();
@@ -104,162 +100,161 @@
 	
 	/**
 	* The div we place the canvas object into.
-	* @property _container
+	* @property container
 	* @type Object
 	**/
-	p._container = null;
+	p.container = null;
 	
 	/**
 	* The div we draw the shapes into.
-	* @property _canvas
+	* @property canvas
 	* @type Object
 	**/
-	p._canvas = null;
+	p.canvas = null;
 	
 	/**
 	* The canvas context.
-	* @property _context
+	* @property context
 	* @type Object
 	**/
-	p._context = null;
+	p.context = null;
 	
 	/**
 	* The canvas we use for caching.
-	* @property _cacheCanvas
+	* @property cacheCanvas
 	* @type Object
 	**/
-	p._cacheCanvas = null;
+	p.cacheCanvas = null;
 	
 	/**
 	* The context of the cache canvas.
-	* @property _cacheContext
+	* @property cacheContext
 	* @type Object
 	**/
-	p._cacheContext = null;
+	p.cacheContext = null;
 	
 	/**
 	* Tell if the loader rendering is running.
 	* @property running
 	* @type Boolean
 	**/
-	p._running = false;
+	p.running = false;
 	
 	/**
 	* Tell if the canvas and its context is ready.
-	* @property _ready
+	* @property ready
 	* @type Boolean
 	**/
-	p._ready = false;
+	p.ready = false;
 	
 	/**
 	* Add a timer for the rendering.
-	* @property _timer
+	* @property timer
 	* @type Boolean
 	**/
-	p._timer = null;
+	p.timer = null;
 	
 	/**
 	* The active shape id for rendering.
-	* @property _activeId
+	* @property activeId
 	* @type Number
 	**/
-	p._activeId = 0;
+	p.activeId = 0;
 	
 	/**
-	* The _diameter of the loader.
-	* @property _diameter
+	* The diameter of the loader.
+	* @property diameter
 	* @type Number
 	**/
-	p._diameter = 40;
-	p.setDiameter = function(diameter) { if(!isNaN(diameter)) this._diameter = Math.round(Math.abs(diameter)); this._redraw(); };
-	p.getDiameter = function() { return this._diameter; };
+	p.diameter = 40;
+	p.setDiameter = function (diameter) { if (!isNaN(diameter)) { this.diameter = Math.round(Math.abs(diameter)); this.redraw(); } };
+	p.getDiameter = function () { return this.diameter; };
 
 	/**
 	* The color of the loader shapes in RGB.
-	* @property _colorRGB
+	* @property colorRGB
 	* @type Object
 	**/
-	p._colorRGB = null;
+	p.colorRGB = null;
 	
 	/**
 	* The color of the loader shapes in HEX.
-	* @property _color
+	* @property color
 	* @type String
 	**/
-	p._color = "#000000";
-	var colorReg = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/;
-	p.setColor = function(color) { this._color = colorReg.test(color) ? color : "#000000"; this._colorRGB = this._getRGB(this._color); this._redraw(); };
-	p.getColor = function() { return this._color; };
+	p.color = "#000000";
+	p.setColor = function (color) { this.color = colorReg.test(color) ? color : "#000000"; this.colorRGB = this.getRGB(this.color); this.redraw(); };
+	p.getColor = function () { return this.color; };
 	
 	/**
 	* The type of the loader shapes.
-	* @property _shape
+	* @property shape
 	* @type String
 	**/
-	p._shape = shapes[0];
-	p.setShape = function(shape) { 
+	p.shape = shapes[0];
+	p.setShape = function (shape) { 
 		var i = 0;
-		while(i < shapes.length) {
-			if(shape == shapes[i]) { this._shape = shape; this._redraw(); break; } 
-			++i;
+		while (i < shapes.length) {
+			if (shape === shapes[i]) { this.shape = shape; this.redraw(); break; } 
+			i += 1;
 		}
 	};
-	p.getShape = function() { return this._shape; };
+	p.getShape = function () { return this.shape; };
 	
 	/**
 	* The number of shapes drawn on the loader canvas.
-	* @property _density
+	* @property density
 	* @type Number
 	**/
-	p._density = 40;
-	p.setDensity = function(density) { if(!isNaN(density)) this._density = Math.round(Math.abs(density)); this._redraw(); };
-	p.getDensity = function() { return this._density; };
+	p.density = 40;
+	p.setDensity = function (density) { if (!isNaN(density)) { this.density = Math.round(Math.abs(density)); this.redraw(); } };
+	p.getDensity = function () { return this.density; };
 	
 	/**
 	* The range of the animated loader shapes.
-	* @property _range
+	* @property range
 	* @type Number
 	**/
-	p._range = 1.3;
-	p.setRange = function(range) {if(!isNaN(range)) this._range = Math.abs(range); this._redraw(); };
-	p.getRange = function() { return this._range; };
+	p.range = 1.3;
+	p.setRange = function (range) { if (!isNaN(range)) { this.range = Math.abs(range); this.redraw(); } };
+	p.getRange = function () { return this.range; };
 	
 	/**
 	* The scaling of the loader shapes.
-	* @property _scaling
+	* @property scaling
 	* @type Boolean
 	**/
-	p._scaling = false;
-	p.setScaling = function(scaling) { if(typeof(scaling) == "boolean") this._scaling = scaling; this._redraw(); };
-	p.getScaling = function() { return this._scaling; };
+	p.scaling = false;
+	p.setScaling = function (scaling) { if (typeof (scaling) === "boolean") { this.scaling = scaling; this.redraw(); } };
+	p.getScaling = function () { return this.scaling; };
 	
 	/**
 	* The fading of the loader shapes.
-	* @property _fading
+	* @property fading
 	* @type Boolean
 	**/
-	p._fading = true;
-	p.setFading = function(fading) { if(typeof(fading) == "boolean") this._fading = fading; this._redraw(); };
-	p.getFading = function() { return this._fading; };
+	p.fading = true;
+	p.setFading = function (fading) { if (typeof fading === "boolean") { this.fading = fading; this.redraw(); } };
+	p.getFading = function () { return this.fading; };
 	
 	/**
 	* The speed of the loader animation.
-	* @property _speed
+	* @property speed
 	* @type Number
 	**/
-	p._speed = 2;
-	p.setSpeed = function(speed) {if(!isNaN(speed) && Math.abs(speed) > 0) this._speed = Math.round(Math.abs(speed)); this._reset();};
-	p.getSpeed = function() { return this._speed; };
+	p.speed = 2;
+	p.setSpeed = function (speed) {if (!isNaN(speed) && Math.abs(speed) > 0) { this.speed = Math.round(Math.abs(speed)); this.reset(); } };
+	p.getSpeed = function () { return this.speed; };
 	
 	/**
 	* The FPS of the loader animation rendering.
-	* @property _fps
+	* @property fps
 	* @type Number
 	**/
-	p._fps = 24;
+	p.fps = 24;
 	// [GS]etter for the FPS
-	p.getFPS = function() { return this._fps };
-	p.setFPS = function(fps) { if(!isNaN(fps)) this._fps = Math.round(Math.abs(fps)); this._reset();};
+	p.setFPS = function (fps) { if (!isNaN(fps)) { this.fps = Math.round(Math.abs(fps)); this.reset(); } };
+	p.getFPS = function () { return this.fps; };
 	
 // End of Property declarations
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -267,14 +262,14 @@
 	/**
 	* Return the RGB values of the passed color.
 	*/
-	p._getRGB = function(color) {
+	p.getRGB = function (color) {
 		var hexObject = {};
 		
-		color = color.charAt(0) == "#" ? color.substring(1, 7) : color;
+		color = color.charAt(0) === "#" ? color.substring(1, 7) : color;
 				
-		hexObject.r = parseInt(color.substring(0,2),16);
-		hexObject.g = parseInt(color.substring(2,4),16);
-		hexObject.b = parseInt(color.substring(4,6),16);
+		hexObject.r = parseInt(color.substring(0, 2), 16);
+		hexObject.g = parseInt(color.substring(2, 4), 16);
+		hexObject.b = parseInt(color.substring(4, 6), 16);
 			
 		return hexObject;
 	};
@@ -282,154 +277,134 @@
 	/**
 	* Draw the shapes on the canvas
 	*/
-	p._draw = function() {		
-		var i = 0;
-		var size = this._diameter * .07;
-		var radians;
-		var w, h, x, y, a, angle, minBitMod;
-		var animBits = Math.round(this._density * this._range);
-		var bitMod;
+	p.draw = function () {		
+		var i = 0, size = this.diameter * 0.07, radians, radius, w, h, x, y, angle, minBitMod, animBits = Math.round(this.density * this.range), bitMod;
 		
 		// Clean the cache canvas
-		this._cacheContext.clearRect(0, 0, this._cacheCanvas.width, this._cacheCanvas.height);
-		this._canvas.width = this._canvas.height = this._cacheCanvas.width = this._cacheCanvas.height = this._diameter;
+		this.cacheContext.clearRect(0, 0, this.cacheCanvas.width, this.cacheCanvas.height);
+		this.canvas.width = this.canvas.height = this.cacheCanvas.width = this.cacheCanvas.height = this.diameter;
 		
 		// Draw the shapes
-		switch(this._shape)
-		{
-			case shapes[0]:
-				minBitMod = 0.1;
-				while(i<this._density)
-				{						
-					if(i <= animBits) bitMod = 1-((1-minBitMod)/animBits*i);
-					else bitMod = minBitMod;
-					radians = (this._density - i) * ((Math.PI * 2) / this._density);
-					x = this._canvas.width*.5 + Math.cos(radians) * (this._diameter*.45 - size) - this._canvas.width*.5;
-					y = this._canvas.height*.5 + Math.sin(radians) * (this._diameter*.45 - size) - this._canvas.height*.5;
-					this._cacheContext.beginPath();
-					if(this._fading) this._cacheContext.fillStyle = "rgba(" + this._colorRGB.r + "," + this._colorRGB.g + "," + this._colorRGB.b + "," + bitMod + ")";
-					else this._cacheContext.fillStyle = "rgba(" + this._colorRGB.r + "," + this._colorRGB.g + "," + this._colorRGB.b + ",1)";
-					if(this._scaling) this._cacheContext.arc(this._diameter*0.5 + x,this._diameter*0.5 + y,size*bitMod,0,Math.PI*2,false);
-					else this._cacheContext.arc(this._diameter*0.5 + x,this._diameter*0.5 + y,size,0,Math.PI*2,false);
-					this._cacheContext.closePath();
-					this._cacheContext.fill();
-					++i;
-				}
+		switch (this.shape) {
+		case shapes[0]:
+			minBitMod = 0.1;
+			while (i < this.density) {						
+				if (i <= animBits) { bitMod = 1 - ((1 - minBitMod) / animBits * i); } else { bitMod = minBitMod; }
+				radians = (this.density - i) * ((Math.PI * 2) / this.density);
+				x = this.canvas.width * 0.5 + Math.cos(radians) * (this.diameter * 0.45 - size) - this.canvas.width * 0.5;
+				y = this.canvas.height * 0.5 + Math.sin(radians) * (this.diameter * 0.45 - size) - this.canvas.height * 0.5;
+				this.cacheContext.beginPath();
+				if (this.fading) { this.cacheContext.fillStyle = "rgba(" + this.colorRGB.r + "," + this.colorRGB.g + "," + this.colorRGB.b + "," + bitMod.toString() + ")"; } else { this.cacheContext.fillStyle = "rgba(" + this.colorRGB.r + "," + this.colorRGB.g + "," + this.colorRGB.b + ",1)"; }
+				if (this.scaling) { this.cacheContext.arc(this.diameter * 0.5 + x, this.diameter * 0.5 + y, size * bitMod, 0, Math.PI * 2, false); } else { this.cacheContext.arc(this.diameter * 0.5 + x, this.diameter * 0.5 + y, size, 0, Math.PI * 2, false); }
+				this.cacheContext.closePath();
+				this.cacheContext.fill();
+				i += 1;
+			}
 			break;
-			case shapes[1]:
-				size = this._canvas.width * .12;
-				minBitMod = 0.1;
-				while(i<this._density)
-				{						
-					if(i <= animBits) bitMod = 1-((1-minBitMod)/animBits*i);
-					else bitMod = minBitMod;
-					angle = 360-360/this._density*i;
-					radians = (angle)/180*Math.PI;
-					x = Math.cos(radians) * size*3 + this._cacheCanvas.width*0.5;
-					y = Math.sin(radians) * size*3 + this._cacheCanvas.height*0.5;
-					this._cacheContext.save();
-					this._cacheContext.translate(x, y);
-					this._cacheContext.rotate(radians);
-					this._cacheContext.translate(-x, -y);
-					this._cacheContext.beginPath();
-					if(this._fading) this._cacheContext.fillStyle = "rgba(" + this._colorRGB.r + "," + this._colorRGB.g + "," + this._colorRGB.b + "," + bitMod + ")";
-					else this._cacheContext.fillStyle = "rgba(" + this._colorRGB.r + "," + this._colorRGB.g + "," + this._colorRGB.b + ",1)";
-					this._cacheContext.fillRect(x,y-size*.5,size,size);
-					this._cacheContext.closePath();
-					this._cacheContext.fill();
-					this._cacheContext.restore();
-					++i;
-				}
+		case shapes[1]:
+			size = this.canvas.width * 0.12;
+			minBitMod = 0.1;
+			while (i < this.density) {						
+				if (i <= animBits) { bitMod = 1 - ((1 - minBitMod) / animBits * i); } else { bitMod = minBitMod; }
+				angle = 360 - 360 / this.density * i;
+				radians = angle / 180 * Math.PI;
+				x = Math.cos(radians) * size * 3 + this.cacheCanvas.width * 0.5;
+				y = Math.sin(radians) * size * 3 + this.cacheCanvas.height * 0.5;
+				this.cacheContext.save();
+				this.cacheContext.translate(x, y);
+				this.cacheContext.rotate(radians);
+				this.cacheContext.translate(-x, -y);
+				this.cacheContext.beginPath();
+				if (this.fading) { this.cacheContext.fillStyle = "rgba(" + this.colorRGB.r + "," + this.colorRGB.g + "," + this.colorRGB.b + "," + bitMod.toString() + ")"; } else { this.cacheContext.fillStyle = "rgba(" + this.colorRGB.r + "," + this.colorRGB.g + "," + this.colorRGB.b + ",1)"; }
+				this.cacheContext.fillRect(x, y - size * 0.5, size, size);
+				this.cacheContext.closePath();
+				this.cacheContext.fill();
+				this.cacheContext.restore();
+				i += 1;
+			}
 			break;
-			case shapes[2]:
-				w = this._cacheCanvas.width * .24;
-				h = w*.35;
-				minBitMod = 0.1;
-				while(i<this._density)
-				{				
-					if(i <= animBits) bitMod = 1-((1-minBitMod)/animBits*i);
-					else bitMod = minBitMod;
-					angle = 360-360/this._density*i;
-					radians = (angle)/180*Math.PI;
-					x = Math.cos(radians) * (h + (this._cacheCanvas.height - h) * 0.13) + this._cacheCanvas.width*.5
-					y = Math.sin(radians) * (h + (this._cacheCanvas.height - h) * 0.13) + this._cacheCanvas.height*.5;
-					this._cacheContext.save();
-					this._cacheContext.translate(x, y);
-					this._cacheContext.rotate(radians);
-					this._cacheContext.translate(-x, -y);
-					this._cacheContext.beginPath();
-					if(this._fading) this._cacheContext.fillStyle = "rgba(" + this._colorRGB.r + "," + this._colorRGB.g + "," + this._colorRGB.b + "," + bitMod + ")";
-					else this._cacheContext.fillStyle = "rgba(" + this._colorRGB.r + "," + this._colorRGB.g + "," + this._colorRGB.b + ",1)";
-					this._cacheContext.fillRect(x,y-h*.5,w,h);
-					this._cacheContext.closePath();
-					this._cacheContext.fill();
-					this._cacheContext.restore();
-					++i;
-				}
+		case shapes[2]:
+			w = this.cacheCanvas.width * 0.24;
+			h = w * 0.35;
+			minBitMod = 0.1;
+			while (i < this.density) {				
+				if (i <= animBits) { bitMod = 1 - ((1 - minBitMod) / animBits * i); } else { bitMod = minBitMod; }
+				angle = 360 - 360 / this.density * i;
+				radians = angle / 180 * Math.PI;
+				x = Math.cos(radians) * (h + (this.cacheCanvas.height - h) * 0.13) + this.cacheCanvas.width * 0.5;
+				y = Math.sin(radians) * (h + (this.cacheCanvas.height - h) * 0.13) + this.cacheCanvas.height * 0.5;
+				this.cacheContext.save();
+				this.cacheContext.translate(x, y);
+				this.cacheContext.rotate(radians);
+				this.cacheContext.translate(-x, -y);
+				this.cacheContext.beginPath();
+				if (this.fading) { this.cacheContext.fillStyle = "rgba(" + this.colorRGB.r + "," + this.colorRGB.g + "," + this.colorRGB.b + "," + bitMod.toString() + ")"; } else { this.cacheContext.fillStyle = "rgba(" + this.colorRGB.r + "," + this.colorRGB.g + "," + this.colorRGB.b + ",1)"; }
+				this.cacheContext.fillRect(x, y - h * 0.5, w, h);
+				this.cacheContext.closePath();
+				this.cacheContext.fill();
+				this.cacheContext.restore();
+				i += 1;
+			}
 			break;
-			case shapes[3]:
-				w = this._cacheCanvas.width * .24;
-				h = w*.35;
-				var radius = h*.65;
-				minBitMod = 0.1;
-				while(i<this._density)
-				{				
-					if(i <= animBits) bitMod = 1-((1-minBitMod)/animBits*i);
-					else bitMod = minBitMod;
-					angle = 360-360/this._density*i;
-					radians = (angle)/180*Math.PI;
-					x = Math.cos(radians) * (h + (this._cacheCanvas.height - h) * 0.13) + this._cacheCanvas.width*.5
-					y = Math.sin(radians) * (h + (this._cacheCanvas.height - h) * 0.13) + this._cacheCanvas.height*.5;
-					this._cacheContext.save();
-					this._cacheContext.translate(x, y);
-					this._cacheContext.rotate(radians);
-					this._cacheContext.translate(-x, -y);
-					if(this._fading) this._cacheContext.fillStyle = "rgba(" + this._colorRGB.r + "," + this._colorRGB.g + "," + this._colorRGB.b + "," + bitMod + ")";
-					else this._cacheContext.fillStyle = "rgba(" + this._colorRGB.r + "," + this._colorRGB.g + "," + this._colorRGB.b + ",1)";
-					this._cacheContext.beginPath();
-					this._cacheContext.moveTo(x + radius, y-h*.5);
-					this._cacheContext.lineTo(x + w - radius, y-h*.5);
-					this._cacheContext.quadraticCurveTo(x + w, y-h*.5, x + w, y-h*.5 + radius);
-					this._cacheContext.lineTo(x + w, y-h*.5 + h - radius);
-					this._cacheContext.quadraticCurveTo(x + w, y-h*.5 + h, x + w - radius, y-h*.5 + h);
-					this._cacheContext.lineTo(x + radius, y-h*.5 + h);
-					this._cacheContext.quadraticCurveTo(x, y-h*.5 + h, x, y-h*.5 + h - radius);
-					this._cacheContext.lineTo(x, y-h*.5 + radius);
-					this._cacheContext.quadraticCurveTo(x, y-h*.5, x + radius, y-h*.5);
-					this._cacheContext.closePath();
-					this._cacheContext.fill();
-					this._cacheContext.restore();
-					++i;
-				}
+		case shapes[3]:
+			w = this.cacheCanvas.width * 0.24;
+			h = w * 0.35;
+			radius = h * 0.65;
+			minBitMod = 0.1;
+			while (i < this.density) {				
+				if (i <= animBits) { bitMod = 1 - ((1 - minBitMod) / animBits * i); } else { bitMod = minBitMod; }
+				angle = 360 - 360 / this.density * i;
+				radians = angle / 180 * Math.PI;
+				x = Math.cos(radians) * (h + (this.cacheCanvas.height - h) * 0.13) + this.cacheCanvas.width * 0.5;
+				y = Math.sin(radians) * (h + (this.cacheCanvas.height - h) * 0.13) + this.cacheCanvas.height * 0.5;
+				this.cacheContext.save();
+				this.cacheContext.translate(x, y);
+				this.cacheContext.rotate(radians);
+				this.cacheContext.translate(-x, -y);
+				if (this.fading) { this.cacheContext.fillStyle = "rgba(" + this.colorRGB.r + "," + this.colorRGB.g + "," + this.colorRGB.b + "," + bitMod.toString() + ")"; } else { this.cacheContext.fillStyle = "rgba(" + this.colorRGB.r + "," + this.colorRGB.g + "," + this.colorRGB.b + ",1)"; }			this.cacheContext.beginPath();
+				this.cacheContext.moveTo(x + radius, y - h * 0.5);
+				this.cacheContext.lineTo(x + w - radius, y - h * 0.5);
+				this.cacheContext.quadraticCurveTo(x + w, y - h * 0.5, x + w, y - h * 0.5 + radius);
+				this.cacheContext.lineTo(x + w, y - h * 0.5 + h - radius);
+				this.cacheContext.quadraticCurveTo(x + w, y - h * 0.5 + h, x + w - radius, y - h * 0.5 + h);
+				this.cacheContext.lineTo(x + radius, y - h * 0.5 + h);
+				this.cacheContext.quadraticCurveTo(x, y - h * 0.5 + h, x, y - h * 0.5 + h - radius);
+				this.cacheContext.lineTo(x, y - h * 0.5 + radius);
+				this.cacheContext.quadraticCurveTo(x, y - h * 0.5, x + radius, y - h * 0.5);
+				this.cacheContext.closePath();
+				this.cacheContext.fill();
+				this.cacheContext.restore();
+				i += 1;
+			}
 			break;
 		}
 		
 		// Render the changes on the canvas
-		this._tick(true);
+		this.tick(true);
 	};
 	
 	/**
 	* Clean the canvas
 	*/
-	p._clean = function() {
-		this._context.clearRect(0, 0, this._canvas.width, this._canvas.height);
+	p.clean = function () {
+		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	};
 	
 	/**
 	* Redraw the loader
 	*/
-	p._redraw = function() {
-		if(this._ready) {
-			this._clean();
-			this._draw();
+	p.redraw = function () {
+		if (this.ready) {
+			this.clean();
+			this.draw();
 		}
 	};
 	
 	/**
 	* Reset the timer
 	*/
-	p._reset = function() {
-		if(this._running) {
+	p.reset = function () {
+		if (this.running) {
 			this.stop();
 			this.start();
 		}
@@ -438,54 +413,52 @@
 	/**
 	* Render the loader
 	*/
-	p._tick = function(initialize) {
-		var rotUnit = this._density > 360 ? this._density / 360 : 360 / this._density;
-		rotUnit *= this._speed;
-		if(!initialize) this._activeId += rotUnit;
-		if(this._activeId > 360) this._activeId -= 360;
+	p.tick = function (initialize) {
+		var rotUnit = this.density > 360 ? this.density / 360 : 360 / this.density;
+		rotUnit *= this.speed;
+		if (!initialize) { this.activeId += rotUnit; }
+		if (this.activeId > 360) { this.activeId -= 360; }
 		
-		this._context.clearRect(0, 0, this._diameter, this._diameter);
-		this._context.save();
-		this._context.translate(this._diameter*0.5, this._diameter*0.5);
-		this._context.rotate(Math.PI/180*this._activeId);
-		this._context.translate(-this._diameter*0.5, -this._diameter*0.5);
-		this._context.drawImage(this._cacheCanvas, 0, 0, this._diameter, this._diameter);
-		this._context.restore();
+		this.context.clearRect(0, 0, this.diameter, this.diameter);
+		this.context.save();
+		this.context.translate(this.diameter * 0.5, this.diameter * 0.5);
+		this.context.rotate(Math.PI / 180 * this.activeId);
+		this.context.translate(-this.diameter * 0.5, -this.diameter * 0.5);
+		this.context.drawImage(this.cacheCanvas, 0, 0, this.diameter, this.diameter);
+		this.context.restore();
 	};
 	
 	/**
 	* Start the rendering
 	*/
-	p.start = function() {
-		if(!this._running) {
-			this._running = true;
+	p.start = function () {
+		if (!this.running) {
+			this.running = true;
 			var t = this;
-			this._timer = self.setInterval(function(){t._tick();}, Math.round(1000/this._fps));
+			this.timer = self.setInterval(function () { t.tick(); }, Math.round(1000 / this.fps));
 		}
 	};
 	
 	/**
 	* Stop the rendering
 	*/
-	p.stop = function() {
-		if(this._running) {
-			this._running = false;
-			this._running = false;
-			clearInterval(this._timer);
-			this._timer = null;
-			delete this._timer;
+	p.stop = function () {
+		if (this.running) {
+			this.running = false;
+			this.running = false;
+			clearInterval(this.timer);
+			this.timer = null;
+			delete this.timer;
 		}
 	};
 	
 	/**
 	* Remove the CanvasLoader instance
 	*/
-	p.remove = function() {
-		if(this._running) this.stop();
-		this._container.removeChild(this._canvas);
+	p.remove = function () {
+		if (this.running) { this.stop(); }
+		this.container.removeChild(this.canvas);
 	};
-	
 	window.CanvasLoader = CanvasLoader;
 	document.CanvasLoader = CanvasLoader;
-	
-})(window, document);
+}(window, document));
