@@ -32,34 +32,28 @@
  * */
  
 (function(window, document) {
-
+	
 	/**
-	* 
+	* CanvasLoader is an Object which draws and animates a preloader into a canvas element
 	* @class CanvasLoader
 	* @constructor
-	* @param {String} id
-	* @param {String} _diameter
-	* @param {String} color
+	* @param {String} id The id of the placeholder div
 	**/
-	CanvasLoader = function(options) {
-		this.initialize(options);
-	};
+	CanvasLoader = function(id) {
+		this.initialize(id);
+	}
+	var p = CanvasLoader.prototype;
+	
 	// Define the shapes
 	var shapes = ["circle", "square", "rectangle", "roundedRectangle"];
-	
-	var p = CanvasLoader.prototype;
 	
 	/** 
 	* Initialization method.
 	* @method initialize
+	* @param (Object) 
 	* @protected
 	*/
-	p.initialize = function(options) {
-		
-		// Store the user settings
-		for(var r in options) {
-			if(this[r] != undefined) this[r] = options[r];
-		}
+	p.initialize = function(id) {
 		
 		/*
 		* Find the containing div by id (passed by the user).
@@ -67,8 +61,8 @@
 		*/
 		try {
 			// Look for the parent element
-			if(document.getElementById(options["id"]) != undefined) {
-				this._container = document.getElementById(options["id"]);
+			if(document.getElementById(id) != undefined) {
+				this._container = document.getElementById(id);
 			}
 			else {
 				this._container = document.body;
@@ -100,6 +94,9 @@
 		
 		// Draw the shapes on the canvas
 		this._draw();
+		
+		// Start rendering the preloader
+		this.start();
 	};
 	
 /////////////////////////////////////////////////////////////////////////////////////////////
