@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
 	<!-- 
@@ -39,7 +39,7 @@
 	<meta name="language" content="en" />
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
-	<script type="application/javascript" src="js/heartcode-canvasloader.js"></script>
+	<script type="application/javascript" src="js/heartcode-canvasloader_2.js"></script>
 	<style type="text/css">
 		div {float:left; display:table; padding:20px;}
 		canvas { /*border:1px solid #ff0000;*/ }
@@ -53,55 +53,49 @@
 	<div id="roundRectangle"></div>
 	<div id="circle3"></div>
 	<script type="text/javascript">
-		var cl = new CanvasLoader({id:"circle"});
+		var cl = new CanvasLoader("circle");
 		cl.setShape("circle");
 		cl.setDensity(60);
 		cl.setFPS(12);
 		cl.setSpeed(2);
 		cl.setColor("#0099ff");
-		cl.start();
 		
-		var cl1 = new CanvasLoader({id:"circle2"});
+		var cl1 = new CanvasLoader("circle2");
 		cl1.setShape("circle");
 		cl1.setDensity(60);
 		cl1.setFPS(24);
 		cl1.setSpeed(1);
 		cl1.setScaling(false);
 		cl1.setColor("#DA20DB");
-		cl1.start();
 		
-		var cl2 = new CanvasLoader({id:"square"});
+		var cl2 = new CanvasLoader("square");
 		cl2.setShape("square");
 		cl2.setDensity(12);
 		cl2.setFPS(6);
 		cl2.setSpeed(1);
 		cl2.setColor("#B7C40D");
-		cl2.start();
 		
-		var cl3 = new CanvasLoader({id:"rectangle"});
+		var cl3 = new CanvasLoader("rectangle");
 		cl3.setShape("rectangle");
 		cl3.setDensity(12);
 		cl3.setFPS(12);
 		cl3.setSpeed(1);
 		cl3.setColor("#DE8E1A");
-		cl3.start();
 		
-		var cl5 = new CanvasLoader({id:"circle3"});
+		var cl5 = new CanvasLoader("circle3");
 		cl5.setShape("circle");
 		cl5.setScaling(false);
 		cl5.setDensity(9);
 		cl5.setFPS(6);
 		cl5.setSpeed(1);
 		cl5.setColor("#99cc00");
-		cl5.start();
 		
-		var cl4 = new CanvasLoader({id:"roundRectangle"});
+		var cl4 = new CanvasLoader("roundRectangle");
 		cl4.setShape("roundedRectangle");
 		cl4.setDensity(12);
 		cl4.setFPS(12);
 		cl4.setSpeed(1);
 		cl4.setColor("#222222");
-		cl4.start();
 	</script>
 </body>
 </html>
