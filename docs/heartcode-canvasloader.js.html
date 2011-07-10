@@ -1,0 +1,725 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: CanvasLoader   heartcode-canvasloader.js  (Heartcode CanvasLoader)</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css" />
+
+    <script type="text/javascript" src="assets/api-js"></script>
+    <script type="text/javascript" src="assets/ac-js"></script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	<div id="hd">
+        <h1><a href="http://heartcode.robertpataki.com/demos/canvasloader" title="Heartcode CanvasLoader UI Library">Heartcode CanvasLoader UI Library</a></h1>
+        <h3>CanvasLoader&nbsp; <span class="subtitle">0.8.0</span></h3>
+        <a href="./index.html" title="Heartcode CanvasLoader UI Library">Heartcode CanvasLoader UI Library</a> 
+            &gt; <a href="./module_canvasloader.html" title="CanvasLoader">CanvasLoader</a>
+                
+                 &gt; heartcode-canvasloader.js (source view) 
+        <form onsubmit="return false">
+            <div id="propertysearch">
+                Search: <input autocomplete="off" id="searchinput" />
+                <div id="searchresults">
+                    &nbsp;
+                </div>
+            </div>
+        </form>
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+			<div class="yui-b">
+            <form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+                <fieldset>
+                    <legend>Filters</legend>
+                <span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+                <span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+                <span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+                </fieldset>
+            </form>
+
+                    <div id="srcout">
+                        <style>
+                            #doc3 .classopts { display:none; }
+                        </style>
+                        <div class="highlight"><pre><span class="cm">/*</span>
+<span class="cm">* Copyright (c) 2011 Róbert Pataki</span>
+<span class="cm">* </span>
+<span class="cm">* Permission is hereby granted, free of charge, to any person obtaining a copy</span>
+<span class="cm">* of this software and associated documentation files (the &quot;Software&quot;), to deal</span>
+<span class="cm">* in the Software without restriction, including without limitation the rights</span>
+<span class="cm">* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span>
+<span class="cm">* copies of the Software, and to permit persons to whom the Software is</span>
+<span class="cm">* furnished to do so, subject to the following conditions:</span>
+<span class="cm">* </span>
+<span class="cm">* The above copyright notice and this permission notice shall be included in</span>
+<span class="cm">* all copies or substantial portions of the Software.</span>
+<span class="cm">* </span>
+<span class="cm">* THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span>
+<span class="cm">* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span>
+<span class="cm">* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span>
+<span class="cm">* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span>
+<span class="cm">* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span>
+<span class="cm">* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN</span>
+<span class="cm">* THE SOFTWARE.</span>
+<span class="cm">* </span>
+<span class="cm">* ----------------------------------------------------------------------------------------</span>
+<span class="cm">* </span>
+<span class="cm">* Check out my GitHub:	http://github.com/heartcode/</span>
+<span class="cm">* Send me an email:		heartcode@robertpataki.com</span>
+<span class="cm">* Follow me on Twitter:	http://twitter.com/#iHeartcode</span>
+<span class="cm">* Blog:					http://heartcode.robertpataki.com</span>
+<span class="cm">*/</span>
+ 
+<span class="cm">/**</span>
+<span class="cm">* This lightweight library uses the HTML5 canvas element to draw and animate the most popular preloader shapes (circle, rectangle, square and rounded rectangle).&lt;br/&gt;</span>
+<span class="cm">* The implementation is (hopefully) very simple and doesn&#39;t require any external libraries.&lt;br/&gt;</span>
+<span class="cm">* @module CanvasLoader</span>
+<span class="cm">**/</span>
+<span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nb">window</span><span class="p">,</span> <span class="nb">document</span><span class="p">)</span> <span class="p">{</span>
+	
+	<span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
+
+	<span class="cm">/**</span>
+<span class="cm">	* CanvasLoader is a JavaScript UI library which draws and animates circular preloaders using the HTML Canvas object.&lt;br/&gt;</span>
+<span class="cm">	* A CanvasLoader instance creates two canvas elements which are placed into a placeholder div (the id of the div has to be passed in the constructor). The second canvas is invisible and used for caching purposes only.&lt;br/&gt;</span>
+<span class="cm">	* If no id is passed in the constructor, the canvas objects are paced in the document directly.</span>
+<span class="cm">	* @class CanvasLoader</span>
+<span class="cm">	* @constructor</span>
+<span class="cm">	* @param {String} id The id of the placeholder div.</span>
+<span class="cm">	**/</span>
+	<span class="kd">var</span> <span class="nx">CanvasLoader</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">initialize</span><span class="p">(</span><span class="nx">id</span><span class="p">);</span>
+	<span class="p">},</span> <span class="nx">p</span> <span class="o">=</span> <span class="nx">CanvasLoader</span><span class="p">.</span><span class="nx">prototype</span><span class="p">,</span> <span class="nx">shapes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;circle&quot;</span><span class="p">,</span> <span class="s2">&quot;square&quot;</span><span class="p">,</span> <span class="s2">&quot;rectangle&quot;</span><span class="p">,</span> <span class="s2">&quot;roundedRectangle&quot;</span><span class="p">],</span> <span class="nx">colorReg</span> <span class="o">=</span> <span class="sr">/^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/</span><span class="p">;</span>
+	
+	<span class="cm">/** </span>
+<span class="cm">	* Initialization method.</span>
+<span class="cm">	* @method initialize</span>
+<span class="cm">	* @param id String The id of the placeholder div.</span>
+<span class="cm">	* @protected</span>
+<span class="cm">	*/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">initialize</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+		
+		<span class="cm">/*</span>
+<span class="cm">		* Find the containing div by id (passed by the user).</span>
+<span class="cm">		* If the container element cannot be found we use the document body itself.</span>
+<span class="cm">		*/</span>
+		<span class="k">try</span> <span class="p">{</span>
+			<span class="c1">// Look for the parent element</span>
+			<span class="k">if</span> <span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="nx">id</span><span class="p">)</span> <span class="o">!==</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">container</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="nx">id</span><span class="p">);</span>
+			<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">container</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">;</span>
+			<span class="p">}</span>
+		<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">container</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">;</span>
+		<span class="p">}</span>
+		
+		<span class="c1">// Create the canvas element</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">canvas</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">&quot;canvas&quot;</span><span class="p">);</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">context</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">canvas</span><span class="p">.</span><span class="nx">getContext</span><span class="p">(</span><span class="s2">&quot;2d&quot;</span><span class="p">);</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">canvas</span><span class="p">.</span><span class="nx">id</span> <span class="o">=</span> <span class="s2">&quot;CanvasLoader&quot;</span><span class="p">;</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">container</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">canvas</span><span class="p">);</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">canvas</span><span class="p">.</span><span class="nx">width</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">canvas</span><span class="p">.</span><span class="nx">height</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">diameter</span><span class="p">;</span>
+		
+		<span class="c1">// Create the cache canvas element</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">cacheCanvas</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">&quot;canvas&quot;</span><span class="p">);</span>
+		<span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">cacheCanvas</span><span class="p">);</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cacheCanvas</span><span class="p">.</span><span class="nx">getContext</span><span class="p">(</span><span class="s2">&quot;2d&quot;</span><span class="p">);</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">cacheCanvas</span><span class="p">.</span><span class="nx">width</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cacheCanvas</span><span class="p">.</span><span class="nx">height</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">diameter</span><span class="p">;</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">cacheCanvas</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s2">&quot;none&quot;</span><span class="p">;</span>
+		
+		<span class="c1">// Set the RGB color object</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">setColor</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">color</span><span class="p">);</span>
+		
+		<span class="c1">// Set the instance ready</span>
+		<span class="nx">p</span><span class="p">.</span><span class="nx">ready</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+		
+		<span class="c1">// Draw the shapes on the canvas</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">draw</span><span class="p">();</span>
+		
+		<span class="c1">// Start rendering the preloader</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span>
+	<span class="p">};</span>
+	
+<span class="c1">/////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="c1">// Property declarations</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	* The div we place the canvas object into.</span>
+<span class="cm">	* @property container</span>
+<span class="cm">	* @type Object</span>
+<span class="cm">	* @protected</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">container</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	* The div we draw the shapes into.</span>
+<span class="cm">	* @property canvas</span>
+<span class="cm">	* @type Object</span>
+<span class="cm">	* @protected</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">canvas</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	* The canvas context.</span>
+<span class="cm">	* @property context</span>
+<span class="cm">	* @type Object</span>
+<span class="cm">	* @protected</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">context</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	* The canvas we use for caching.</span>
+<span class="cm">	* @property cacheCanvas</span>
+<span class="cm">	* @type Object</span>
+<span class="cm">	* @protected</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">cacheCanvas</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	* The context of the cache canvas.</span>
+<span class="cm">	* @property cacheContext</span>
+<span class="cm">	* @type Object</span>
+<span class="cm">	* @protected</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">cacheContext</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	* Tell if the loader rendering is running.</span>
+<span class="cm">	* @property running</span>
+<span class="cm">	* @type Boolean</span>
+<span class="cm">	* @protected</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">running</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	* Tell if the canvas and its context is ready.</span>
+<span class="cm">	* @property ready</span>
+<span class="cm">	* @type Boolean</span>
+<span class="cm">	* @protected</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">ready</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	* Add a timer for the rendering.</span>
+<span class="cm">	* @property timer</span>
+<span class="cm">	* @type Boolean</span>
+<span class="cm">	* @protected</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">timer</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	* The active shape id for rendering.</span>
+<span class="cm">	* @property activeId</span>
+<span class="cm">	* @type Number</span>
+<span class="cm">	* @protected</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">activeId</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	* The diameter of the loader.</span>
+<span class="cm">	* @property diameter</span>
+<span class="cm">	* @type Number</span>
+<span class="cm">	* @default 40</span>
+<span class="cm">	* @protected</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">diameter</span> <span class="o">=</span> <span class="mi">40</span><span class="p">;</span>
+	<span class="cm">/**</span>
+<span class="cm">	* Sets the diameter of the loader.</span>
+<span class="cm">	* @method setDiameter</span>
+<span class="cm">	* @param diameter {Number} The default value is 40.</span>
+<span class="cm">	* @public</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">setDiameter</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">diameter</span><span class="p">)</span> <span class="p">{</span> <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">isNaN</span><span class="p">(</span><span class="nx">diameter</span><span class="p">))</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">diameter</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">diameter</span><span class="p">));</span> <span class="k">this</span><span class="p">.</span><span class="nx">redraw</span><span class="p">();</span> <span class="p">}</span> <span class="p">};</span>
+	<span class="cm">/**</span>
+<span class="cm">	* Returns the diameter of the loader.</span>
+<span class="cm">	* @method getDiameter</span>
+<span class="cm">	* @return Number</span>
+<span class="cm">	* @public</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">getDiameter</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">diameter</span><span class="p">;</span> <span class="p">};</span>
+
+	<span class="cm">/**</span>
+<span class="cm">	* The color of the loader shapes in RGB.</span>
+<span class="cm">	* @property colorRGB</span>
+<span class="cm">	* @type Object</span>
+<span class="cm">	* @protected</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">colorRGB</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	* The color of the loader shapes in HEX.</span>
+<span class="cm">	* @property color</span>
+<span class="cm">	* @type String</span>
+<span class="cm">	* @default &quot;#000000&quot;</span>
+<span class="cm">	* @protected</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">color</span> <span class="o">=</span> <span class="s2">&quot;#000000&quot;</span><span class="p">;</span>
+	<span class="cm">/**</span>
+<span class="cm">	* Sets hexadecimal color of the loader.</span>
+<span class="cm">	* @method setColor</span>
+<span class="cm">	* @param color {String} The default value is &#39;#000000&#39;.</span>
+<span class="cm">	* @public</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">setColor</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">color</span><span class="p">)</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">color</span> <span class="o">=</span> <span class="nx">colorReg</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">color</span><span class="p">)</span> <span class="o">?</span> <span class="nx">color</span> <span class="o">:</span> <span class="s2">&quot;#000000&quot;</span><span class="p">;</span> <span class="k">this</span><span class="p">.</span><span class="nx">colorRGB</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getRGB</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">color</span><span class="p">);</span> <span class="k">this</span><span class="p">.</span><span class="nx">redraw</span><span class="p">();</span> <span class="p">};</span>
+	<span class="cm">/**</span>
+<span class="cm">	* Returns the loader color in a hexadecimal form.</span>
+<span class="cm">	* @method getColor</span>
+<span class="cm">	* @return String</span>
+<span class="cm">	* @public</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">getColor</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">color</span><span class="p">;</span> <span class="p">};</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	* The type of the loader shapes.</span>
+<span class="cm">	* @property shape</span>
+<span class="cm">	* @type String</span>
+<span class="cm">	* @default &quot;circle&quot;</span>
+<span class="cm">	* @protected</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">shape</span> <span class="o">=</span> <span class="nx">shapes</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+	<span class="cm">/**</span>
+<span class="cm">	* Sets the type of the loader shapes.&lt;br/&gt;</span>
+<span class="cm">	* &lt;br/&gt;&lt;b&gt;The acceptable values are:&lt;/b&gt;</span>
+<span class="cm">	* &lt;ul&gt;</span>
+<span class="cm">	* &lt;li&gt;&#39;circle&#39;&lt;/li&gt;</span>
+<span class="cm">	* &lt;li&gt;&#39;square&#39;&lt;/li&gt;</span>
+<span class="cm">	* &lt;li&gt;&#39;rectangle&#39;&lt;/li&gt;</span>
+<span class="cm">	* &lt;li&gt;&#39;roundedRectangle&#39;&lt;/li&gt;</span>
+<span class="cm">	* &lt;/ul&gt;</span>
+<span class="cm">	* @method setShape</span>
+<span class="cm">	* @param shape {String} The default value is &#39;circle&#39;.</span>
+<span class="cm">	* @public</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">setShape</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">shape</span><span class="p">)</span> <span class="p">{</span> 
+		<span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+		<span class="k">while</span> <span class="p">(</span><span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">shapes</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="nx">shape</span> <span class="o">===</span> <span class="nx">shapes</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">shape</span> <span class="o">=</span> <span class="nx">shape</span><span class="p">;</span> <span class="k">this</span><span class="p">.</span><span class="nx">redraw</span><span class="p">();</span> <span class="k">break</span><span class="p">;</span> <span class="p">}</span> 
+			<span class="nx">i</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">};</span>
+	<span class="cm">/**</span>
+<span class="cm">	* Returns the type of the loader shapes.</span>
+<span class="cm">	* @method getShape</span>
+<span class="cm">	* @return String</span>
+<span class="cm">	* @public</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">getShape</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">shape</span><span class="p">;</span> <span class="p">};</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	* The number of shapes drawn on the loader canvas.</span>
+<span class="cm">	* @property density</span>
+<span class="cm">	* @type Number</span>
+<span class="cm">	* @default 40</span>
+<span class="cm">	* @protected</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">density</span> <span class="o">=</span> <span class="mi">40</span><span class="p">;</span>
+	<span class="cm">/**</span>
+<span class="cm">	* Sets the number of shapes drawn on the loader canvas.</span>
+<span class="cm">	* @method setDensity</span>
+<span class="cm">	* @param density {Number} The default value is 40.</span>
+<span class="cm">	* @public</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">setDensity</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">density</span><span class="p">)</span> <span class="p">{</span> <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">isNaN</span><span class="p">(</span><span class="nx">density</span><span class="p">))</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">density</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">density</span><span class="p">));</span> <span class="k">this</span><span class="p">.</span><span class="nx">redraw</span><span class="p">();</span> <span class="p">}</span> <span class="p">};</span>
+	<span class="cm">/**</span>
+<span class="cm">	* Returns the number of shapes drawn on the loader canvas.</span>
+<span class="cm">	* @method getDensity</span>
+<span class="cm">	* @return {Number}</span>
+<span class="cm">	* @public</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">getDensity</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">density</span><span class="p">;</span> <span class="p">};</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	* Sets the amount of the modified shapes in percent.</span>
+<span class="cm">	* @property range</span>
+<span class="cm">	* @type Number</span>
+<span class="cm">	* @protected</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">range</span> <span class="o">=</span> <span class="mf">1.3</span><span class="p">;</span>
+	<span class="cm">/**</span>
+<span class="cm">	* Sets the amount of the modified shapes in percent.&lt;br/&gt;</span>
+<span class="cm">	* With this value the user can set what range of the shapes should be scaled and/or faded. The shapes that are out of this range will be scaled and/or faded with a minimum amount only.&lt;br/&gt;</span>
+<span class="cm">	* This minimum amount is 0.1 which means every shape which is out of the range is scaled and/or faded to 10% of the original values.&lt;br/&gt;</span>
+<span class="cm">	* The visually acceptable range value should be between 0.4 and 1.5.</span>
+<span class="cm">	* @method setRange</span>
+<span class="cm">	* @param range {Number} The default value is 1.3.</span>
+<span class="cm">	* @public</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">setRange</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">range</span><span class="p">)</span> <span class="p">{</span> <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">isNaN</span><span class="p">(</span><span class="nx">range</span><span class="p">))</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">range</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">range</span><span class="p">);</span> <span class="k">this</span><span class="p">.</span><span class="nx">redraw</span><span class="p">();</span> <span class="p">}</span> <span class="p">};</span>
+	<span class="cm">/**</span>
+<span class="cm">	* Returns the modified shape range in percent.</span>
+<span class="cm">	* @method getRange</span>
+<span class="cm">	* @return {Number}</span>
+<span class="cm">	* @public</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">getRange</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">range</span><span class="p">;</span> <span class="p">};</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	* The scaling of the loader shapes.</span>
+<span class="cm">	* @property scaling</span>
+<span class="cm">	* @type Boolean</span>
+<span class="cm">	* @protected</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">scaling</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+	<span class="cm">/**</span>
+<span class="cm">	* Sets the scaling of the loader shapes.</span>
+<span class="cm">	* @method setScaling</span>
+<span class="cm">	* @param scaling {Boolean} The default value is false.</span>
+<span class="cm">	* @public</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">setScaling</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">scaling</span><span class="p">)</span> <span class="p">{</span> <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="p">(</span><span class="nx">scaling</span><span class="p">)</span> <span class="o">===</span> <span class="s2">&quot;boolean&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">scaling</span> <span class="o">=</span> <span class="nx">scaling</span><span class="p">;</span> <span class="k">this</span><span class="p">.</span><span class="nx">redraw</span><span class="p">();</span> <span class="p">}</span> <span class="p">};</span>
+	<span class="cm">/**</span>
+<span class="cm">	* Returns the scaling of the loader shapes.</span>
+<span class="cm">	* @method getScaling</span>
+<span class="cm">	* @return Boolean</span>
+<span class="cm">	* @public</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">getScaling</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">scaling</span><span class="p">;</span> <span class="p">};</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	* The fading of the loader shapes.</span>
+<span class="cm">	* @property fading</span>
+<span class="cm">	* @type Boolean</span>
+<span class="cm">	* @protected</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">fading</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+	<span class="cm">/**</span>
+<span class="cm">	* Sets the fading of the loader shapes.</span>
+<span class="cm">	* @method setFading</span>
+<span class="cm">	* @param fading {Boolean} The default value is true.</span>
+<span class="cm">	* @public</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">setFading</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">fading</span><span class="p">)</span> <span class="p">{</span> <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">fading</span> <span class="o">===</span> <span class="s2">&quot;boolean&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">fading</span> <span class="o">=</span> <span class="nx">fading</span><span class="p">;</span> <span class="k">this</span><span class="p">.</span><span class="nx">redraw</span><span class="p">();</span> <span class="p">}</span> <span class="p">};</span>
+	<span class="cm">/**</span>
+<span class="cm">	* Returns the fading of the loader shapes.</span>
+<span class="cm">	* @method getFading</span>
+<span class="cm">	* @return {Boolean}</span>
+<span class="cm">	* @public</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">getFading</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">fading</span><span class="p">;</span> <span class="p">};</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	* The speed of the loader animation.</span>
+<span class="cm">	* @property speed</span>
+<span class="cm">	* @type Number</span>
+<span class="cm">	* @protected</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">speed</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+	<span class="cm">/**</span>
+<span class="cm">	* Sets the speed of the loader animation.&lt;br/&gt;</span>
+<span class="cm">	* This value tells the loader how many shapes to skip by each tick.&lt;br/&gt;</span>
+<span class="cm">	* Using the right combination of the &lt;code&gt;setFPS&lt;/code&gt; and the &lt;code&gt;setSpeed&lt;/code&gt; methods allows the users to optimize the CPU usage of the loader whilst keeping the animation on a visually pleasing level.</span>
+<span class="cm">	* @method setSpeed</span>
+<span class="cm">	* @param speed {Number} The default value is 2.</span>
+<span class="cm">	* @seealso setFPS</span>
+<span class="cm">	* @public</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">setSpeed</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">speed</span><span class="p">)</span> <span class="p">{</span><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">isNaN</span><span class="p">(</span><span class="nx">speed</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">speed</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">speed</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">speed</span><span class="p">));</span> <span class="k">this</span><span class="p">.</span><span class="nx">reset</span><span class="p">();</span> <span class="p">}</span> <span class="p">};</span>
+	<span class="cm">/**</span>
+<span class="cm">	* Returns the speed of the loader animation.</span>
+<span class="cm">	* @method getSpeed</span>
+<span class="cm">	* @return {Number}</span>
+<span class="cm">	* @public</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">getSpeed</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">speed</span><span class="p">;</span> <span class="p">};</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	* The FPS of the loader animation rendering.</span>
+<span class="cm">	* @property fps</span>
+<span class="cm">	* @type Number</span>
+<span class="cm">	* @protected</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">fps</span> <span class="o">=</span> <span class="mi">24</span><span class="p">;</span>
+	<span class="cm">/**</span>
+<span class="cm">	* Sets the rendering frequency.&lt;br/&gt;</span>
+<span class="cm">	* This value tells the loader how many times to refresh and modify the canvas in 1 second.&lt;br/&gt;</span>
+<span class="cm">	* Using the right combination of the &lt;code&gt;setSpeed&lt;/code&gt; and the &lt;code&gt;setFPS&lt;/code&gt; methods allows the users to optimize the CPU usage of the loader whilst keeping the animation on a visually pleasing level.</span>
+<span class="cm">	* @method setFPS</span>
+<span class="cm">	* @param fps {Number} The default value is 24.</span>
+<span class="cm">	* @seealso setSpeed</span>
+<span class="cm">	* @public</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">setFPS</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">fps</span><span class="p">)</span> <span class="p">{</span> <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">isNaN</span><span class="p">(</span><span class="nx">fps</span><span class="p">))</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">fps</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">fps</span><span class="p">));</span> <span class="k">this</span><span class="p">.</span><span class="nx">reset</span><span class="p">();</span> <span class="p">}</span> <span class="p">};</span>
+	<span class="cm">/**</span>
+<span class="cm">	* Returns the fps of the loader.</span>
+<span class="cm">	* @method getFPS</span>
+<span class="cm">	* @return {Number}</span>
+<span class="cm">	* @public</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">getFPS</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">fps</span><span class="p">;</span> <span class="p">};</span>
+	
+<span class="c1">// End of Property declarations</span>
+<span class="c1">/////////////////////////////////////////////////////////////////////////////////////////////</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	* Return the RGB values of the passed color.</span>
+<span class="cm">	* @method getRGB</span>
+<span class="cm">	* @param	color (String) The HEX color value to be converted to RGB</span>
+<span class="cm">	* @protected</span>
+<span class="cm">	*/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">getRGB</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">color</span><span class="p">)</span> <span class="p">{</span>
+		<span class="kd">var</span> <span class="nx">hexObject</span> <span class="o">=</span> <span class="p">{};</span>
+		
+		<span class="nx">color</span> <span class="o">=</span> <span class="nx">color</span><span class="p">.</span><span class="nx">charAt</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">===</span> <span class="s2">&quot;#&quot;</span> <span class="o">?</span> <span class="nx">color</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span> <span class="o">:</span> <span class="nx">color</span><span class="p">;</span>
+				
+		<span class="nx">hexObject</span><span class="p">.</span><span class="nx">r</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">color</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">16</span><span class="p">);</span>
+		<span class="nx">hexObject</span><span class="p">.</span><span class="nx">g</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">color</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="mi">16</span><span class="p">);</span>
+		<span class="nx">hexObject</span><span class="p">.</span><span class="nx">b</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">color</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="mi">16</span><span class="p">);</span>
+			
+		<span class="k">return</span> <span class="nx">hexObject</span><span class="p">;</span>
+	<span class="p">};</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	* Draw the shapes on the canvas</span>
+<span class="cm">	* @method draw</span>
+<span class="cm">	* @protected</span>
+<span class="cm">	*/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">draw</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>		
+		<span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">size</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">diameter</span> <span class="o">*</span> <span class="mf">0.07</span><span class="p">,</span> <span class="nx">radians</span><span class="p">,</span> <span class="nx">radius</span><span class="p">,</span> <span class="nx">w</span><span class="p">,</span> <span class="nx">h</span><span class="p">,</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">angle</span><span class="p">,</span> <span class="nx">minBitMod</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="nx">animBits</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">density</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">range</span><span class="p">),</span> <span class="nx">bitMod</span><span class="p">;</span>
+		
+		<span class="c1">// Clean the cache canvas</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">clearRect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">cacheCanvas</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">cacheCanvas</span><span class="p">.</span><span class="nx">height</span><span class="p">);</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">canvas</span><span class="p">.</span><span class="nx">width</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">canvas</span><span class="p">.</span><span class="nx">height</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cacheCanvas</span><span class="p">.</span><span class="nx">width</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cacheCanvas</span><span class="p">.</span><span class="nx">height</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">diameter</span><span class="p">;</span>
+		
+		<span class="c1">// Draw the shapes</span>
+		<span class="k">switch</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">shape</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">case</span> <span class="nx">shapes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">:</span>
+			<span class="k">while</span> <span class="p">(</span><span class="nx">i</span> <span class="o">&lt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">density</span><span class="p">)</span> <span class="p">{</span>						
+				<span class="k">if</span> <span class="p">(</span><span class="nx">i</span> <span class="o">&lt;=</span> <span class="nx">animBits</span><span class="p">)</span> <span class="p">{</span> <span class="nx">bitMod</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="nx">minBitMod</span><span class="p">)</span> <span class="o">/</span> <span class="nx">animBits</span> <span class="o">*</span> <span class="nx">i</span><span class="p">);</span> <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="nx">bitMod</span> <span class="o">=</span> <span class="nx">minBitMod</span><span class="p">;</span> <span class="p">}</span>
+				<span class="nx">radians</span> <span class="o">=</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">density</span> <span class="o">-</span> <span class="nx">i</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="k">this</span><span class="p">.</span><span class="nx">density</span><span class="p">);</span>
+				<span class="nx">x</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">canvas</span><span class="p">.</span><span class="nx">width</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">cos</span><span class="p">(</span><span class="nx">radians</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">diameter</span> <span class="o">*</span> <span class="mf">0.45</span> <span class="o">-</span> <span class="nx">size</span><span class="p">)</span> <span class="o">-</span> <span class="k">this</span><span class="p">.</span><span class="nx">canvas</span><span class="p">.</span><span class="nx">width</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">;</span>
+				<span class="nx">y</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">canvas</span><span class="p">.</span><span class="nx">height</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sin</span><span class="p">(</span><span class="nx">radians</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">diameter</span> <span class="o">*</span> <span class="mf">0.45</span> <span class="o">-</span> <span class="nx">size</span><span class="p">)</span> <span class="o">-</span> <span class="k">this</span><span class="p">.</span><span class="nx">canvas</span><span class="p">.</span><span class="nx">height</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">;</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">beginPath</span><span class="p">();</span>
+				<span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">fading</span><span class="p">)</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">fillStyle</span> <span class="o">=</span> <span class="s2">&quot;rgba(&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">colorRGB</span><span class="p">.</span><span class="nx">r</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">colorRGB</span><span class="p">.</span><span class="nx">g</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">colorRGB</span><span class="p">.</span><span class="nx">b</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="nx">bitMod</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">;</span> <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">fillStyle</span> <span class="o">=</span> <span class="s2">&quot;rgba(&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">colorRGB</span><span class="p">.</span><span class="nx">r</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">colorRGB</span><span class="p">.</span><span class="nx">g</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">colorRGB</span><span class="p">.</span><span class="nx">b</span> <span class="o">+</span> <span class="s2">&quot;,1)&quot;</span><span class="p">;</span> <span class="p">}</span>
+				<span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">scaling</span><span class="p">)</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">arc</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">diameter</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="nx">x</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">diameter</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">size</span> <span class="o">*</span> <span class="nx">bitMod</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span> <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">arc</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">diameter</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="nx">x</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">diameter</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">size</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span> <span class="p">}</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">closePath</span><span class="p">();</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">fill</span><span class="p">();</span>
+				<span class="nx">i</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+			<span class="p">}</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="nx">shapes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">:</span>
+			<span class="nx">size</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">canvas</span><span class="p">.</span><span class="nx">width</span> <span class="o">*</span> <span class="mf">0.12</span><span class="p">;</span>
+			<span class="k">while</span> <span class="p">(</span><span class="nx">i</span> <span class="o">&lt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">density</span><span class="p">)</span> <span class="p">{</span>						
+				<span class="k">if</span> <span class="p">(</span><span class="nx">i</span> <span class="o">&lt;=</span> <span class="nx">animBits</span><span class="p">)</span> <span class="p">{</span> <span class="nx">bitMod</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="nx">minBitMod</span><span class="p">)</span> <span class="o">/</span> <span class="nx">animBits</span> <span class="o">*</span> <span class="nx">i</span><span class="p">);</span> <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="nx">bitMod</span> <span class="o">=</span> <span class="nx">minBitMod</span><span class="p">;</span> <span class="p">}</span>
+				<span class="nx">angle</span> <span class="o">=</span> <span class="mi">360</span> <span class="o">-</span> <span class="mi">360</span> <span class="o">/</span> <span class="k">this</span><span class="p">.</span><span class="nx">density</span> <span class="o">*</span> <span class="nx">i</span><span class="p">;</span>
+				<span class="nx">radians</span> <span class="o">=</span> <span class="nx">angle</span> <span class="o">/</span> <span class="mi">180</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="p">;</span>
+				<span class="nx">x</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">cos</span><span class="p">(</span><span class="nx">radians</span><span class="p">)</span> <span class="o">*</span> <span class="nx">size</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">cacheCanvas</span><span class="p">.</span><span class="nx">width</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">;</span>
+				<span class="nx">y</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sin</span><span class="p">(</span><span class="nx">radians</span><span class="p">)</span> <span class="o">*</span> <span class="nx">size</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">cacheCanvas</span><span class="p">.</span><span class="nx">height</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">;</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">save</span><span class="p">();</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">translate</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">);</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">rotate</span><span class="p">(</span><span class="nx">radians</span><span class="p">);</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">translate</span><span class="p">(</span><span class="o">-</span><span class="nx">x</span><span class="p">,</span> <span class="o">-</span><span class="nx">y</span><span class="p">);</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">beginPath</span><span class="p">();</span>
+				<span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">fading</span><span class="p">)</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">fillStyle</span> <span class="o">=</span> <span class="s2">&quot;rgba(&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">colorRGB</span><span class="p">.</span><span class="nx">r</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">colorRGB</span><span class="p">.</span><span class="nx">g</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">colorRGB</span><span class="p">.</span><span class="nx">b</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="nx">bitMod</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">;</span> <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">fillStyle</span> <span class="o">=</span> <span class="s2">&quot;rgba(&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">colorRGB</span><span class="p">.</span><span class="nx">r</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">colorRGB</span><span class="p">.</span><span class="nx">g</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">colorRGB</span><span class="p">.</span><span class="nx">b</span> <span class="o">+</span> <span class="s2">&quot;,1)&quot;</span><span class="p">;</span> <span class="p">}</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">fillRect</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="o">-</span> <span class="nx">size</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span> <span class="nx">size</span><span class="p">,</span> <span class="nx">size</span><span class="p">);</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">closePath</span><span class="p">();</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">fill</span><span class="p">();</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">restore</span><span class="p">();</span>
+				<span class="nx">i</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+			<span class="p">}</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="nx">shapes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">:</span>
+			<span class="nx">w</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cacheCanvas</span><span class="p">.</span><span class="nx">width</span> <span class="o">*</span> <span class="mf">0.24</span><span class="p">;</span>
+			<span class="nx">h</span> <span class="o">=</span> <span class="nx">w</span> <span class="o">*</span> <span class="mf">0.35</span><span class="p">;</span>
+			<span class="k">while</span> <span class="p">(</span><span class="nx">i</span> <span class="o">&lt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">density</span><span class="p">)</span> <span class="p">{</span>				
+				<span class="k">if</span> <span class="p">(</span><span class="nx">i</span> <span class="o">&lt;=</span> <span class="nx">animBits</span><span class="p">)</span> <span class="p">{</span> <span class="nx">bitMod</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="nx">minBitMod</span><span class="p">)</span> <span class="o">/</span> <span class="nx">animBits</span> <span class="o">*</span> <span class="nx">i</span><span class="p">);</span> <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="nx">bitMod</span> <span class="o">=</span> <span class="nx">minBitMod</span><span class="p">;</span> <span class="p">}</span>
+				<span class="nx">angle</span> <span class="o">=</span> <span class="mi">360</span> <span class="o">-</span> <span class="mi">360</span> <span class="o">/</span> <span class="k">this</span><span class="p">.</span><span class="nx">density</span> <span class="o">*</span> <span class="nx">i</span><span class="p">;</span>
+				<span class="nx">radians</span> <span class="o">=</span> <span class="nx">angle</span> <span class="o">/</span> <span class="mi">180</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="p">;</span>
+				<span class="nx">x</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">cos</span><span class="p">(</span><span class="nx">radians</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nx">h</span> <span class="o">+</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">cacheCanvas</span><span class="p">.</span><span class="nx">height</span> <span class="o">-</span> <span class="nx">h</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.13</span><span class="p">)</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">cacheCanvas</span><span class="p">.</span><span class="nx">width</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">;</span>
+				<span class="nx">y</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sin</span><span class="p">(</span><span class="nx">radians</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nx">h</span> <span class="o">+</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">cacheCanvas</span><span class="p">.</span><span class="nx">height</span> <span class="o">-</span> <span class="nx">h</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.13</span><span class="p">)</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">cacheCanvas</span><span class="p">.</span><span class="nx">height</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">;</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">save</span><span class="p">();</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">translate</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">);</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">rotate</span><span class="p">(</span><span class="nx">radians</span><span class="p">);</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">translate</span><span class="p">(</span><span class="o">-</span><span class="nx">x</span><span class="p">,</span> <span class="o">-</span><span class="nx">y</span><span class="p">);</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">beginPath</span><span class="p">();</span>
+				<span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">fading</span><span class="p">)</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">fillStyle</span> <span class="o">=</span> <span class="s2">&quot;rgba(&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">colorRGB</span><span class="p">.</span><span class="nx">r</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">colorRGB</span><span class="p">.</span><span class="nx">g</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">colorRGB</span><span class="p">.</span><span class="nx">b</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="nx">bitMod</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">;</span> <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">fillStyle</span> <span class="o">=</span> <span class="s2">&quot;rgba(&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">colorRGB</span><span class="p">.</span><span class="nx">r</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">colorRGB</span><span class="p">.</span><span class="nx">g</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">colorRGB</span><span class="p">.</span><span class="nx">b</span> <span class="o">+</span> <span class="s2">&quot;,1)&quot;</span><span class="p">;</span> <span class="p">}</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">fillRect</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="o">-</span> <span class="nx">h</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span> <span class="nx">w</span><span class="p">,</span> <span class="nx">h</span><span class="p">);</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">closePath</span><span class="p">();</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">fill</span><span class="p">();</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">restore</span><span class="p">();</span>
+				<span class="nx">i</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+			<span class="p">}</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="nx">shapes</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">:</span>
+			<span class="nx">w</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cacheCanvas</span><span class="p">.</span><span class="nx">width</span> <span class="o">*</span> <span class="mf">0.24</span><span class="p">;</span>
+			<span class="nx">h</span> <span class="o">=</span> <span class="nx">w</span> <span class="o">*</span> <span class="mf">0.35</span><span class="p">;</span>
+			<span class="nx">radius</span> <span class="o">=</span> <span class="nx">h</span> <span class="o">*</span> <span class="mf">0.65</span><span class="p">;</span>
+			<span class="k">while</span> <span class="p">(</span><span class="nx">i</span> <span class="o">&lt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">density</span><span class="p">)</span> <span class="p">{</span>				
+				<span class="k">if</span> <span class="p">(</span><span class="nx">i</span> <span class="o">&lt;=</span> <span class="nx">animBits</span><span class="p">)</span> <span class="p">{</span> <span class="nx">bitMod</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="nx">minBitMod</span><span class="p">)</span> <span class="o">/</span> <span class="nx">animBits</span> <span class="o">*</span> <span class="nx">i</span><span class="p">);</span> <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="nx">bitMod</span> <span class="o">=</span> <span class="nx">minBitMod</span><span class="p">;</span> <span class="p">}</span>
+				<span class="nx">angle</span> <span class="o">=</span> <span class="mi">360</span> <span class="o">-</span> <span class="mi">360</span> <span class="o">/</span> <span class="k">this</span><span class="p">.</span><span class="nx">density</span> <span class="o">*</span> <span class="nx">i</span><span class="p">;</span>
+				<span class="nx">radians</span> <span class="o">=</span> <span class="nx">angle</span> <span class="o">/</span> <span class="mi">180</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="p">;</span>
+				<span class="nx">x</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">cos</span><span class="p">(</span><span class="nx">radians</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nx">h</span> <span class="o">+</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">cacheCanvas</span><span class="p">.</span><span class="nx">height</span> <span class="o">-</span> <span class="nx">h</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.13</span><span class="p">)</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">cacheCanvas</span><span class="p">.</span><span class="nx">width</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">;</span>
+				<span class="nx">y</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sin</span><span class="p">(</span><span class="nx">radians</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nx">h</span> <span class="o">+</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">cacheCanvas</span><span class="p">.</span><span class="nx">height</span> <span class="o">-</span> <span class="nx">h</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.13</span><span class="p">)</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">cacheCanvas</span><span class="p">.</span><span class="nx">height</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">;</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">save</span><span class="p">();</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">translate</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">);</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">rotate</span><span class="p">(</span><span class="nx">radians</span><span class="p">);</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">translate</span><span class="p">(</span><span class="o">-</span><span class="nx">x</span><span class="p">,</span> <span class="o">-</span><span class="nx">y</span><span class="p">);</span>
+				<span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">fading</span><span class="p">)</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">fillStyle</span> <span class="o">=</span> <span class="s2">&quot;rgba(&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">colorRGB</span><span class="p">.</span><span class="nx">r</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">colorRGB</span><span class="p">.</span><span class="nx">g</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">colorRGB</span><span class="p">.</span><span class="nx">b</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="nx">bitMod</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">;</span> <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">fillStyle</span> <span class="o">=</span> <span class="s2">&quot;rgba(&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">colorRGB</span><span class="p">.</span><span class="nx">r</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">colorRGB</span><span class="p">.</span><span class="nx">g</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">colorRGB</span><span class="p">.</span><span class="nx">b</span> <span class="o">+</span> <span class="s2">&quot;,1)&quot;</span><span class="p">;</span> <span class="p">}</span>			<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">beginPath</span><span class="p">();</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">moveTo</span><span class="p">(</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">radius</span><span class="p">,</span> <span class="nx">y</span> <span class="o">-</span> <span class="nx">h</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">);</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">lineTo</span><span class="p">(</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">w</span> <span class="o">-</span> <span class="nx">radius</span><span class="p">,</span> <span class="nx">y</span> <span class="o">-</span> <span class="nx">h</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">);</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">quadraticCurveTo</span><span class="p">(</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">w</span><span class="p">,</span> <span class="nx">y</span> <span class="o">-</span> <span class="nx">h</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">w</span><span class="p">,</span> <span class="nx">y</span> <span class="o">-</span> <span class="nx">h</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="nx">radius</span><span class="p">);</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">lineTo</span><span class="p">(</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">w</span><span class="p">,</span> <span class="nx">y</span> <span class="o">-</span> <span class="nx">h</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="nx">h</span> <span class="o">-</span> <span class="nx">radius</span><span class="p">);</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">quadraticCurveTo</span><span class="p">(</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">w</span><span class="p">,</span> <span class="nx">y</span> <span class="o">-</span> <span class="nx">h</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="nx">h</span><span class="p">,</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">w</span> <span class="o">-</span> <span class="nx">radius</span><span class="p">,</span> <span class="nx">y</span> <span class="o">-</span> <span class="nx">h</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="nx">h</span><span class="p">);</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">lineTo</span><span class="p">(</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">radius</span><span class="p">,</span> <span class="nx">y</span> <span class="o">-</span> <span class="nx">h</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="nx">h</span><span class="p">);</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">quadraticCurveTo</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="o">-</span> <span class="nx">h</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="nx">h</span><span class="p">,</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="o">-</span> <span class="nx">h</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="nx">h</span> <span class="o">-</span> <span class="nx">radius</span><span class="p">);</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">lineTo</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="o">-</span> <span class="nx">h</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="nx">radius</span><span class="p">);</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">quadraticCurveTo</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="o">-</span> <span class="nx">h</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">radius</span><span class="p">,</span> <span class="nx">y</span> <span class="o">-</span> <span class="nx">h</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">);</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">closePath</span><span class="p">();</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">fill</span><span class="p">();</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">cacheContext</span><span class="p">.</span><span class="nx">restore</span><span class="p">();</span>
+				<span class="nx">i</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+			<span class="p">}</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="p">}</span>
+		
+		<span class="c1">// Render the changes on the canvas</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">tick</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+	<span class="p">};</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	* Cleans the canvas.</span>
+<span class="cm">	* @method clean</span>
+<span class="cm">	* @protected</span>
+<span class="cm">	*/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">clean</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">context</span><span class="p">.</span><span class="nx">clearRect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">canvas</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">canvas</span><span class="p">.</span><span class="nx">height</span><span class="p">);</span>
+	<span class="p">};</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	* Redraws the canvas.</span>
+<span class="cm">	* @method redraw</span>
+<span class="cm">	* @protected</span>
+<span class="cm">	*/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">redraw</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">ready</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">clean</span><span class="p">();</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">draw</span><span class="p">();</span>
+		<span class="p">}</span>
+	<span class="p">};</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	* Resets the timer.</span>
+<span class="cm">	* @method reset</span>
+<span class="cm">	* @protected</span>
+<span class="cm">	*/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">reset</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">running</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">stop</span><span class="p">();</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span>
+		<span class="p">}</span>
+	<span class="p">};</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	* Renders the loader animation.</span>
+<span class="cm">	* @event tick</span>
+<span class="cm">	* @protected</span>
+<span class="cm">	*/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">tick</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">initialize</span><span class="p">)</span> <span class="p">{</span>
+		<span class="kd">var</span> <span class="nx">rotUnit</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">density</span> <span class="o">&gt;</span> <span class="mi">360</span> <span class="o">?</span> <span class="k">this</span><span class="p">.</span><span class="nx">density</span> <span class="o">/</span> <span class="mi">360</span> <span class="o">:</span> <span class="mi">360</span> <span class="o">/</span> <span class="k">this</span><span class="p">.</span><span class="nx">density</span><span class="p">;</span>
+		<span class="nx">rotUnit</span> <span class="o">*=</span> <span class="k">this</span><span class="p">.</span><span class="nx">speed</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">initialize</span><span class="p">)</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">activeId</span> <span class="o">+=</span> <span class="nx">rotUnit</span><span class="p">;</span> <span class="p">}</span>
+		<span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">activeId</span> <span class="o">&gt;</span> <span class="mi">360</span><span class="p">)</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">activeId</span> <span class="o">-=</span> <span class="mi">360</span><span class="p">;</span> <span class="p">}</span>
+		
+		<span class="k">this</span><span class="p">.</span><span class="nx">context</span><span class="p">.</span><span class="nx">clearRect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">diameter</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">diameter</span><span class="p">);</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">context</span><span class="p">.</span><span class="nx">save</span><span class="p">();</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">context</span><span class="p">.</span><span class="nx">translate</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">diameter</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">diameter</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">);</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">context</span><span class="p">.</span><span class="nx">rotate</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">/</span> <span class="mi">180</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">activeId</span><span class="p">);</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">context</span><span class="p">.</span><span class="nx">translate</span><span class="p">(</span><span class="o">-</span><span class="k">this</span><span class="p">.</span><span class="nx">diameter</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="k">this</span><span class="p">.</span><span class="nx">diameter</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">);</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">context</span><span class="p">.</span><span class="nx">drawImage</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">cacheCanvas</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">diameter</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">diameter</span><span class="p">);</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">context</span><span class="p">.</span><span class="nx">restore</span><span class="p">();</span>
+	<span class="p">};</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	* Start the rendering of the loader animation.</span>
+<span class="cm">	* @method start</span>
+<span class="cm">	* @public</span>
+<span class="cm">	*/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">start</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">running</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">running</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+			<span class="kd">var</span> <span class="nx">t</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">timer</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">setInterval</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> <span class="nx">t</span><span class="p">.</span><span class="nx">tick</span><span class="p">();</span> <span class="p">},</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">(</span><span class="mi">1000</span> <span class="o">/</span> <span class="k">this</span><span class="p">.</span><span class="nx">fps</span><span class="p">));</span>
+		<span class="p">}</span>
+	<span class="p">};</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	* Stop the rendering of the loader animation.</span>
+<span class="cm">	* @method stop</span>
+<span class="cm">	* @public</span>
+<span class="cm">	*/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">stop</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">running</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">running</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">running</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+			<span class="nx">clearInterval</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">timer</span><span class="p">);</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">timer</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+			<span class="k">delete</span> <span class="k">this</span><span class="p">.</span><span class="nx">timer</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">};</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	* Remove the CanvasLoader instance.</span>
+<span class="cm">	* @method remove</span>
+<span class="cm">	* @public</span>
+<span class="cm">	*/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">remove</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">running</span><span class="p">)</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">stop</span><span class="p">();</span> <span class="p">}</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">container</span><span class="p">.</span><span class="nx">removeChild</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">canvas</span><span class="p">);</span>
+	<span class="p">};</span>
+	
+	<span class="nb">window</span><span class="p">.</span><span class="nx">CanvasLoader</span> <span class="o">=</span> <span class="nx">CanvasLoader</span><span class="p">;</span>
+	<span class="nb">document</span><span class="p">.</span><span class="nx">CanvasLoader</span> <span class="o">=</span> <span class="nx">CanvasLoader</span><span class="p">;</span>
+<span class="p">}(</span><span class="nb">window</span><span class="p">,</span> <span class="nb">document</span><span class="p">));</span>
+</pre></div>
+
+                    </div>
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class="selected"><a href="module_canvasloader.html" title="CanvasLoader">CanvasLoader</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class=""><a href="CanvasLoader.html" title="CanvasLoader">CanvasLoader</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class="selected"><a href="heartcode-canvasloader.js.html" title="heartcode-canvasloader.js">heartcode-canvasloader.js</a></li>
+                        </ul>
+                    </div>
+
+
+
+
+
+            </div>
+		</div>
+	</div>
+	<div id="ft">
+        <hr />
+        Copyright &copy; 2011 Róbert Pataki. The Heartcode CanvasLoader is released under the MIT licence. For more information and other open source stuff please visit the <a href="http://heartcode.robertpataki.com/" target="_blank">Heartcode blog</a>, check out my <a href="http://github.com/heartcode" target="_blank">GitHub profile</a> and follow the <a href="http://twitter.com/#!/@iHeartcode" target="_blank">Heartcode tweets</a>.
+	</div>
+</div>
+<script type="text/javascript">
+
+    var ALL_YUI_PROPS = [{"url": "CanvasLoader.html#property_activeId", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "activeId"}, {"url": "CanvasLoader.html#property_cacheCanvas", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "cacheCanvas"}, {"url": "CanvasLoader.html#property_cacheContext", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "cacheContext"}, {"url": "CanvasLoader.html#property_canvas", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "canvas"}, {"url": "CanvasLoader.html#method_clean", "access": "protected", "host": "CanvasLoader", "type": "method", "name": "clean"}, {"url": "CanvasLoader.html#property_color", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "color"}, {"url": "CanvasLoader.html#property_colorRGB", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "colorRGB"}, {"url": "CanvasLoader.html#property_container", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "container"}, {"url": "CanvasLoader.html#property_context", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "context"}, {"url": "CanvasLoader.html#property_density", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "density"}, {"url": "CanvasLoader.html#property_diameter", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "diameter"}, {"url": "CanvasLoader.html#method_draw", "access": "protected", "host": "CanvasLoader", "type": "method", "name": "draw"}, {"url": "CanvasLoader.html#property_fading", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "fading"}, {"url": "CanvasLoader.html#property_fps", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "fps"}, {"url": "CanvasLoader.html#method_getColor", "access": "", "host": "CanvasLoader", "type": "method", "name": "getColor"}, {"url": "CanvasLoader.html#method_getDensity", "access": "", "host": "CanvasLoader", "type": "method", "name": "getDensity"}, {"url": "CanvasLoader.html#method_getDiameter", "access": "", "host": "CanvasLoader", "type": "method", "name": "getDiameter"}, {"url": "CanvasLoader.html#method_getFading", "access": "", "host": "CanvasLoader", "type": "method", "name": "getFading"}, {"url": "CanvasLoader.html#method_getFPS", "access": "", "host": "CanvasLoader", "type": "method", "name": "getFPS"}, {"url": "CanvasLoader.html#method_getRange", "access": "", "host": "CanvasLoader", "type": "method", "name": "getRange"}, {"url": "CanvasLoader.html#method_getRGB", "access": "protected", "host": "CanvasLoader", "type": "method", "name": "getRGB"}, {"url": "CanvasLoader.html#method_getScaling", "access": "", "host": "CanvasLoader", "type": "method", "name": "getScaling"}, {"url": "CanvasLoader.html#method_getShape", "access": "", "host": "CanvasLoader", "type": "method", "name": "getShape"}, {"url": "CanvasLoader.html#method_getSpeed", "access": "", "host": "CanvasLoader", "type": "method", "name": "getSpeed"}, {"url": "CanvasLoader.html#method_initialize", "access": "protected", "host": "CanvasLoader", "type": "method", "name": "initialize"}, {"url": "CanvasLoader.html#property_range", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "range"}, {"url": "CanvasLoader.html#property_ready", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "ready"}, {"url": "CanvasLoader.html#method_redraw", "access": "protected", "host": "CanvasLoader", "type": "method", "name": "redraw"}, {"url": "CanvasLoader.html#method_remove", "access": "", "host": "CanvasLoader", "type": "method", "name": "remove"}, {"url": "CanvasLoader.html#method_reset", "access": "protected", "host": "CanvasLoader", "type": "method", "name": "reset"}, {"url": "CanvasLoader.html#property_running", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "running"}, {"url": "CanvasLoader.html#property_scaling", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "scaling"}, {"url": "CanvasLoader.html#method_setColor", "access": "", "host": "CanvasLoader", "type": "method", "name": "setColor"}, {"url": "CanvasLoader.html#method_setDensity", "access": "", "host": "CanvasLoader", "type": "method", "name": "setDensity"}, {"url": "CanvasLoader.html#method_setDiameter", "access": "", "host": "CanvasLoader", "type": "method", "name": "setDiameter"}, {"url": "CanvasLoader.html#method_setFading", "access": "", "host": "CanvasLoader", "type": "method", "name": "setFading"}, {"url": "CanvasLoader.html#method_setFPS", "access": "", "host": "CanvasLoader", "type": "method", "name": "setFPS"}, {"url": "CanvasLoader.html#method_setRange", "access": "", "host": "CanvasLoader", "type": "method", "name": "setRange"}, {"url": "CanvasLoader.html#method_setScaling", "access": "", "host": "CanvasLoader", "type": "method", "name": "setScaling"}, {"url": "CanvasLoader.html#method_setShape", "access": "", "host": "CanvasLoader", "type": "method", "name": "setShape"}, {"url": "CanvasLoader.html#method_setSpeed", "access": "", "host": "CanvasLoader", "type": "method", "name": "setSpeed"}, {"url": "CanvasLoader.html#property_shape", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "shape"}, {"url": "CanvasLoader.html#property_speed", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "speed"}, {"url": "CanvasLoader.html#method_start", "access": "", "host": "CanvasLoader", "type": "method", "name": "start"}, {"url": "CanvasLoader.html#method_stop", "access": "", "host": "CanvasLoader", "type": "method", "name": "stop"}, {"url": "CanvasLoader.html#event_tick", "access": "protected", "host": "CanvasLoader", "type": "event", "name": "tick"}, {"url": "CanvasLoader.html#property_timer", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "timer"}];
+</script>
+</body>
+</html>

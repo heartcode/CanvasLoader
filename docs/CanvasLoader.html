@@ -1,0 +1,1562 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: CanvasLoader  CanvasLoader   (Heartcode CanvasLoader)</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css" />
+
+    <script type="text/javascript" src="assets/api-js"></script>
+    <script type="text/javascript" src="assets/ac-js"></script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	<div id="hd">
+        <h1><a href="http://heartcode.robertpataki.com/demos/canvasloader" title="Heartcode CanvasLoader UI Library">Heartcode CanvasLoader UI Library</a></h1>
+        <h3>CanvasLoader&nbsp; <span class="subtitle">0.8.0</span></h3>
+        <a href="./index.html" title="Heartcode CanvasLoader UI Library">Heartcode CanvasLoader UI Library</a> 
+            &gt; <a href="./module_canvasloader.html" title="CanvasLoader">CanvasLoader</a>
+                 &gt; CanvasLoader 
+                
+        <form onsubmit="return false">
+            <div id="propertysearch">
+                Search: <input autocomplete="off" id="searchinput" />
+                <div id="searchresults">
+                    &nbsp;
+                </div>
+            </div>
+        </form>
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+			<div class="yui-b">
+            <form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+                <fieldset>
+                    <legend>Filters</legend>
+                <span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+                <span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+                <span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+                </fieldset>
+            </form>
+
+                    <h2>
+                        
+
+                        
+                        
+                            Class <b property="yui:name">CanvasLoader</b>
+                        <span class="extends">
+                        </span>
+
+                    </h2>
+                    <!-- class tree goes here -->
+                    
+                
+  
+
+                    <div class="summary description" property="yui:description">
+                        CanvasLoader is a JavaScript UI library which draws and animates circular preloaders using the HTML Canvas object.<br/>
+A CanvasLoader instance creates two canvas elements which are placed into a placeholder div (the id of the div has to be passed in the constructor). The second canvas is invisible and used for caching purposes only.<br/>
+If no id is passed in the constructor, the canvas objects are paced in the document directly.
+                    </div>
+
+                        <div class="section constructor details" rel="yui:constructor" resource="#constructor">
+                        <h3 id="constructor">Constructor</h3>
+                        <div class="content">
+                            <div class="detail">
+                                <strong property="yui:name">CanvasLoader</strong>
+                                <code>
+                                    (
+  
+                                        
+                                                
+                                                id
+                                    )
+                                </code>
+                                <div class="description">
+                                        <dl rel="yui:parameters">
+                                            <dt>Parameters:</dt>
+                                                <dd rel="yui:parameter">
+                                                    <code><span property="yui:name">id</span>
+                                                    &lt;<span property="yui:type">String</span>&gt;
+                                                    </code>
+                                                    <span property="yui:description"> The id of the placeholder div.</span>
+                                                </dd>
+                                        </dl>
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div rel="yui:properties" resource="#properties">
+                        <div class="section field details">
+                            <h3 id="properties">Properties</h3>
+                            <div class="content">
+                                    <div class="protected" rel="yui:property" resource="#property_activeId">
+                                    <h4><a name="property_activeId" property="yui:name">activeId</a>
+                                        - <code>protected <span property="yui:type">Number</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            The active shape id for rendering.
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:property" resource="#property_cacheCanvas">
+                                    <h4><a name="property_cacheCanvas" property="yui:name">cacheCanvas</a>
+                                        - <code>protected <span property="yui:type">Object</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            The canvas we use for caching.
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:property" resource="#property_cacheContext">
+                                    <h4><a name="property_cacheContext" property="yui:name">cacheContext</a>
+                                        - <code>protected <span property="yui:type">Object</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            The context of the cache canvas.
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:property" resource="#property_canvas">
+                                    <h4><a name="property_canvas" property="yui:name">canvas</a>
+                                        - <code>protected <span property="yui:type">Object</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            The div we draw the shapes into.
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:property" resource="#property_color">
+                                    <h4><a name="property_color" property="yui:name">color</a>
+                                        - <code>protected <span property="yui:type">String</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            The color of the loader shapes in HEX.
+                                        </div>
+                                    </div>
+     
+                                        
+                                    <div class="default" property="yui:defaultValue">
+                                        Default Value: "#000000"
+                                    </div>        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:property" resource="#property_colorRGB">
+                                    <h4><a name="property_colorRGB" property="yui:name">colorRGB</a>
+                                        - <code>protected <span property="yui:type">Object</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            The color of the loader shapes in RGB.
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:property" resource="#property_container">
+                                    <h4><a name="property_container" property="yui:name">container</a>
+                                        - <code>protected <span property="yui:type">Object</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            The div we place the canvas object into.
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:property" resource="#property_context">
+                                    <h4><a name="property_context" property="yui:name">context</a>
+                                        - <code>protected <span property="yui:type">Object</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            The canvas context.
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:property" resource="#property_density">
+                                    <h4><a name="property_density" property="yui:name">density</a>
+                                        - <code>protected <span property="yui:type">Number</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            The number of shapes drawn on the loader canvas.
+                                        </div>
+                                    </div>
+     
+                                        
+                                    <div class="default" property="yui:defaultValue">
+                                        Default Value: 40
+                                    </div>        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:property" resource="#property_diameter">
+                                    <h4><a name="property_diameter" property="yui:name">diameter</a>
+                                        - <code>protected <span property="yui:type">Number</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            The diameter of the loader.
+                                        </div>
+                                    </div>
+     
+                                        
+                                    <div class="default" property="yui:defaultValue">
+                                        Default Value: 40
+                                    </div>        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:property" resource="#property_fading">
+                                    <h4><a name="property_fading" property="yui:name">fading</a>
+                                        - <code>protected <span property="yui:type">Boolean</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            The fading of the loader shapes.
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:property" resource="#property_fps">
+                                    <h4><a name="property_fps" property="yui:name">fps</a>
+                                        - <code>protected <span property="yui:type">Number</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            The FPS of the loader animation rendering.
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:property" resource="#property_range">
+                                    <h4><a name="property_range" property="yui:name">range</a>
+                                        - <code>protected <span property="yui:type">Number</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Sets the amount of the modified shapes in percent.
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:property" resource="#property_ready">
+                                    <h4><a name="property_ready" property="yui:name">ready</a>
+                                        - <code>protected <span property="yui:type">Boolean</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Tell if the canvas and its context is ready.
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:property" resource="#property_running">
+                                    <h4><a name="property_running" property="yui:name">running</a>
+                                        - <code>protected <span property="yui:type">Boolean</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Tell if the loader rendering is running.
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:property" resource="#property_scaling">
+                                    <h4><a name="property_scaling" property="yui:name">scaling</a>
+                                        - <code>protected <span property="yui:type">Boolean</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            The scaling of the loader shapes.
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:property" resource="#property_shape">
+                                    <h4><a name="property_shape" property="yui:name">shape</a>
+                                        - <code>protected <span property="yui:type">String</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            The type of the loader shapes.
+                                        </div>
+                                    </div>
+     
+                                        
+                                    <div class="default" property="yui:defaultValue">
+                                        Default Value: "circle"
+                                    </div>        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:property" resource="#property_speed">
+                                    <h4><a name="property_speed" property="yui:name">speed</a>
+                                        - <code>protected <span property="yui:type">Number</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            The speed of the loader animation.
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:property" resource="#property_timer">
+                                    <h4><a name="property_timer" property="yui:name">timer</a>
+                                        - <code>protected <span property="yui:type">Boolean</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Add a timer for the rendering.
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div rel="yui:methods" resource="#methods">
+                        <div class="section method details">
+                            <h3 id="methods">Methods</h3>
+                            <div class="content">
+                                    <div class="protected" rel="yui:method" resource="#method_clean">
+                                    <h4>
+                                        <a name="method_clean">clean</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         protected 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">clean</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Cleans the canvas.
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:method" resource="#method_draw">
+                                    <h4>
+                                        <a name="method_draw">draw</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         protected 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">draw</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Draw the shapes on the canvas
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_getColor">
+                                    <h4>
+                                        <a name="method_getColor">getColor</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">getColor</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Returns the loader color in a hexadecimal form.
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">String</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_getDensity">
+                                    <h4>
+                                        <a name="method_getDensity">getDensity</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        Number
+                                            <strong property="yui:name">getDensity</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Returns the number of shapes drawn on the loader canvas.
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_getDiameter">
+                                    <h4>
+                                        <a name="method_getDiameter">getDiameter</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">getDiameter</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Returns the diameter of the loader.
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">Number</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_getFading">
+                                    <h4>
+                                        <a name="method_getFading">getFading</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        Boolean
+                                            <strong property="yui:name">getFading</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Returns the fading of the loader shapes.
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_getFPS">
+                                    <h4>
+                                        <a name="method_getFPS">getFPS</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        Number
+                                            <strong property="yui:name">getFPS</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Returns the fps of the loader.
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_getRange">
+                                    <h4>
+                                        <a name="method_getRange">getRange</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        Number
+                                            <strong property="yui:name">getRange</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Returns the modified shape range in percent.
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:method" resource="#method_getRGB">
+                                    <h4>
+                                        <a name="method_getRGB">getRGB</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         protected 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">getRGB</strong>
+                                           (
+                                                
+                                                        
+                                                         color
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Return the RGB values of the passed color.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">color</span>
+                                                        &lt;<span property="yui:type">object</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> (String) The HEX color value to be converted to RGB</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_getScaling">
+                                    <h4>
+                                        <a name="method_getScaling">getScaling</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">getScaling</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Returns the scaling of the loader shapes.
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">Boolean</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_getShape">
+                                    <h4>
+                                        <a name="method_getShape">getShape</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">getShape</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Returns the type of the loader shapes.
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">String</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_getSpeed">
+                                    <h4>
+                                        <a name="method_getSpeed">getSpeed</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        Number
+                                            <strong property="yui:name">getSpeed</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Returns the speed of the loader animation.
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:method" resource="#method_initialize">
+                                    <h4>
+                                        <a name="method_initialize">initialize</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         protected 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">initialize</strong>
+                                           (
+                                                
+                                                        
+                                                         id
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Initialization method.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">id</span>
+                                                        &lt;<span property="yui:type">object</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> String The id of the placeholder div.</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:method" resource="#method_redraw">
+                                    <h4>
+                                        <a name="method_redraw">redraw</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         protected 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">redraw</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Redraws the canvas.
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_remove">
+                                    <h4>
+                                        <a name="method_remove">remove</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">remove</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Remove the CanvasLoader instance.
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:method" resource="#method_reset">
+                                    <h4>
+                                        <a name="method_reset">reset</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         protected 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">reset</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Resets the timer.
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_setColor">
+                                    <h4>
+                                        <a name="method_setColor">setColor</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">setColor</strong>
+                                           (
+                                                
+                                                        
+                                                         color
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Sets hexadecimal color of the loader.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">color</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The default value is '#000000'.</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_setDensity">
+                                    <h4>
+                                        <a name="method_setDensity">setDensity</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">setDensity</strong>
+                                           (
+                                                
+                                                        
+                                                         density
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Sets the number of shapes drawn on the loader canvas.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">density</span>
+                                                        &lt;<span property="yui:type">Number</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The default value is 40.</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_setDiameter">
+                                    <h4>
+                                        <a name="method_setDiameter">setDiameter</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">setDiameter</strong>
+                                           (
+                                                
+                                                        
+                                                         diameter
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Sets the diameter of the loader.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">diameter</span>
+                                                        &lt;<span property="yui:type">Number</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The default value is 40.</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_setFading">
+                                    <h4>
+                                        <a name="method_setFading">setFading</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">setFading</strong>
+                                           (
+                                                
+                                                        
+                                                         fading
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Sets the fading of the loader shapes.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">fading</span>
+                                                        &lt;<span property="yui:type">Boolean</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The default value is true.</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_setFPS">
+                                    <h4>
+                                        <a name="method_setFPS">setFPS</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">setFPS</strong>
+                                           (
+                                                
+                                                        
+                                                         fps
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Sets the rendering frequency.<br/>
+This value tells the loader how many times to refresh and modify the canvas in 1 second.<br/>
+Using the right combination of the <code>setSpeed</code> and the <code>setFPS</code> methods allows the users to optimize the CPU usage of the loader whilst keeping the animation on a visually pleasing level.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">fps</span>
+                                                        &lt;<span property="yui:type">Number</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The default value is 24.</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_setRange">
+                                    <h4>
+                                        <a name="method_setRange">setRange</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">setRange</strong>
+                                           (
+                                                
+                                                        
+                                                         range
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Sets the amount of the modified shapes in percent.<br/>
+With this value the user can set what range of the shapes should be scaled and/or faded. The shapes that are out of this range will be scaled and/or faded with a minimum amount only.<br/>
+This minimum amount is 0.1 which means every shape which is out of the range is scaled and/or faded to 10% of the original values.<br/>
+The visually acceptable range value should be between 0.4 and 1.5.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">range</span>
+                                                        &lt;<span property="yui:type">Number</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The default value is 1.3.</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_setScaling">
+                                    <h4>
+                                        <a name="method_setScaling">setScaling</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">setScaling</strong>
+                                           (
+                                                
+                                                        
+                                                         scaling
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Sets the scaling of the loader shapes.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">scaling</span>
+                                                        &lt;<span property="yui:type">Boolean</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The default value is false.</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_setShape">
+                                    <h4>
+                                        <a name="method_setShape">setShape</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">setShape</strong>
+                                           (
+                                                
+                                                        
+                                                         shape
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Sets the type of the loader shapes.<br/>
+<br/><b>The acceptable values are:</b>
+<ul>
+<li>'circle'</li>
+<li>'square'</li>
+<li>'rectangle'</li>
+<li>'roundedRectangle'</li>
+</ul>
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">shape</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The default value is 'circle'.</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_setSpeed">
+                                    <h4>
+                                        <a name="method_setSpeed">setSpeed</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">setSpeed</strong>
+                                           (
+                                                
+                                                        
+                                                         speed
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Sets the speed of the loader animation.<br/>
+This value tells the loader how many shapes to skip by each tick.<br/>
+Using the right combination of the <code>setFPS</code> and the <code>setSpeed</code> methods allows the users to optimize the CPU usage of the loader whilst keeping the animation on a visually pleasing level.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">speed</span>
+                                                        &lt;<span property="yui:type">Number</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The default value is 2.</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_start">
+                                    <h4>
+                                        <a name="method_start">start</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">start</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Start the rendering of the loader animation.
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_stop">
+                                    <h4>
+                                        <a name="method_stop">stop</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">stop</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Stop the rendering of the loader animation.
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div rel="yui:events" resource="#events">
+                        <div class="section method details">
+                            <h3 id="events">Events</h3>
+                            <div class="content">
+                                    <div class="protected" rel="yui:event" resource="#event_tick">
+                                    <h4>
+                                        <a name="event_tick">tick</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                         protected 
+                                        
+                                        
+                                            <strong property="yui:name">tick</strong>
+
+                                            (
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Renders the loader animation.
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div rel="yui:attributes" resource="#configattributes">
+
+                    </div>
+
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class="selected"><a href="module_canvasloader.html" title="CanvasLoader">CanvasLoader</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class="selected"><a href="CanvasLoader.html" title="CanvasLoader">CanvasLoader</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class=""><a href="heartcode-canvasloader.js.html" title="heartcode-canvasloader.js">heartcode-canvasloader.js</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="propertyList" class="module">
+                        <h4>Properties</h4>
+                        <ul class="content">        
+                                <li class="protected"><a href="#property_activeId" title="activeId">activeId</a></li>
+                                <li class="protected"><a href="#property_cacheCanvas" title="cacheCanvas">cacheCanvas</a></li>
+                                <li class="protected"><a href="#property_cacheContext" title="cacheContext">cacheContext</a></li>
+                                <li class="protected"><a href="#property_canvas" title="canvas">canvas</a></li>
+                                <li class="protected"><a href="#property_color" title="color">color</a></li>
+                                <li class="protected"><a href="#property_colorRGB" title="colorRGB">colorRGB</a></li>
+                                <li class="protected"><a href="#property_container" title="container">container</a></li>
+                                <li class="protected"><a href="#property_context" title="context">context</a></li>
+                                <li class="protected"><a href="#property_density" title="density">density</a></li>
+                                <li class="protected"><a href="#property_diameter" title="diameter">diameter</a></li>
+                                <li class="protected"><a href="#property_fading" title="fading">fading</a></li>
+                                <li class="protected"><a href="#property_fps" title="fps">fps</a></li>
+                                <li class="protected"><a href="#property_range" title="range">range</a></li>
+                                <li class="protected"><a href="#property_ready" title="ready">ready</a></li>
+                                <li class="protected"><a href="#property_running" title="running">running</a></li>
+                                <li class="protected"><a href="#property_scaling" title="scaling">scaling</a></li>
+                                <li class="protected"><a href="#property_shape" title="shape">shape</a></li>
+                                <li class="protected"><a href="#property_speed" title="speed">speed</a></li>
+                                <li class="protected"><a href="#property_timer" title="timer">timer</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="methodsList" class="module">
+                        <h4>Methods</h4>
+                        <ul class="content">        
+                                <li class="protected"><a href="#method_clean" title="clean">clean</a></li>
+                                <li class="protected"><a href="#method_draw" title="draw">draw</a></li>
+                                <li class=""><a href="#method_getColor" title="getColor">getColor</a></li>
+                                <li class=""><a href="#method_getDensity" title="getDensity">getDensity</a></li>
+                                <li class=""><a href="#method_getDiameter" title="getDiameter">getDiameter</a></li>
+                                <li class=""><a href="#method_getFading" title="getFading">getFading</a></li>
+                                <li class=""><a href="#method_getFPS" title="getFPS">getFPS</a></li>
+                                <li class=""><a href="#method_getRange" title="getRange">getRange</a></li>
+                                <li class="protected"><a href="#method_getRGB" title="getRGB">getRGB</a></li>
+                                <li class=""><a href="#method_getScaling" title="getScaling">getScaling</a></li>
+                                <li class=""><a href="#method_getShape" title="getShape">getShape</a></li>
+                                <li class=""><a href="#method_getSpeed" title="getSpeed">getSpeed</a></li>
+                                <li class="protected"><a href="#method_initialize" title="initialize">initialize</a></li>
+                                <li class="protected"><a href="#method_redraw" title="redraw">redraw</a></li>
+                                <li class=""><a href="#method_remove" title="remove">remove</a></li>
+                                <li class="protected"><a href="#method_reset" title="reset">reset</a></li>
+                                <li class=""><a href="#method_setColor" title="setColor">setColor</a></li>
+                                <li class=""><a href="#method_setDensity" title="setDensity">setDensity</a></li>
+                                <li class=""><a href="#method_setDiameter" title="setDiameter">setDiameter</a></li>
+                                <li class=""><a href="#method_setFading" title="setFading">setFading</a></li>
+                                <li class=""><a href="#method_setFPS" title="setFPS">setFPS</a></li>
+                                <li class=""><a href="#method_setRange" title="setRange">setRange</a></li>
+                                <li class=""><a href="#method_setScaling" title="setScaling">setScaling</a></li>
+                                <li class=""><a href="#method_setShape" title="setShape">setShape</a></li>
+                                <li class=""><a href="#method_setSpeed" title="setSpeed">setSpeed</a></li>
+                                <li class=""><a href="#method_start" title="start">start</a></li>
+                                <li class=""><a href="#method_stop" title="stop">stop</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="eventsList" class="module">
+                        <h4>Events</h4>
+                        <ul class="content">        
+                                <li class="protected"><a href="#event_tick" title="tick">tick</a></li>
+                        </ul>
+                    </div>
+
+
+            </div>
+		</div>
+	</div>
+	<div id="ft">
+        <hr />
+        Copyright &copy; 2011 Róbert Pataki. The Heartcode CanvasLoader is released under the MIT licence. For more information and other open source stuff please visit the <a href="http://heartcode.robertpataki.com/" target="_blank">Heartcode blog</a>, check out my <a href="http://github.com/heartcode" target="_blank">GitHub profile</a> and follow the <a href="http://twitter.com/#!/@iHeartcode" target="_blank">Heartcode tweets</a>.
+	</div>
+</div>
+<script type="text/javascript">
+
+    var ALL_YUI_PROPS = [{"url": "CanvasLoader.html#property_activeId", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "activeId"}, {"url": "CanvasLoader.html#property_cacheCanvas", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "cacheCanvas"}, {"url": "CanvasLoader.html#property_cacheContext", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "cacheContext"}, {"url": "CanvasLoader.html#property_canvas", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "canvas"}, {"url": "CanvasLoader.html#method_clean", "access": "protected", "host": "CanvasLoader", "type": "method", "name": "clean"}, {"url": "CanvasLoader.html#property_color", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "color"}, {"url": "CanvasLoader.html#property_colorRGB", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "colorRGB"}, {"url": "CanvasLoader.html#property_container", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "container"}, {"url": "CanvasLoader.html#property_context", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "context"}, {"url": "CanvasLoader.html#property_density", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "density"}, {"url": "CanvasLoader.html#property_diameter", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "diameter"}, {"url": "CanvasLoader.html#method_draw", "access": "protected", "host": "CanvasLoader", "type": "method", "name": "draw"}, {"url": "CanvasLoader.html#property_fading", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "fading"}, {"url": "CanvasLoader.html#property_fps", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "fps"}, {"url": "CanvasLoader.html#method_getColor", "access": "", "host": "CanvasLoader", "type": "method", "name": "getColor"}, {"url": "CanvasLoader.html#method_getDensity", "access": "", "host": "CanvasLoader", "type": "method", "name": "getDensity"}, {"url": "CanvasLoader.html#method_getDiameter", "access": "", "host": "CanvasLoader", "type": "method", "name": "getDiameter"}, {"url": "CanvasLoader.html#method_getFading", "access": "", "host": "CanvasLoader", "type": "method", "name": "getFading"}, {"url": "CanvasLoader.html#method_getFPS", "access": "", "host": "CanvasLoader", "type": "method", "name": "getFPS"}, {"url": "CanvasLoader.html#method_getRange", "access": "", "host": "CanvasLoader", "type": "method", "name": "getRange"}, {"url": "CanvasLoader.html#method_getRGB", "access": "protected", "host": "CanvasLoader", "type": "method", "name": "getRGB"}, {"url": "CanvasLoader.html#method_getScaling", "access": "", "host": "CanvasLoader", "type": "method", "name": "getScaling"}, {"url": "CanvasLoader.html#method_getShape", "access": "", "host": "CanvasLoader", "type": "method", "name": "getShape"}, {"url": "CanvasLoader.html#method_getSpeed", "access": "", "host": "CanvasLoader", "type": "method", "name": "getSpeed"}, {"url": "CanvasLoader.html#method_initialize", "access": "protected", "host": "CanvasLoader", "type": "method", "name": "initialize"}, {"url": "CanvasLoader.html#property_range", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "range"}, {"url": "CanvasLoader.html#property_ready", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "ready"}, {"url": "CanvasLoader.html#method_redraw", "access": "protected", "host": "CanvasLoader", "type": "method", "name": "redraw"}, {"url": "CanvasLoader.html#method_remove", "access": "", "host": "CanvasLoader", "type": "method", "name": "remove"}, {"url": "CanvasLoader.html#method_reset", "access": "protected", "host": "CanvasLoader", "type": "method", "name": "reset"}, {"url": "CanvasLoader.html#property_running", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "running"}, {"url": "CanvasLoader.html#property_scaling", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "scaling"}, {"url": "CanvasLoader.html#method_setColor", "access": "", "host": "CanvasLoader", "type": "method", "name": "setColor"}, {"url": "CanvasLoader.html#method_setDensity", "access": "", "host": "CanvasLoader", "type": "method", "name": "setDensity"}, {"url": "CanvasLoader.html#method_setDiameter", "access": "", "host": "CanvasLoader", "type": "method", "name": "setDiameter"}, {"url": "CanvasLoader.html#method_setFading", "access": "", "host": "CanvasLoader", "type": "method", "name": "setFading"}, {"url": "CanvasLoader.html#method_setFPS", "access": "", "host": "CanvasLoader", "type": "method", "name": "setFPS"}, {"url": "CanvasLoader.html#method_setRange", "access": "", "host": "CanvasLoader", "type": "method", "name": "setRange"}, {"url": "CanvasLoader.html#method_setScaling", "access": "", "host": "CanvasLoader", "type": "method", "name": "setScaling"}, {"url": "CanvasLoader.html#method_setShape", "access": "", "host": "CanvasLoader", "type": "method", "name": "setShape"}, {"url": "CanvasLoader.html#method_setSpeed", "access": "", "host": "CanvasLoader", "type": "method", "name": "setSpeed"}, {"url": "CanvasLoader.html#property_shape", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "shape"}, {"url": "CanvasLoader.html#property_speed", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "speed"}, {"url": "CanvasLoader.html#method_start", "access": "", "host": "CanvasLoader", "type": "method", "name": "start"}, {"url": "CanvasLoader.html#method_stop", "access": "", "host": "CanvasLoader", "type": "method", "name": "stop"}, {"url": "CanvasLoader.html#event_tick", "access": "protected", "host": "CanvasLoader", "type": "event", "name": "tick"}, {"url": "CanvasLoader.html#property_timer", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "timer"}];
+</script>
+</body>
+</html>
