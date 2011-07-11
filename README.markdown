@@ -2,15 +2,17 @@
 
 **Heartcode CanvasLoader** is a lightweight JavaScript UI library, which uses the HTML canvas element to draw and animate circular preloaders.
 
-The Heartcode CanvasLoader runs in every 'modern' browser which supports the HTML Canvas element. possible.
+The Heartcode CanvasLoader runs in every 'modern' browser which supports the HTML Canvas element.
 
-A live demo of the library can be found at http://heartcode.robertpataki.com/demos/canvasloader
+The live demo for the library can be found at http://heartcode.robertpataki.com/demos/canvasloader
 
-## Usage
+The project homepage is at http://heartcode.robertpataki.com/canvasloader
+	
+For downloads and documentation please visit the GitHub repository at http://github.com/heartcode/CanvasLoader
 
 ## Credits
 
-ProgressIndicator was created by Róbert Pataki.
+Heartcode CanvasLoader was created by Róbert Pataki.
 
 ## License
 
