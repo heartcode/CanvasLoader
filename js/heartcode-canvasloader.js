@@ -572,15 +572,15 @@
 	* @protected
 	*/
 	p.tick = function (initialize) {
-		var rotUnit = this.density > 360 ? this.density / 360 : 360 / this.density;
-		rotUnit *= this.speed;
-		if (!initialize) { this.activeId += rotUnit; }
-		if (this.activeId > 360) { this.activeId -= 360; }
+		var tau = 2 * Math.PI;
+		var frameRadians = tau * this.speed / 60 / this.fps; // this.speed = RPM
+		if (!initialize) { this.activeId += frameRadians; }
+		if (this.activeId > tau) { this.activeId -= tau; }
 		
 		this.context.clearRect(0, 0, this.diameter, this.diameter);
 		this.context.save();
 		this.context.translate(this.diameter * 0.5, this.diameter * 0.5);
-		this.context.rotate(Math.PI / 180 * this.activeId);
+		this.context.rotate(this.activeId);
 		this.context.translate(-this.diameter * 0.5, -this.diameter * 0.5);
 		this.context.drawImage(this.cacheCanvas, 0, 0, this.diameter, this.diameter);
 		this.context.restore();
@@ -595,7 +595,7 @@
 		if (!this.running) {
 			this.running = true;
 			var t = this;
-			this.timer = self.setInterval(function () { t.tick(); }, Math.round(1000 / this.fps));
+			this.timer = self.setInterval(t.tick, Math.round(1000 / this.fps));
 		}
 	};
 	
