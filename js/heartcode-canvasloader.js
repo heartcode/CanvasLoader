@@ -622,6 +622,7 @@
 	p.remove = function () {
 		if (this.running) { this.stop(); }
 		this.container.removeChild(this.canvas);
+		document.body.removeChild(this.cacheCanvas);
 	};
 	
 	window.CanvasLoader = CanvasLoader;
