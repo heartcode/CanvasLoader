@@ -26,81 +26,117 @@
 * Follow me on Twitter:	http://twitter.com/#iHeartcode
 * Blog:					http://heartcode.robertpataki.com
 */
- 
+
 /**
 * This lightweight library uses the HTML5 canvas element to draw and animate the most popular preloader shapes (circle, rectangle, square and rounded rectangle).<br/>
 * The implementation is (hopefully) very simple and doesn't require any external libraries.<br/>
 * @module CanvasLoader
 **/
-(function (window, document) {
-	
-	'use strict';
-
+(function (window) {
 	/**
-	* CanvasLoader is a JavaScript UI library which draws and animates circular preloaders using the Canvas HTML object.<br/>
+	* CanvasLoader is a JavaScript UI library that draws and animates circular preloaders using the Canvas HTML object.<br/>
 	* A CanvasLoader instance creates two canvas elements which are placed into a placeholder div (the id of the div has to be passed in the constructor). The second canvas is invisible and used for caching purposes only.<br/>
 	* If no id is passed in the constructor, the canvas objects are paced in the document directly.
 	* @class CanvasLoader
 	* @constructor
 	* @param {String} id The id of the placeholder div.
 	**/
+	"use strict";
 	var CanvasLoader = function (id) {
 		this.initialize(id);
-	}, p = CanvasLoader.prototype, shapes = ["circle", "square", "rectangle", "roundedRectangle"], colorReg = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/;
-	
+	}, p = CanvasLoader.prototype, engine, engines = ["canvas", "vml"], shapes = ["circle", "square", "rectangle", "roundedRectangle"], colorReg = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/,
+	/**
+	* Creates a new element with the tag and applies the passed properties on it.
+	*/
+		addEl = function (tag, props) {
+			var el = document.createElement(tag), n;
+			for (n in props) { el[n] = props[n]; }
+			return el;
+		},
+	/**
+	* Sets the css properties on the element
+	*/
+		setCSS = function (el, props) {
+			var n;
+			for (n in props) { el.style[n] = props[n]; }
+			return el;
+		},
+	/**
+	* Sets the attributes on the element
+	*/
+		setAttr = function (el, props) {
+			var n;
+			for (n in props) { el.setAttribute(n, props[n]); }
+			return el;
+		},
+	/**
+	* Checks if the browser supports Canvas
+	*/
+		canvasSupport = function () {
+			return !!document.createElement('canvas').getContext;
+		};
 	/** 
 	* Initialization method.
 	* @method initialize
 	* @param id String The id of the placeholder div.
 	* @protected
 	*/
-	p.initialize = function (id) {
-		
+	p.initialize = function (parentId, loaderId) {
 		/*
 		* Find the containing div by id (passed by the user).
 		* If the container element cannot be found we use the document body itself.
 		*/
 		try {
 			// Look for the parent element
-			if (document.getElementById(id) !== undefined) {
-				this.container = document.getElementById(id);
+			if (document.getElementById(parentId) !== undefined) {
+				this.mother = document.getElementById(parentId);
 			} else {
-				this.container = document.body;
+				this.mother = document.body;
 			}
 		} catch (error) {
-			this.container = document.body;
+			this.mother = document.body;
 		}
-		
-		// Create the canvas element
-		this.canvas = document.createElement("canvas");
-		this.context = this.canvas.getContext("2d");
-		this.canvas.id = "CanvasLoader";
-		this.container.appendChild(this.canvas);
-		this.canvas.width = this.canvas.height = this.diameter;
-		
-		// Create the cache canvas element
-		this.cacheCanvas = document.createElement("canvas");
-		document.body.appendChild(this.cacheCanvas);
-		this.cacheContext = this.cacheCanvas.getContext("2d");
-		this.cacheCanvas.width = this.cacheCanvas.height = this.diameter;
-		this.cacheCanvas.style.display = "none";
-		
+		// Creates the parent div of the loader instance
+		loaderId = typeof (loaderId) !== "undefined" ? loaderId : "canvasLoader";
+		this.cont = addEl("div", {id: loaderId});
+		setCSS(this.cont, {border: "1px solid #ff0000", position: "absolute"});
+		this.mother.appendChild(this.cont);
+		if (canvasSupport()) {
+		// For browsers with Canvas support...
+			engine = engines[0];
+			// Create the canvas element
+			this.canvas = addEl("canvas");
+			this.context = this.canvas.getContext("2d");
+			this.cont.appendChild(this.canvas);
+			// Create the cache canvas element
+			this.cacheCanvas = addEl("canvas");
+			setCSS(this.cacheCanvas, { display: "none" });
+			this.cont.appendChild(this.cacheCanvas);
+			this.cacheContext = this.cacheCanvas.getContext("2d");
+		} else {
+		// For browsers without Canvas support...
+			engine = engines[1];
+			// Adds the VML stylesheet
+			if (typeof (CanvasLoader.vmlSheet) === "undefined") {
+				document.getElementsByTagName("head")[0].appendChild(addEl("style"));
+				CanvasLoader.vmlSheet = document.styleSheets[document.styleSheets.length - 1];
+				var a = ["group", "shape", "oval", "rect", "roundrect", "fill", "stroke", "shadow"], n;
+				for (n in a) { CanvasLoader.vmlSheet.addRule(a[n], "behavior:url(#default#VML);  position:absolute; antialias:true; margin:0; padding:0; border:none; left:0; top:0;"); }
+			}
+			this.vml = addEl("group");
+			this.cont.appendChild(this.vml);
+		}
 		// Set the RGB color object
 		this.setColor(this.color);
-		
 		// Set the instance ready
 		p.ready = true;
-		
 		// Draw the shapes on the canvas
 		this.draw();
-		
 		// Start rendering the preloader
-		this.start();
+		this.show();
 	};
-	
 /////////////////////////////////////////////////////////////////////////////////////////////
 // Property declarations
-	
 	/**
 	* The div we place the canvas object into.
 	* @property container
@@ -108,7 +144,6 @@
 	* @protected
 	**/
 	p.container = null;
-	
 	/**
 	* The div we draw the shapes into.
 	* @property canvas
@@ -116,7 +151,6 @@
 	* @protected
 	**/
 	p.canvas = null;
-	
 	/**
 	* The canvas context.
 	* @property context
@@ -124,7 +158,6 @@
 	* @protected
 	**/
 	p.context = null;
-	
 	/**
 	* The canvas we use for caching.
 	* @property cacheCanvas
@@ -132,7 +165,6 @@
 	* @protected
 	**/
 	p.cacheCanvas = null;
-	
 	/**
 	* The context of the cache canvas.
 	* @property cacheContext
@@ -140,7 +172,6 @@
 	* @protected
 	**/
 	p.cacheContext = null;
-	
 	/**
 	* Tell if the loader rendering is running.
 	* @property running
@@ -148,7 +179,6 @@
 	* @protected
 	**/
 	p.running = false;
-	
 	/**
 	* Tell if the canvas and its context is ready.
 	* @property ready
@@ -156,7 +186,6 @@
 	* @protected
 	**/
 	p.ready = false;
-	
 	/**
 	* Add a timer for the rendering.
 	* @property timer
@@ -164,7 +193,6 @@
 	* @protected
 	**/
 	p.timer = null;
-	
 	/**
 	* The active shape id for rendering.
 	* @property activeId
@@ -172,7 +200,6 @@
 	* @protected
 	**/
 	p.activeId = 0;
-	
 	/**
 	* The diameter of the loader.
 	* @property diameter
@@ -195,7 +222,6 @@
 	* @public
 	**/
 	p.getDiameter = function () { return this.diameter; };
-
 	/**
 	* The color of the loader shapes in RGB.
 	* @property colorRGB
@@ -203,7 +229,6 @@
 	* @protected
 	**/
 	p.colorRGB = null;
-	
 	/**
 	* The color of the loader shapes in HEX.
 	* @property color
@@ -226,7 +251,6 @@
 	* @public
 	**/
 	p.getColor = function () { return this.color; };
-	
 	/**
 	* The type of the loader shapes.
 	* @property shape
@@ -248,11 +272,10 @@
 	* @param shape {String} The default value is 'circle'.
 	* @public
 	**/
-	p.setShape = function (shape) { 
-		var i = 0;
-		while (i < shapes.length) {
-			if (shape === shapes[i]) { this.shape = shape; this.redraw(); break; } 
-			i += 1;
+	p.setShape = function (shape) {
+		var n;
+		for (n in shapes) {
+			if (typeof (shapes[n]) !== "undefined" && shape === shapes[n]) { this.shape = shape; this.redraw(); break; }
 		}
 	};
 	/**
@@ -262,7 +285,6 @@
 	* @public
 	**/
 	p.getShape = function () { return this.shape; };
-	
 	/**
 	* The number of shapes drawn on the loader canvas.
 	* @property density
@@ -285,7 +307,6 @@
 	* @public
 	**/
 	p.getDensity = function () { return this.density; };
-	
 	/**
 	* Sets the amount of the modified shapes in percent.
 	* @property range
@@ -310,7 +331,6 @@
 	* @public
 	**/
 	p.getRange = function () { return this.range; };
-	
 	/**
 	* The scaling of the loader shapes.
 	* @property scaling
@@ -332,7 +352,6 @@
 	* @public
 	**/
 	p.getScaling = function () { return this.scaling; };
-	
 	/**
 	* The fading of the loader shapes.
 	* @property fading
@@ -354,7 +373,6 @@
 	* @public
 	**/
 	p.getFading = function () { return this.fading; };
-	
 	/**
 	* The speed of the loader animation.
 	* @property speed
@@ -379,7 +397,6 @@
 	* @public
 	**/
 	p.getSpeed = function () { return this.speed; };
-	
 	/**
 	* The FPS of the loader animation rendering.
 	* @property fps
@@ -404,10 +421,8 @@
 	* @public
 	**/
 	p.getFPS = function () { return this.fps; };
-	
 // End of Property declarations
-/////////////////////////////////////////////////////////////////////////////////////////////
-	
+/////////////////////////////////////////////////////////////////////////////////////////////	
 	/**
 	* Return the RGB values of the passed color.
 	* @method getRGB
@@ -415,133 +430,160 @@
 	* @protected
 	*/
 	p.getRGB = function (color) {
-		var hexObject = {};
-		
 		color = color.charAt(0) === "#" ? color.substring(1, 7) : color;
-				
-		hexObject.r = parseInt(color.substring(0, 2), 16);
-		hexObject.g = parseInt(color.substring(2, 4), 16);
-		hexObject.b = parseInt(color.substring(4, 6), 16);
-			
-		return hexObject;
+		return {r: parseInt(color.substring(0, 2), 16), g: parseInt(color.substring(2, 4), 16), b: parseInt(color.substring(4, 6), 16) };
 	};
-	
 	/**
 	* Draw the shapes on the canvas
 	* @method draw
 	* @protected
 	*/
-	p.draw = function () {		
-		var i = 0, size = this.diameter * 0.07, radians, radius, w, h, x, y, angle, minBitMod = 0.1, animBits = Math.round(this.density * this.range), bitMod;
-		
-		// Clean the cache canvas
-		this.cacheContext.clearRect(0, 0, this.cacheCanvas.width, this.cacheCanvas.height);
-		this.canvas.width = this.canvas.height = this.cacheCanvas.width = this.cacheCanvas.height = this.diameter;
-		
-		// Draw the shapes
-		switch (this.shape) {
-		case shapes[0]:
-			while (i < this.density) {						
-				if (i <= animBits) { bitMod = 1 - ((1 - minBitMod) / animBits * i); } else { bitMod = minBitMod; }
-				radians = (this.density - i) * ((Math.PI * 2) / this.density);
-				x = this.canvas.width * 0.5 + Math.cos(radians) * (this.diameter * 0.45 - size) - this.canvas.width * 0.5;
-				y = this.canvas.height * 0.5 + Math.sin(radians) * (this.diameter * 0.45 - size) - this.canvas.height * 0.5;
-				this.cacheContext.beginPath();
-				if (this.fading) { this.cacheContext.fillStyle = "rgba(" + this.colorRGB.r + "," + this.colorRGB.g + "," + this.colorRGB.b + "," + bitMod.toString() + ")"; } else { this.cacheContext.fillStyle = "rgba(" + this.colorRGB.r + "," + this.colorRGB.g + "," + this.colorRGB.b + ",1)"; }
-				if (this.scaling) { this.cacheContext.arc(this.diameter * 0.5 + x, this.diameter * 0.5 + y, size * bitMod, 0, Math.PI * 2, false); } else { this.cacheContext.arc(this.diameter * 0.5 + x, this.diameter * 0.5 + y, size, 0, Math.PI * 2, false); }
-				this.cacheContext.closePath();
-				this.cacheContext.fill();
-				i += 1;
-			}
-			break;
-		case shapes[1]:
-			size = this.canvas.width * 0.12;
-			while (i < this.density) {						
-				if (i <= animBits) { bitMod = 1 - ((1 - minBitMod) / animBits * i); } else { bitMod = minBitMod; }
+	p.draw = function () {
+		var i = 0, size, w, h, x, y, angle, radians, radius, animBits = Math.round(this.density * this.range), bitMod, minBitMod = 0, s, g, sh, f;
+		if (engine === engines[0]) {
+			// Clean the cache canvas
+			this.cacheContext.clearRect(0, 0, this.cacheCanvas.width, this.cacheCanvas.height);
+			setAttr(this.canvas, {width: this.diameter, height: this.diameter});
+			setAttr(this.cacheCanvas, {width: this.diameter, height: this.diameter});
+			while (i < this.density) {
+				bitMod = i <= animBits ? 1 - ((1 - minBitMod) / animBits * i) : bitMod = minBitMod;
 				angle = 360 - 360 / this.density * i;
 				radians = angle / 180 * Math.PI;
-				x = Math.cos(radians) * size * 3 + this.cacheCanvas.width * 0.5;
-				y = Math.sin(radians) * size * 3 + this.cacheCanvas.height * 0.5;
 				this.cacheContext.save();
-				this.cacheContext.translate(x, y);
-				this.cacheContext.rotate(radians);
-				this.cacheContext.translate(-x, -y);
-				this.cacheContext.beginPath();
 				if (this.fading) { this.cacheContext.fillStyle = "rgba(" + this.colorRGB.r + "," + this.colorRGB.g + "," + this.colorRGB.b + "," + bitMod.toString() + ")"; } else { this.cacheContext.fillStyle = "rgba(" + this.colorRGB.r + "," + this.colorRGB.g + "," + this.colorRGB.b + ",1)"; }
-				this.cacheContext.fillRect(x, y - size * 0.5, size, size);
+				switch (this.shape) {
+				case shapes[0]:
+					size = this.diameter * 0.07;
+					x = this.canvas.width * 0.5 + Math.cos(radians) * (this.diameter * 0.5 - size) - this.canvas.width * 0.5;
+					y = this.canvas.height * 0.5 + Math.sin(radians) * (this.diameter * 0.5 - size) - this.canvas.height * 0.5;
+					this.cacheContext.beginPath();
+					if (this.scaling) { this.cacheContext.arc(this.diameter * 0.5 + x, this.diameter * 0.5 + y, size * bitMod, 0, Math.PI * 2, false); } else { this.cacheContext.arc(this.diameter * 0.5 + x, this.diameter * 0.5 + y, size, 0, Math.PI * 2, false); }
+					break;
+				case shapes[1]:
+					size = this.diameter * 0.12;
+					x = Math.cos(radians) * size * 3 + this.cacheCanvas.width * 0.5;
+					y = Math.sin(radians) * size * 3 + this.cacheCanvas.height * 0.5;
+					this.cacheContext.translate(x, y);
+					this.cacheContext.rotate(radians);
+					this.cacheContext.translate(-x, -y);
+					this.cacheContext.beginPath();
+					this.cacheContext.fillRect(x, y - size * 0.5, size, size);
+					break;
+				case shapes[2]:
+					w = size = this.diameter * 0.24;
+					h = w * 0.35;
+					x = Math.cos(radians) * (h + (this.cacheCanvas.height - h) * 0.13) + this.cacheCanvas.width * 0.5;
+					y = Math.sin(radians) * (h + (this.cacheCanvas.height - h) * 0.13) + this.cacheCanvas.height * 0.5;
+					this.cacheContext.translate(x, y);
+					this.cacheContext.rotate(radians);
+					this.cacheContext.translate(-x, -y);
+					this.cacheContext.beginPath();
+					this.cacheContext.fillRect(x, y - h * 0.5, w, h);
+					break;
+				case shapes[3]:
+					w = size = this.diameter * 0.24;
+					h = w * 0.35;
+					radius = h * 0.55;
+					x = Math.cos(radians) * (h + (this.cacheCanvas.height - h) * 0.13) + this.cacheCanvas.width * 0.5;
+					y = Math.sin(radians) * (h + (this.cacheCanvas.height - h) * 0.13) + this.cacheCanvas.height * 0.5;
+					this.cacheContext.translate(x, y);
+					this.cacheContext.rotate(radians);
+					this.cacheContext.translate(-x, -y);
+					this.cacheContext.beginPath();
+					this.cacheContext.moveTo(x + radius, y - h * 0.5);
+					this.cacheContext.lineTo(x + w - radius, y - h * 0.5);
+					this.cacheContext.quadraticCurveTo(x + w, y - h * 0.5, x + w, y - h * 0.5 + radius);
+					this.cacheContext.lineTo(x + w, y - h * 0.5 + h - radius);
+					this.cacheContext.quadraticCurveTo(x + w, y - h * 0.5 + h, x + w - radius, y - h * 0.5 + h);
+					this.cacheContext.lineTo(x + radius, y - h * 0.5 + h);
+					this.cacheContext.quadraticCurveTo(x, y - h * 0.5 + h, x, y - h * 0.5 + h - radius);
+					this.cacheContext.lineTo(x, y - h * 0.5 + radius);
+					this.cacheContext.quadraticCurveTo(x, y - h * 0.5, x + radius, y - h * 0.5);
+					break;
+				}
 				this.cacheContext.closePath();
 				this.cacheContext.fill();
 				this.cacheContext.restore();
-				i += 1;
+				++i;
 			}
-			break;
-		case shapes[2]:
-			w = this.cacheCanvas.width * 0.24;
-			h = w * 0.35;
-			while (i < this.density) {				
-				if (i <= animBits) { bitMod = 1 - ((1 - minBitMod) / animBits * i); } else { bitMod = minBitMod; }
-				angle = 360 - 360 / this.density * i;
-				radians = angle / 180 * Math.PI;
-				x = Math.cos(radians) * (h + (this.cacheCanvas.height - h) * 0.13) + this.cacheCanvas.width * 0.5;
-				y = Math.sin(radians) * (h + (this.cacheCanvas.height - h) * 0.13) + this.cacheCanvas.height * 0.5;
-				this.cacheContext.save();
-				this.cacheContext.translate(x, y);
-				this.cacheContext.rotate(radians);
-				this.cacheContext.translate(-x, -y);
-				this.cacheContext.beginPath();
-				if (this.fading) { this.cacheContext.fillStyle = "rgba(" + this.colorRGB.r + "," + this.colorRGB.g + "," + this.colorRGB.b + "," + bitMod.toString() + ")"; } else { this.cacheContext.fillStyle = "rgba(" + this.colorRGB.r + "," + this.colorRGB.g + "," + this.colorRGB.b + ",1)"; }
-				this.cacheContext.fillRect(x, y - h * 0.5, w, h);
-				this.cacheContext.closePath();
-				this.cacheContext.fill();
-				this.cacheContext.restore();
-				i += 1;
+		} else {
+			setCSS(this.cont, {width: this.diameter, height: this.diameter});
+			setCSS(this.vml, {width: this.diameter, height: this.diameter});
+			
+			switch (this.shape) {
+			case shapes[0]:
+				sh = "oval";
+				size = this.diameter * 0.14;
+				break;
+			case shapes[1]:
+				sh = "rect";
+				size = this.diameter * 0.12;
+				break;
+			case shapes[2]:
+				sh = "rect";
+				size = this.diameter * 0.24;
+				break;
+			case shapes[3]:
+				sh = "roundrect";
+				size = this.diameter * 0.24;
+				break;
 			}
-			break;
-		case shapes[3]:
-			w = this.cacheCanvas.width * 0.24;
-			h = w * 0.35;
-			radius = h * 0.65;
-			while (i < this.density) {				
-				if (i <= animBits) { bitMod = 1 - ((1 - minBitMod) / animBits * i); } else { bitMod = minBitMod; }
-				angle = 360 - 360 / this.density * i;
-				radians = angle / 180 * Math.PI;
-				x = Math.cos(radians) * (h + (this.cacheCanvas.height - h) * 0.13) + this.cacheCanvas.width * 0.5;
-				y = Math.sin(radians) * (h + (this.cacheCanvas.height - h) * 0.13) + this.cacheCanvas.height * 0.5;
-				this.cacheContext.save();
-				this.cacheContext.translate(x, y);
-				this.cacheContext.rotate(radians);
-				this.cacheContext.translate(-x, -y);
-				if (this.fading) { this.cacheContext.fillStyle = "rgba(" + this.colorRGB.r + "," + this.colorRGB.g + "," + this.colorRGB.b + "," + bitMod.toString() + ")"; } else { this.cacheContext.fillStyle = "rgba(" + this.colorRGB.r + "," + this.colorRGB.g + "," + this.colorRGB.b + ",1)"; }			this.cacheContext.beginPath();
-				this.cacheContext.moveTo(x + radius, y - h * 0.5);
-				this.cacheContext.lineTo(x + w - radius, y - h * 0.5);
-				this.cacheContext.quadraticCurveTo(x + w, y - h * 0.5, x + w, y - h * 0.5 + radius);
-				this.cacheContext.lineTo(x + w, y - h * 0.5 + h - radius);
-				this.cacheContext.quadraticCurveTo(x + w, y - h * 0.5 + h, x + w - radius, y - h * 0.5 + h);
-				this.cacheContext.lineTo(x + radius, y - h * 0.5 + h);
-				this.cacheContext.quadraticCurveTo(x, y - h * 0.5 + h, x, y - h * 0.5 + h - radius);
-				this.cacheContext.lineTo(x, y - h * 0.5 + radius);
-				this.cacheContext.quadraticCurveTo(x, y - h * 0.5, x + radius, y - h * 0.5);
-				this.cacheContext.closePath();
-				this.cacheContext.fill();
-				this.cacheContext.restore();
-				i += 1;
+			while (i < this.density) {
+				bitMod = i <= animBits ? 1 - ((1 - minBitMod) / animBits * i) : bitMod = minBitMod;
+				angle = 90 - 360 / this.density * i;
+				switch (this.shape) {
+				case shapes[0]:
+				case shapes[1]:
+					w = h = size;
+					x = this.diameter * 0.5 - size * 0.5 + "px";
+					y = "0px";
+					break;
+				case shapes[2]:
+				case shapes[3]:
+					h = size;
+					w = h * 0.35;
+					x = this.diameter * 0.5 - w * 0.5 + "px";
+					y = "0px";
+					break;
+				}
+				// Adds the group (shape needed to be grouped for accurate rotation)
+				g = addEl("group");
+				setAttr(g, {coordsize: this.diameter + "," + this.diameter});
+				setCSS(g, {width: this.diameter, height: this.diameter, rotation: angle + "deg"});
+				this.vml.appendChild(g);
+				// Adds the shape
+				s = addEl(sh);
+				setCSS(s, { width: w, height: h, top: y, left: x });
+				setAttr(s, { stroked: false });
+				if (this.shape === shapes[3]) { setAttr(s, { arcSize: "50%" }); }
+				g.appendChild(s);
+				// Adds the fill
+				f = addEl("fill");
+				setAttr(f, { color: this.color, opacity: bitMod });
+				s.appendChild(f);
+				++i;
 			}
-			break;
 		}
-		
 		// Render the changes on the canvas
 		this.tick(true);
 	};
-	
 	/**
 	* Cleans the canvas.
 	* @method clean
 	* @protected
 	*/
 	p.clean = function () {
-		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		if (engine === engines[0]) {
+			this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		} else {
+			// Cleans the VML element from its children
+			if (this.vml.hasChildNodes()) {
+				while (this.vml.childNodes.length >= 1) {
+					this.vml.removeChild(this.vml.firstChild);
+				}
+			}
+		}
 	};
-	
 	/**
 	* Redraws the canvas.
 	* @method redraw
@@ -553,19 +595,17 @@
 			this.draw();
 		}
 	};
-	
 	/**
 	* Resets the timer.
 	* @method reset
 	* @protected
 	*/
 	p.reset = function () {
-		if (this.running) {
-			this.stop();
-			this.start();
+		if (typeof (this.timer) === "number") {
+			this.hide();
+			this.show();
 		}
 	};
-	
 	/**
 	* Renders the loader animation.
 	* @event tick
@@ -575,55 +615,58 @@
 		var rotUnit = this.density > 360 ? this.density / 360 : 360 / this.density;
 		rotUnit *= this.speed;
 		if (!initialize) { this.activeId += rotUnit; }
-		if (this.activeId > 360) { this.activeId -= 360; }
-		
-		this.context.clearRect(0, 0, this.diameter, this.diameter);
-		this.context.save();
-		this.context.translate(this.diameter * 0.5, this.diameter * 0.5);
-		this.context.rotate(Math.PI / 180 * this.activeId);
-		this.context.translate(-this.diameter * 0.5, -this.diameter * 0.5);
-		this.context.drawImage(this.cacheCanvas, 0, 0, this.diameter, this.diameter);
-		this.context.restore();
+		//if (this.activeId >= 360) { this.activeId -= 360; }
+		if (engine === engines[0]) {
+			this.context.clearRect(0, 0, this.diameter, this.diameter);
+			this.context.save();
+			this.context.translate(this.diameter * 0.5, this.diameter * 0.5);
+			this.context.rotate(Math.PI / 180 * this.activeId);
+			this.context.translate(-this.diameter * 0.5, -this.diameter * 0.5);
+			this.context.drawImage(this.cacheCanvas, 0, 0, this.diameter, this.diameter);
+			this.context.restore();
+		} else {
+			this.vml.style.rotation = this.activeId;
+		}
 	};
-	
 	/**
-	* Start the rendering of the loader animation.
-	* @method start
+	* Shows the rendering of the loader animation.
+	* @method show
 	* @public
 	*/
-	p.start = function () {
-		if (!this.running) {
-			this.running = true;
+	p.show = function () {
+		if (typeof (this.timer) !== "number") {
 			var t = this;
 			this.timer = self.setInterval(function () { t.tick(); }, Math.round(1000 / this.fps));
+			setCSS(this.cont, {display: "block"});
 		}
 	};
-	
 	/**
-	* Stop the rendering of the loader animation.
-	* @method stop
+	* Stop the rendering of the loader animation and hides the loader.
+	* @method hide
 	* @public
 	*/
-	p.stop = function () {
-		if (this.running) {
-			this.running = false;
-			this.running = false;
+	p.hide = function () {
+		if (typeof (this.timer) === "number") {
 			clearInterval(this.timer);
-			this.timer = null;
 			delete this.timer;
+			setCSS(this.cont, {display: "none"});
 		}
 	};
-	
 	/**
-	* Remove the CanvasLoader instance.
-	* @method remove
+	* Remove the CanvasLoader instance and all references.
+	* @method kill
 	* @public
 	*/
-	p.remove = function () {
-		if (this.running) { this.stop(); }
-		this.container.removeChild(this.canvas);
+	p.kill = function () {
+		if (typeof (this.timer) === "number") { this.hide(); }
+		if (engine === engines[0]) {
+			this.cont.removeChild(this.canvas);
+			this.cont.removeChild(this.cacheCanvas);
+		} else {
+			this.cont.removeChild(this.vml);
+		}
+		var n;
+		for (n in this) { delete this[n]; }
 	};
-	
 	window.CanvasLoader = CanvasLoader;
-	document.CanvasLoader = CanvasLoader;
-}(window, document));
+}(window));
