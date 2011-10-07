@@ -44,13 +44,16 @@
 	"use strict";
 	var CanvasLoader = function (id) {
 		this.initialize(id);
-	}, p = CanvasLoader.prototype, engine, engines = ["canvas", "vml"], shapes = ["circle", "square", "rectangle", "roundedRectangle"], colorReg = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/,
+	}, p = CanvasLoader.prototype, engine, engines = ["canvas", "vml"], shapes = ["oval", "spiral", "square", "rect", "roundRect"], colorReg = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/,
 	/**
 	* Creates a new element with the tag and applies the passed properties on it.
 	*/
-		addEl = function (tag, props) {
+		addEl = function (tag, props, par) {
 			var el = document.createElement(tag), n;
 			for (n in props) { el[n] = props[n]; }
+			if(typeof(par) !== "undefined") {
+				par.appendChild(el);
+			}
 			return el;
 		},
 	/**
@@ -98,20 +101,15 @@
 		}
 		// Creates the parent div of the loader instance
 		loaderId = typeof (loaderId) !== "undefined" ? loaderId : "canvasLoader";
-		this.cont = addEl("div", {id: loaderId});
-		setCSS(this.cont, {border: "1px solid #ff0000", position: "absolute"});
-		this.mother.appendChild(this.cont);
+		this.cont = setCSS(addEl("div", {id: loaderId}, this.mother), {border: "1px solid #ff0000", position: "absolute"});
 		if (canvasSupport()) {
 		// For browsers with Canvas support...
 			engine = engines[0];
 			// Create the canvas element
-			this.canvas = addEl("canvas");
+			this.canvas = addEl("canvas", {}, this.cont);
 			this.context = this.canvas.getContext("2d");
-			this.cont.appendChild(this.canvas);
 			// Create the cache canvas element
-			this.cacheCanvas = addEl("canvas");
-			setCSS(this.cacheCanvas, { display: "none" });
-			this.cont.appendChild(this.cacheCanvas);
+			this.cacheCanvas = setCSS(addEl("canvas", {}, this.cont), { display: "none" });
 			this.cacheContext = this.cacheCanvas.getContext("2d");
 		} else {
 		// For browsers without Canvas support...
@@ -123,8 +121,7 @@
 				var a = ["group", "shape", "oval", "rect", "roundrect", "fill", "stroke", "shadow"], n;
 				for (n in a) { CanvasLoader.vmlSheet.addRule(a[n], "behavior:url(#default#VML);  position:absolute; antialias:true; margin:0; padding:0; border:none; left:0; top:0;"); }
 			}
-			this.vml = addEl("group");
-			this.cont.appendChild(this.vml);
+			this.vml = addEl("group", {}, this.cont);
 		}
 		// Set the RGB color object
 		this.setColor(this.color);
@@ -143,35 +140,35 @@
 	* @type Object
 	* @protected
 	**/
-	p.container = null;
+	p.container = {};
 	/**
 	* The div we draw the shapes into.
 	* @property canvas
 	* @type Object
 	* @protected
 	**/
-	p.canvas = null;
+	p.canvas = {};
 	/**
 	* The canvas context.
 	* @property context
 	* @type Object
 	* @protected
 	**/
-	p.context = null;
+	p.context = {};
 	/**
 	* The canvas we use for caching.
 	* @property cacheCanvas
 	* @type Object
 	* @protected
 	**/
-	p.cacheCanvas = null;
+	p.cacheCanvas = {};
 	/**
 	* The context of the cache canvas.
 	* @property cacheContext
 	* @type Object
 	* @protected
 	**/
-	p.cacheContext = null;
+	p.cacheContext = {};
 	/**
 	* Tell if the loader rendering is running.
 	* @property running
@@ -192,7 +189,7 @@
 	* @type Boolean
 	* @protected
 	**/
-	p.timer = null;
+	p.timer = {};
 	/**
 	* The active shape id for rendering.
 	* @property activeId
@@ -214,7 +211,7 @@
 	* @param diameter {Number} The default value is 40.
 	* @public
 	**/
-	p.setDiameter = function (diameter) { if (!isNaN(diameter)) { this.diameter = Math.round(Math.abs(diameter)); this.redraw(); } };
+	p.setDiameter = function (diameter) { this.diameter = Math.round(Math.abs(diameter)); this.redraw(); };
 	/**
 	* Returns the diameter of the loader.
 	* @method getDiameter
@@ -228,7 +225,7 @@
 	* @type Object
 	* @protected
 	**/
-	p.colorRGB = null;
+	p.colorRGB = {};
 	/**
 	* The color of the loader shapes in HEX.
 	* @property color
@@ -255,7 +252,7 @@
 	* The type of the loader shapes.
 	* @property shape
 	* @type String
-	* @default "circle"
+	* @default "oval"
 	* @protected
 	**/
 	p.shape = shapes[0];
@@ -275,7 +272,7 @@
 	p.setShape = function (shape) {
 		var n;
 		for (n in shapes) {
-			if (typeof (shapes[n]) !== "undefined" && shape === shapes[n]) { this.shape = shape; this.redraw(); break; }
+			if (shape === shapes[n]) { this.shape = shape; this.redraw(); break; }
 		}
 	};
 	/**
@@ -299,7 +296,7 @@
 	* @param density {Number} The default value is 40.
 	* @public
 	**/
-	p.setDensity = function (density) { if (!isNaN(density)) { this.density = Math.round(Math.abs(density)); this.redraw(); } };
+	p.setDensity = function (density) { this.density = Math.round(Math.abs(density)); this.redraw(); };
 	/**
 	* Returns the number of shapes drawn on the loader canvas.
 	* @method getDensity
@@ -323,7 +320,7 @@
 	* @param range {Number} The default value is 1.3.
 	* @public
 	**/
-	p.setRange = function (range) { if (!isNaN(range)) { this.range = Math.abs(range); this.redraw(); } };
+	p.setRange = function (range) { this.range = Math.abs(range); this.redraw(); };
 	/**
 	* Returns the modified shape range in percent.
 	* @method getRange
@@ -331,27 +328,6 @@
 	* @public
 	**/
 	p.getRange = function () { return this.range; };
-	/**
-	* The scaling of the loader shapes.
-	* @property scaling
-	* @type Boolean
-	* @protected
-	**/
-	p.scaling = false;
-	/**
-	* Sets the scaling of the loader shapes.
-	* @method setScaling
-	* @param scaling {Boolean} The default value is false.
-	* @public
-	**/
-	p.setScaling = function (scaling) { if (typeof (scaling) === "boolean") { this.scaling = scaling; this.redraw(); } };
-	/**
-	* Returns the scaling of the loader shapes.
-	* @method getScaling
-	* @return Boolean
-	* @public
-	**/
-	p.getScaling = function () { return this.scaling; };
 	/**
 	* The fading of the loader shapes.
 	* @property fading
@@ -365,7 +341,7 @@
 	* @param fading {Boolean} The default value is true.
 	* @public
 	**/
-	p.setFading = function (fading) { if (typeof fading === "boolean") { this.fading = fading; this.redraw(); } };
+	p.setFading = function (fading) { this.fading = fading; this.redraw(); };
 	/**
 	* Returns the fading of the loader shapes.
 	* @method getFading
@@ -389,7 +365,7 @@
 	* @seealso setFPS
 	* @public
 	**/
-	p.setSpeed = function (speed) {if (!isNaN(speed) && Math.abs(speed) > 0) { this.speed = Math.round(Math.abs(speed)); this.reset(); } };
+	p.setSpeed = function (speed) { this.speed = Math.round(Math.abs(speed)); this.reset(); };
 	/**
 	* Returns the speed of the loader animation.
 	* @method getSpeed
@@ -413,7 +389,7 @@
 	* @seealso setSpeed
 	* @public
 	**/
-	p.setFPS = function (fps) { if (!isNaN(fps)) { this.fps = Math.round(Math.abs(fps)); this.reset(); } };
+	p.setFPS = function (fps) { this.fps = Math.round(Math.abs(fps)); this.reset(); };
 	/**
 	* Returns the fps of the loader.
 	* @method getFPS
@@ -439,7 +415,7 @@
 	* @protected
 	*/
 	p.draw = function () {
-		var i = 0, size, w, h, x, y, angle, radians, radius, animBits = Math.round(this.density * this.range), bitMod, minBitMod = 0, s, g, sh, f;
+		var i = 0, size, w, h, x, y, angle, radians, radius, animBits = Math.round(this.density * this.range), bitMod, minBitMod = 0, s, g, sh, f, d = 1000;
 		if (engine === engines[0]) {
 			// Clean the cache canvas
 			this.cacheContext.clearRect(0, 0, this.cacheCanvas.width, this.cacheCanvas.height);
@@ -453,13 +429,14 @@
 				if (this.fading) { this.cacheContext.fillStyle = "rgba(" + this.colorRGB.r + "," + this.colorRGB.g + "," + this.colorRGB.b + "," + bitMod.toString() + ")"; } else { this.cacheContext.fillStyle = "rgba(" + this.colorRGB.r + "," + this.colorRGB.g + "," + this.colorRGB.b + ",1)"; }
 				switch (this.shape) {
 				case shapes[0]:
+				case shapes[1]:
 					size = this.diameter * 0.07;
 					x = this.canvas.width * 0.5 + Math.cos(radians) * (this.diameter * 0.5 - size) - this.canvas.width * 0.5;
 					y = this.canvas.height * 0.5 + Math.sin(radians) * (this.diameter * 0.5 - size) - this.canvas.height * 0.5;
 					this.cacheContext.beginPath();
-					if (this.scaling) { this.cacheContext.arc(this.diameter * 0.5 + x, this.diameter * 0.5 + y, size * bitMod, 0, Math.PI * 2, false); } else { this.cacheContext.arc(this.diameter * 0.5 + x, this.diameter * 0.5 + y, size, 0, Math.PI * 2, false); }
+					if (this.shape === shapes[1]) { this.cacheContext.arc(this.diameter * 0.5 + x, this.diameter * 0.5 + y, size * bitMod, 0, Math.PI * 2, false); } else { this.cacheContext.arc(this.diameter * 0.5 + x, this.diameter * 0.5 + y, size, 0, Math.PI * 2, false); }
 					break;
-				case shapes[1]:
+				case shapes[2]:
 					size = this.diameter * 0.12;
 					x = Math.cos(radians) * size * 3 + this.cacheCanvas.width * 0.5;
 					y = Math.sin(radians) * size * 3 + this.cacheCanvas.height * 0.5;
@@ -469,7 +446,7 @@
 					this.cacheContext.beginPath();
 					this.cacheContext.fillRect(x, y - size * 0.5, size, size);
 					break;
-				case shapes[2]:
+				case shapes[3]:
 					w = size = this.diameter * 0.24;
 					h = w * 0.35;
 					x = Math.cos(radians) * (h + (this.cacheCanvas.height - h) * 0.13) + this.cacheCanvas.width * 0.5;
@@ -480,7 +457,7 @@
 					this.cacheContext.beginPath();
 					this.cacheContext.fillRect(x, y - h * 0.5, w, h);
 					break;
-				case shapes[3]:
+				case shapes[4]:
 					w = size = this.diameter * 0.24;
 					h = w * 0.35;
 					radius = h * 0.55;
@@ -508,59 +485,54 @@
 			}
 		} else {
 			setCSS(this.cont, {width: this.diameter, height: this.diameter});
-			setCSS(this.vml, {width: this.diameter, height: this.diameter});
-			
+			setAttr(setCSS(this.vml, {width: this.diameter, height: this.diameter, position: "relative", display: "block"}, {coordsize: d + "," + d, coordorigin: -d * 0.5 + "," + (-d * 0.5)}));
 			switch (this.shape) {
 			case shapes[0]:
-				sh = "oval";
-				size = this.diameter * 0.14;
-				break;
 			case shapes[1]:
-				sh = "rect";
-				size = this.diameter * 0.12;
+				sh = "oval";
+				size = d * 0.14;
 				break;
 			case shapes[2]:
 				sh = "rect";
-				size = this.diameter * 0.24;
+				size = d * 0.12;
 				break;
 			case shapes[3]:
-				sh = "roundrect";
-				size = this.diameter * 0.24;
+				sh = "rect";
+				size = d * 0.24;
 				break;
-			}
+			case shapes[4]:
+				sh = "roundrect";
+				size = d * 0.24;
+				break;
+			}			
 			while (i < this.density) {
 				bitMod = i <= animBits ? 1 - ((1 - minBitMod) / animBits * i) : bitMod = minBitMod;
 				angle = 90 - 360 / this.density * i;
 				switch (this.shape) {
 				case shapes[0]:
-				case shapes[1]:
 					w = h = size;
-					x = this.diameter * 0.5 - size * 0.5 + "px";
-					y = "0px";
 					break;
 				case shapes[2]:
 				case shapes[3]:
+				case shapes[4]:
 					h = size;
 					w = h * 0.35;
-					x = this.diameter * 0.5 - w * 0.5 + "px";
-					y = "0px";
 					break;
 				}
+				if (this.shape != shapes[1]) {
+					y = "0px";
+				} else {
+					w = h = size * bitMod;
+					y = size * 0.5 - size * bitMod * 0.5 + "px";
+				}
+				x = d * 0.5 - w + "px";
 				// Adds the group (shape needed to be grouped for accurate rotation)
-				g = addEl("group");
-				setAttr(g, {coordsize: this.diameter + "," + this.diameter});
-				setCSS(g, {width: this.diameter, height: this.diameter, rotation: angle + "deg"});
-				this.vml.appendChild(g);
+				g = setAttr(setCSS(addEl("group", {}, this.vml), {width: d, height: d, rotation: angle + "deg"}), {coordsize: d + "," + d, coordorigin: -d * 0.5 + "," + (-d * 0.5)});
 				// Adds the shape
-				s = addEl(sh);
-				setCSS(s, { width: w, height: h, top: y, left: x });
-				setAttr(s, { stroked: false });
-				if (this.shape === shapes[3]) { setAttr(s, { arcSize: "50%" }); }
-				g.appendChild(s);
+				s = setCSS(addEl(sh, {stroked: false}, g), { width: w, height: h, top: y, left: x, margin: 0, padding: 0});
+				if (this.shape === shapes[4]) { setAttr(s, { arcSize: "50%" }); }
 				// Adds the fill
-				f = addEl("fill");
-				setAttr(f, { color: this.color, opacity: bitMod });
-				s.appendChild(f);
+				f = addEl("fill", {color: this.color, opacity: bitMod}, s);
 				++i;
 			}
 		}
@@ -615,7 +587,7 @@
 		var rotUnit = this.density > 360 ? this.density / 360 : 360 / this.density;
 		rotUnit *= this.speed;
 		if (!initialize) { this.activeId += rotUnit; }
-		//if (this.activeId >= 360) { this.activeId -= 360; }
+		if (this.activeId >= 36000) { this.activeId -= 36000; }
 		if (engine === engines[0]) {
 			this.context.clearRect(0, 0, this.diameter, this.diameter);
 			this.context.save();
@@ -647,7 +619,7 @@
 	*/
 	p.hide = function () {
 		if (typeof (this.timer) === "number") {
-			clearInterval(this.timer);
+			clearInterval(this.timer);			
 			delete this.timer;
 			setCSS(this.cont, {display: "none"});
 		}
