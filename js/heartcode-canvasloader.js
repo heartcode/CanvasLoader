@@ -438,8 +438,8 @@
 					break;
 				case shapes[2]:
 					size = this.diameter * 0.12;
-					x = Math.cos(radians) * size * 3 + this.cacheCanvas.width * 0.5;
-					y = Math.sin(radians) * size * 3 + this.cacheCanvas.height * 0.5;
+					x = Math.cos(radians) * (this.cacheCanvas.width * 0.5 - size) + this.cacheCanvas.width * 0.5;
+					y = Math.sin(radians) * (this.cacheCanvas.width * 0.5 - size) + this.cacheCanvas.height * 0.5;
 					this.cacheContext.translate(x, y);
 					this.cacheContext.rotate(radians);
 					this.cacheContext.translate(-x, -y);
@@ -447,8 +447,8 @@
 					this.cacheContext.fillRect(x, y - size * 0.5, size, size);
 					break;
 				case shapes[3]:
-					w = size = this.diameter * 0.24;
-					h = w * 0.35;
+					w = size = this.diameter * 0.3;
+					h = w * 0.27;
 					x = Math.cos(radians) * (h + (this.cacheCanvas.height - h) * 0.13) + this.cacheCanvas.width * 0.5;
 					y = Math.sin(radians) * (h + (this.cacheCanvas.height - h) * 0.13) + this.cacheCanvas.height * 0.5;
 					this.cacheContext.translate(x, y);
@@ -458,9 +458,9 @@
 					this.cacheContext.fillRect(x, y - h * 0.5, w, h);
 					break;
 				case shapes[4]:
-					w = size = this.diameter * 0.24;
-					h = w * 0.35;
-					radius = h * 0.55;
+					w = size = this.diameter * 0.3;
+					h = w * 0.27;
+					radius = h * 0.56;
 					x = Math.cos(radians) * (h + (this.cacheCanvas.height - h) * 0.13) + this.cacheCanvas.width * 0.5;
 					y = Math.sin(radians) * (h + (this.cacheCanvas.height - h) * 0.13) + this.cacheCanvas.height * 0.5;
 					this.cacheContext.translate(x, y);
