@@ -59,7 +59,7 @@
   
 
                     <div class="summary description" property="yui:description">
-                        CanvasLoader is a JavaScript UI library which draws and animates circular preloaders using the HTML Canvas object.<br/>
+                        CanvasLoader is a JavaScript UI library that draws and animates circular preloaders using the Canvas HTML object.<br/>
 A CanvasLoader instance creates two canvas elements which are placed into a placeholder div (the id of the div has to be passed in the constructor). The second canvas is invisible and used for caching purposes only.<br/>
 If no id is passed in the constructor, the canvas objects are paced in the document directly.
                     </div>
@@ -332,21 +332,6 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
 
                                     <hr />
                                     </div>
-                                    <div class="protected" rel="yui:property" resource="#property_scaling">
-                                    <h4><a name="property_scaling" property="yui:name">scaling</a>
-                                        - <code>protected <span property="yui:type">Boolean</span></code>
-                                    </h4>
-                                    <div class="detail">
-                                        <div class="description" property="yui:description">
-                                            The scaling of the loader shapes.
-                                        </div>
-                                    </div>
-     
-                                        
-
-
-                                    <hr />
-                                    </div>
                                     <div class="protected" rel="yui:property" resource="#property_shape">
                                     <h4><a name="property_shape" property="yui:name">shape</a>
                                         - <code>protected <span property="yui:type">String</span></code>
@@ -359,7 +344,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
      
                                         
                                     <div class="default" property="yui:defaultValue">
-                                        Default Value: "circle"
+                                        Default Value: "oval"
                                     </div>        
 
 
@@ -404,6 +389,66 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
                         <div class="section method details">
                             <h3 id="methods">Methods</h3>
                             <div class="content">
+                                    <div class="" rel="yui:method" resource="#method_addEl">
+                                    <h4>
+                                        <a name="method_addEl">addEl</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">addEl</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Creates a new element with the tag and applies the passed properties on it.
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_canvasSupport">
+                                    <h4>
+                                        <a name="method_canvasSupport">canvasSupport</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">canvasSupport</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Checks if the browser supports Canvas
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
                                     <div class="protected" rel="yui:method" resource="#method_clean">
                                     <h4>
                                         <a name="method_clean">clean</a></h4>
@@ -700,42 +745,6 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
                                     </div>
                                     <hr />
                                     </div>
-                                    <div class="" rel="yui:method" resource="#method_getScaling">
-                                    <h4>
-                                        <a name="method_getScaling">getScaling</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        
-                                            <strong property="yui:name">getScaling</strong>
-                                           (
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            Returns the scaling of the loader shapes.
-                                        </div>
-
-                                        <div class="description">
-
-
-                                                <dl>
-                                                    <dt>Returns:
-                                                    <code property="yui:return">
-                                                    </code></dt>
-                                                    <dd property="yui:returnInfo">Boolean</dd>
-                                                </dl>
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
                                     <div class="" rel="yui:method" resource="#method_getShape">
                                     <h4>
                                         <a name="method_getShape">getShape</a></h4>
@@ -802,6 +811,36 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
                                     </div>
                                     <hr />
                                     </div>
+                                    <div class="" rel="yui:method" resource="#method_hide">
+                                    <h4>
+                                        <a name="method_hide">hide</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">hide</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Stop the rendering of the loader animation and hides the loader.
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
                                     <div class="protected" rel="yui:method" resource="#method_initialize">
                                     <h4>
                                         <a name="method_initialize">initialize</a></h4>
@@ -846,6 +885,36 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
                                     </div>
                                     <hr />
                                     </div>
+                                    <div class="" rel="yui:method" resource="#method_kill">
+                                    <h4>
+                                        <a name="method_kill">kill</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">kill</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Remove the CanvasLoader instance and all references.
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
                                     <div class="protected" rel="yui:method" resource="#method_redraw">
                                     <h4>
                                         <a name="method_redraw">redraw</a></h4>
@@ -876,36 +945,6 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
                                     </div>
                                     <hr />
                                     </div>
-                                    <div class="" rel="yui:method" resource="#method_remove">
-                                    <h4>
-                                        <a name="method_remove">remove</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">remove</strong>
-                                           (
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            Remove the CanvasLoader instance.
-                                        </div>
-
-                                        <div class="description">
-
-
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
                                     <div class="protected" rel="yui:method" resource="#method_reset">
                                     <h4>
                                         <a name="method_reset">reset</a></h4>
@@ -922,6 +961,36 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
                                         
                                         <div class="description" property="yui:description">
                                             Resets the timer.
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_setAttr">
+                                    <h4>
+                                        <a name="method_setAttr">setAttr</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">setAttr</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Sets the attributes on the element
                                         </div>
 
                                         <div class="description">
@@ -970,6 +1039,36 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
                                                         <span property="yui:description">  The default value is '#000000'.</span>
                                                         </dd>
                                                 </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_setCSS">
+                                    <h4>
+                                        <a name="method_setCSS">setCSS</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">setCSS</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Sets the css properties on the element
+                                        </div>
+
+                                        <div class="description">
+
 
 
 
@@ -1205,50 +1304,6 @@ The visually acceptable range value should be between 0.4 and 1.5.
                                     </div>
                                     <hr />
                                     </div>
-                                    <div class="" rel="yui:method" resource="#method_setScaling">
-                                    <h4>
-                                        <a name="method_setScaling">setScaling</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">setScaling</strong>
-                                           (
-                                                
-                                                        
-                                                         scaling
-                                                    
-                                                
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            Sets the scaling of the loader shapes.
-                                        </div>
-
-                                        <div class="description">
-
-                                                <dl rel="yui:parameters">
-                                                    <dt>Parameters:</dt>
-                                                        <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">scaling</span>
-                                                        &lt;<span property="yui:type">Boolean</span>&gt;
-                                                        </code>
-                                                        <span property="yui:description">  The default value is false.</span>
-                                                        </dd>
-                                                </dl>
-
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
                                     <div class="" rel="yui:method" resource="#method_setShape">
                                     <h4>
                                         <a name="method_setShape">setShape</a></h4>
@@ -1346,52 +1401,22 @@ Using the right combination of the <code>setFPS</code> and the <code>setSpeed</c
                                     </div>
                                     <hr />
                                     </div>
-                                    <div class="" rel="yui:method" resource="#method_start">
+                                    <div class="" rel="yui:method" resource="#method_show">
                                     <h4>
-                                        <a name="method_start">start</a></h4>
+                                        <a name="method_show">show</a></h4>
                                     <div class="detail" >
                                         <code>
                                         
                                         
                                         
                                         void
-                                            <strong property="yui:name">start</strong>
+                                            <strong property="yui:name">show</strong>
                                            (
                                             )
                                         </code>
                                         
                                         <div class="description" property="yui:description">
-                                            Start the rendering of the loader animation.
-                                        </div>
-
-                                        <div class="description">
-
-
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:method" resource="#method_stop">
-                                    <h4>
-                                        <a name="method_stop">stop</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">stop</strong>
-                                           (
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            Stop the rendering of the loader animation.
+                                            Shows the rendering of the loader animation.
                                         </div>
 
                                         <div class="description">
@@ -1498,7 +1523,6 @@ Using the right combination of the <code>setFPS</code> and the <code>setSpeed</c
                                 <li class="protected"><a href="#property_range" title="range">range</a></li>
                                 <li class="protected"><a href="#property_ready" title="ready">ready</a></li>
                                 <li class="protected"><a href="#property_running" title="running">running</a></li>
-                                <li class="protected"><a href="#property_scaling" title="scaling">scaling</a></li>
                                 <li class="protected"><a href="#property_shape" title="shape">shape</a></li>
                                 <li class="protected"><a href="#property_speed" title="speed">speed</a></li>
                                 <li class="protected"><a href="#property_timer" title="timer">timer</a></li>
@@ -1508,6 +1532,8 @@ Using the right combination of the <code>setFPS</code> and the <code>setSpeed</c
                     <div id="methodsList" class="module">
                         <h4>Methods</h4>
                         <ul class="content">        
+                                <li class=""><a href="#method_addEl" title="addEl">addEl</a></li>
+                                <li class=""><a href="#method_canvasSupport" title="canvasSupport">canvasSupport</a></li>
                                 <li class="protected"><a href="#method_clean" title="clean">clean</a></li>
                                 <li class="protected"><a href="#method_draw" title="draw">draw</a></li>
                                 <li class=""><a href="#method_getColor" title="getColor">getColor</a></li>
@@ -1517,24 +1543,24 @@ Using the right combination of the <code>setFPS</code> and the <code>setSpeed</c
                                 <li class=""><a href="#method_getFPS" title="getFPS">getFPS</a></li>
                                 <li class=""><a href="#method_getRange" title="getRange">getRange</a></li>
                                 <li class="protected"><a href="#method_getRGB" title="getRGB">getRGB</a></li>
-                                <li class=""><a href="#method_getScaling" title="getScaling">getScaling</a></li>
                                 <li class=""><a href="#method_getShape" title="getShape">getShape</a></li>
                                 <li class=""><a href="#method_getSpeed" title="getSpeed">getSpeed</a></li>
+                                <li class=""><a href="#method_hide" title="hide">hide</a></li>
                                 <li class="protected"><a href="#method_initialize" title="initialize">initialize</a></li>
+                                <li class=""><a href="#method_kill" title="kill">kill</a></li>
                                 <li class="protected"><a href="#method_redraw" title="redraw">redraw</a></li>
-                                <li class=""><a href="#method_remove" title="remove">remove</a></li>
                                 <li class="protected"><a href="#method_reset" title="reset">reset</a></li>
+                                <li class=""><a href="#method_setAttr" title="setAttr">setAttr</a></li>
                                 <li class=""><a href="#method_setColor" title="setColor">setColor</a></li>
+                                <li class=""><a href="#method_setCSS" title="setCSS">setCSS</a></li>
                                 <li class=""><a href="#method_setDensity" title="setDensity">setDensity</a></li>
                                 <li class=""><a href="#method_setDiameter" title="setDiameter">setDiameter</a></li>
                                 <li class=""><a href="#method_setFading" title="setFading">setFading</a></li>
                                 <li class=""><a href="#method_setFPS" title="setFPS">setFPS</a></li>
                                 <li class=""><a href="#method_setRange" title="setRange">setRange</a></li>
-                                <li class=""><a href="#method_setScaling" title="setScaling">setScaling</a></li>
                                 <li class=""><a href="#method_setShape" title="setShape">setShape</a></li>
                                 <li class=""><a href="#method_setSpeed" title="setSpeed">setSpeed</a></li>
-                                <li class=""><a href="#method_start" title="start">start</a></li>
-                                <li class=""><a href="#method_stop" title="stop">stop</a></li>
+                                <li class=""><a href="#method_show" title="show">show</a></li>
                         </ul>
                     </div>
 
@@ -1551,12 +1577,12 @@ Using the right combination of the <code>setFPS</code> and the <code>setSpeed</c
 	</div>
 	<div id="ft">
         <hr />
-        Copyright &copy; 2011 Róbert Pataki. The Heartcode CanvasLoader is released under the MIT licence. For more information and other open source stuff please visit the <a href="http://heartcode.robertpataki.com/" target="_blank">Heartcode blog</a>, check out my <a href="http://github.com/heartcode" target="_blank">GitHub profile</a> and follow the <a href="http://twitter.com/#!/@iHeartcode" target="_blank">Heartcode tweets</a>.
+        Copyright &copy; 2004 Róbert Pataki. The Heartcode CanvasLoader is released under the MIT licence. For more information and other open source stuff please visit the <a href="http://heartcode.robertpataki.com/" target="_blank">Heartcode blog</a>, check out my <a href="http://github.com/heartcode" target="_blank">GitHub profile</a> and follow the <a href="http://twitter.com/#!/@iHeartcode" target="_blank">Heartcode tweets</a>.
 	</div>
 </div>
 <script type="text/javascript">
 
-    var ALL_YUI_PROPS = [{"url": "CanvasLoader.html#property_activeId", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "activeId"}, {"url": "CanvasLoader.html#property_cacheCanvas", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "cacheCanvas"}, {"url": "CanvasLoader.html#property_cacheContext", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "cacheContext"}, {"url": "CanvasLoader.html#property_canvas", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "canvas"}, {"url": "CanvasLoader.html#method_clean", "access": "protected", "host": "CanvasLoader", "type": "method", "name": "clean"}, {"url": "CanvasLoader.html#property_color", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "color"}, {"url": "CanvasLoader.html#property_colorRGB", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "colorRGB"}, {"url": "CanvasLoader.html#property_container", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "container"}, {"url": "CanvasLoader.html#property_context", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "context"}, {"url": "CanvasLoader.html#property_density", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "density"}, {"url": "CanvasLoader.html#property_diameter", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "diameter"}, {"url": "CanvasLoader.html#method_draw", "access": "protected", "host": "CanvasLoader", "type": "method", "name": "draw"}, {"url": "CanvasLoader.html#property_fading", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "fading"}, {"url": "CanvasLoader.html#property_fps", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "fps"}, {"url": "CanvasLoader.html#method_getColor", "access": "", "host": "CanvasLoader", "type": "method", "name": "getColor"}, {"url": "CanvasLoader.html#method_getDensity", "access": "", "host": "CanvasLoader", "type": "method", "name": "getDensity"}, {"url": "CanvasLoader.html#method_getDiameter", "access": "", "host": "CanvasLoader", "type": "method", "name": "getDiameter"}, {"url": "CanvasLoader.html#method_getFading", "access": "", "host": "CanvasLoader", "type": "method", "name": "getFading"}, {"url": "CanvasLoader.html#method_getFPS", "access": "", "host": "CanvasLoader", "type": "method", "name": "getFPS"}, {"url": "CanvasLoader.html#method_getRange", "access": "", "host": "CanvasLoader", "type": "method", "name": "getRange"}, {"url": "CanvasLoader.html#method_getRGB", "access": "protected", "host": "CanvasLoader", "type": "method", "name": "getRGB"}, {"url": "CanvasLoader.html#method_getScaling", "access": "", "host": "CanvasLoader", "type": "method", "name": "getScaling"}, {"url": "CanvasLoader.html#method_getShape", "access": "", "host": "CanvasLoader", "type": "method", "name": "getShape"}, {"url": "CanvasLoader.html#method_getSpeed", "access": "", "host": "CanvasLoader", "type": "method", "name": "getSpeed"}, {"url": "CanvasLoader.html#method_initialize", "access": "protected", "host": "CanvasLoader", "type": "method", "name": "initialize"}, {"url": "CanvasLoader.html#property_range", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "range"}, {"url": "CanvasLoader.html#property_ready", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "ready"}, {"url": "CanvasLoader.html#method_redraw", "access": "protected", "host": "CanvasLoader", "type": "method", "name": "redraw"}, {"url": "CanvasLoader.html#method_remove", "access": "", "host": "CanvasLoader", "type": "method", "name": "remove"}, {"url": "CanvasLoader.html#method_reset", "access": "protected", "host": "CanvasLoader", "type": "method", "name": "reset"}, {"url": "CanvasLoader.html#property_running", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "running"}, {"url": "CanvasLoader.html#property_scaling", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "scaling"}, {"url": "CanvasLoader.html#method_setColor", "access": "", "host": "CanvasLoader", "type": "method", "name": "setColor"}, {"url": "CanvasLoader.html#method_setDensity", "access": "", "host": "CanvasLoader", "type": "method", "name": "setDensity"}, {"url": "CanvasLoader.html#method_setDiameter", "access": "", "host": "CanvasLoader", "type": "method", "name": "setDiameter"}, {"url": "CanvasLoader.html#method_setFading", "access": "", "host": "CanvasLoader", "type": "method", "name": "setFading"}, {"url": "CanvasLoader.html#method_setFPS", "access": "", "host": "CanvasLoader", "type": "method", "name": "setFPS"}, {"url": "CanvasLoader.html#method_setRange", "access": "", "host": "CanvasLoader", "type": "method", "name": "setRange"}, {"url": "CanvasLoader.html#method_setScaling", "access": "", "host": "CanvasLoader", "type": "method", "name": "setScaling"}, {"url": "CanvasLoader.html#method_setShape", "access": "", "host": "CanvasLoader", "type": "method", "name": "setShape"}, {"url": "CanvasLoader.html#method_setSpeed", "access": "", "host": "CanvasLoader", "type": "method", "name": "setSpeed"}, {"url": "CanvasLoader.html#property_shape", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "shape"}, {"url": "CanvasLoader.html#property_speed", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "speed"}, {"url": "CanvasLoader.html#method_start", "access": "", "host": "CanvasLoader", "type": "method", "name": "start"}, {"url": "CanvasLoader.html#method_stop", "access": "", "host": "CanvasLoader", "type": "method", "name": "stop"}, {"url": "CanvasLoader.html#event_tick", "access": "protected", "host": "CanvasLoader", "type": "event", "name": "tick"}, {"url": "CanvasLoader.html#property_timer", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "timer"}];
+    var ALL_YUI_PROPS = [{"url": "CanvasLoader.html#property_activeId", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "activeId"}, {"url": "CanvasLoader.html#method_addEl", "access": "", "host": "CanvasLoader", "type": "method", "name": "addEl"}, {"url": "CanvasLoader.html#property_cacheCanvas", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "cacheCanvas"}, {"url": "CanvasLoader.html#property_cacheContext", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "cacheContext"}, {"url": "CanvasLoader.html#property_canvas", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "canvas"}, {"url": "CanvasLoader.html#method_canvasSupport", "access": "", "host": "CanvasLoader", "type": "method", "name": "canvasSupport"}, {"url": "CanvasLoader.html#method_clean", "access": "protected", "host": "CanvasLoader", "type": "method", "name": "clean"}, {"url": "CanvasLoader.html#property_color", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "color"}, {"url": "CanvasLoader.html#property_colorRGB", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "colorRGB"}, {"url": "CanvasLoader.html#property_container", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "container"}, {"url": "CanvasLoader.html#property_context", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "context"}, {"url": "CanvasLoader.html#property_density", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "density"}, {"url": "CanvasLoader.html#property_diameter", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "diameter"}, {"url": "CanvasLoader.html#method_draw", "access": "protected", "host": "CanvasLoader", "type": "method", "name": "draw"}, {"url": "CanvasLoader.html#property_fading", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "fading"}, {"url": "CanvasLoader.html#property_fps", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "fps"}, {"url": "CanvasLoader.html#method_getColor", "access": "", "host": "CanvasLoader", "type": "method", "name": "getColor"}, {"url": "CanvasLoader.html#method_getDensity", "access": "", "host": "CanvasLoader", "type": "method", "name": "getDensity"}, {"url": "CanvasLoader.html#method_getDiameter", "access": "", "host": "CanvasLoader", "type": "method", "name": "getDiameter"}, {"url": "CanvasLoader.html#method_getFading", "access": "", "host": "CanvasLoader", "type": "method", "name": "getFading"}, {"url": "CanvasLoader.html#method_getFPS", "access": "", "host": "CanvasLoader", "type": "method", "name": "getFPS"}, {"url": "CanvasLoader.html#method_getRange", "access": "", "host": "CanvasLoader", "type": "method", "name": "getRange"}, {"url": "CanvasLoader.html#method_getRGB", "access": "protected", "host": "CanvasLoader", "type": "method", "name": "getRGB"}, {"url": "CanvasLoader.html#method_getShape", "access": "", "host": "CanvasLoader", "type": "method", "name": "getShape"}, {"url": "CanvasLoader.html#method_getSpeed", "access": "", "host": "CanvasLoader", "type": "method", "name": "getSpeed"}, {"url": "CanvasLoader.html#method_hide", "access": "", "host": "CanvasLoader", "type": "method", "name": "hide"}, {"url": "CanvasLoader.html#method_initialize", "access": "protected", "host": "CanvasLoader", "type": "method", "name": "initialize"}, {"url": "CanvasLoader.html#method_kill", "access": "", "host": "CanvasLoader", "type": "method", "name": "kill"}, {"url": "CanvasLoader.html#property_range", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "range"}, {"url": "CanvasLoader.html#property_ready", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "ready"}, {"url": "CanvasLoader.html#method_redraw", "access": "protected", "host": "CanvasLoader", "type": "method", "name": "redraw"}, {"url": "CanvasLoader.html#method_reset", "access": "protected", "host": "CanvasLoader", "type": "method", "name": "reset"}, {"url": "CanvasLoader.html#property_running", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "running"}, {"url": "CanvasLoader.html#method_setAttr", "access": "", "host": "CanvasLoader", "type": "method", "name": "setAttr"}, {"url": "CanvasLoader.html#method_setColor", "access": "", "host": "CanvasLoader", "type": "method", "name": "setColor"}, {"url": "CanvasLoader.html#method_setCSS", "access": "", "host": "CanvasLoader", "type": "method", "name": "setCSS"}, {"url": "CanvasLoader.html#method_setDensity", "access": "", "host": "CanvasLoader", "type": "method", "name": "setDensity"}, {"url": "CanvasLoader.html#method_setDiameter", "access": "", "host": "CanvasLoader", "type": "method", "name": "setDiameter"}, {"url": "CanvasLoader.html#method_setFading", "access": "", "host": "CanvasLoader", "type": "method", "name": "setFading"}, {"url": "CanvasLoader.html#method_setFPS", "access": "", "host": "CanvasLoader", "type": "method", "name": "setFPS"}, {"url": "CanvasLoader.html#method_setRange", "access": "", "host": "CanvasLoader", "type": "method", "name": "setRange"}, {"url": "CanvasLoader.html#method_setShape", "access": "", "host": "CanvasLoader", "type": "method", "name": "setShape"}, {"url": "CanvasLoader.html#method_setSpeed", "access": "", "host": "CanvasLoader", "type": "method", "name": "setSpeed"}, {"url": "CanvasLoader.html#property_shape", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "shape"}, {"url": "CanvasLoader.html#method_show", "access": "", "host": "CanvasLoader", "type": "method", "name": "show"}, {"url": "CanvasLoader.html#property_speed", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "speed"}, {"url": "CanvasLoader.html#event_tick", "access": "protected", "host": "CanvasLoader", "type": "event", "name": "tick"}, {"url": "CanvasLoader.html#property_timer", "access": "protected", "host": "CanvasLoader", "type": "property", "name": "timer"}];
 </script>
 </body>
 </html>
