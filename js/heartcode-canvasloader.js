@@ -118,8 +118,8 @@
 			if (typeof (CanvasLoader.vmlSheet) === "undefined") {
 				document.getElementsByTagName("head")[0].appendChild(addEl("style"));
 				CanvasLoader.vmlSheet = document.styleSheets[document.styleSheets.length - 1];
-				var a = ["group", "shape", "oval", "rect", "roundrect", "fill", "stroke", "shadow"], n;
-				for (n in a) { CanvasLoader.vmlSheet.addRule(a[n], "behavior:url(#default#VML);  position:absolute; antialias:true; margin:0; padding:0; border:none; left:0; top:0;"); }
+				var a = ["group", "oval", "roundrect", "fill"], n;
+				for (n in a) { CanvasLoader.vmlSheet.addRule(a[n], "behavior:url(#default#VML); position:absolute;"); }
 			}
 			this.vml = addEl("group", {}, this.cont);
 		}
@@ -415,7 +415,7 @@
 	* @protected
 	*/
 	p.draw = function () {
-		var i = 0, size, w, h, x, y, angle, radians, radius, animBits = Math.round(this.density * this.range), bitMod, minBitMod = 0, s, g, sh, f, d = 1000;
+		var i = 0, size, w, h, x, y, angle, radians, radius, animBits = Math.round(this.density * this.range), bitMod, minBitMod = 0, s, g, sh, f, d = 1000, arc = 0;
 		if (engine === engines[0]) {
 			// Clean the cache canvas
 			this.cacheContext.clearRect(0, 0, this.cacheCanvas.width, this.cacheCanvas.height);
@@ -485,7 +485,7 @@
 			}
 		} else {
 			setCSS(this.cont, {width: this.diameter, height: this.diameter});
-			setAttr(setCSS(this.vml, {width: this.diameter, height: this.diameter, position: "relative", display: "block"}, {coordsize: d + "," + d, coordorigin: -d * 0.5 + "," + (-d * 0.5)}));
+			setCSS(this.vml, {width: this.diameter, height: this.diameter});
 			switch (this.shape) {
 			case shapes[0]:
 			case shapes[1]:
@@ -493,44 +493,40 @@
 				size = d * 0.14;
 				break;
 			case shapes[2]:
-				sh = "rect";
+				sh = "roundrect";
 				size = d * 0.12;
 				break;
 			case shapes[3]:
-				sh = "rect";
-				size = d * 0.24;
-				break;
 			case shapes[4]:
 				sh = "roundrect";
-				size = d * 0.24;
+				size = d * 0.3;
 				break;
-			}			
+			}
+			w = h = size;
+			x = d * 0.5 - h;
+			y = -h * 0.5;		
 			while (i < this.density) {
 				bitMod = i <= animBits ? 1 - ((1 - minBitMod) / animBits * i) : bitMod = minBitMod;
-				angle = 90 - 360 / this.density * i;
+				angle = 270 - 360 / this.density * i;
 				switch (this.shape) {
-				case shapes[0]:
-					w = h = size;
+				case shapes[1]:
+					w = h = size * bitMod;
+					x = d * 0.5 - size * 0.5 - size * bitMod * 0.5;
+					y = (size - size * bitMod) * 0.5;
 					break;
-				case shapes[2]:
 				case shapes[3]:
 				case shapes[4]:
-					h = size;
-					w = h * 0.35;
+					w = size * 0.95;
+					h = w * 0.28;
+					x = d * 0.5 - w;
+					y = -h * 0.5;
+					arc = this.shape === shapes[4] ? 0.6 : 0; 
 					break;
 				}
-				if (this.shape != shapes[1]) {
-					y = "0px";
-				} else {
-					w = h = size * bitMod;
-					y = size * 0.5 - size * bitMod * 0.5 + "px";
-				}
-				x = d * 0.5 - w + "px";
 				// Adds the group (shape needed to be grouped for accurate rotation)
-				g = setAttr(setCSS(addEl("group", {}, this.vml), {width: d, height: d, rotation: angle + "deg"}), {coordsize: d + "," + d, coordorigin: -d * 0.5 + "," + (-d * 0.5)});
+				g = setAttr(setCSS(addEl("group", {}, this.vml), {width: d, height: d, rotation: angle}), {coordsize: d + "," + d, coordorigin: -d * 0.5 + "," + (-d * 0.5)});
 				// Adds the shape
-				s = setCSS(addEl(sh, {stroked: false}, g), { width: w, height: h, top: y, left: x, margin: 0, padding: 0});
-				if (this.shape === shapes[4]) { setAttr(s, { arcSize: "50%" }); }
+				s = setCSS(addEl(sh, {stroked: false, arcSize: arc}, g), { width: w, height: h, top: y, left: x});
 				// Adds the fill
 				f = addEl("fill", {color: this.color, opacity: bitMod}, s);
 				++i;
@@ -587,7 +583,7 @@
 		var rotUnit = this.density > 360 ? this.density / 360 : 360 / this.density;
 		rotUnit *= this.speed;
 		if (!initialize) { this.activeId += rotUnit; }
-		if (this.activeId >= 36000) { this.activeId -= 36000; }
+		if (this.activeId >= 360) { this.activeId -= 360; }
 		if (engine === engines[0]) {
 			this.context.clearRect(0, 0, this.diameter, this.diameter);
 			this.context.save();
