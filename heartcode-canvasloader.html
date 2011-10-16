@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
 	<!-- 
@@ -36,44 +36,66 @@
 	<meta name="language" content="en" />
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
-	<script src="js/heartcode-canvasloader.js"></script>
-	<style>
-		body, html {
-			margin:0;
-			padding:0;
-		}
-		ul {
-			display:inline;
-			list-style:none;
-			margin:0;
-			padding:0;
-		}
-		ul li {
-			display:inline-block;
-			float:left;
-			padding:20px;
-			margin:0;
-			width:400px;
-			height:400px;
-			border:1px solid #ff0000;
-		}
-		cvml\:* {
-			behavior: url(#default#VML);
-		}
+	<script type="text/javascript" src="js/heartcode-canvasloader-min.js"></script>
+	<style type="text/css">
+		div {float:left; display:table; padding:20px;}
+		canvas { /*border:1px solid #ff0000;*/ }
 	</style>
 </head>
 <body>
-	<ul>
-		<li id="circle"></li>
-	</ul>
-	<script>
+	<div id="circle"></div>
+	<div id="circle2"></div>
+	<div id="square"></div>
+	<div id="rectangle"></div>
+	<div id="roundRectangle"></div>
+	<div id="circle3"></div>
+	<script type="text/javascript">
 		var cl = new CanvasLoader("circle");
-		cl.setShape("rect");
-		cl.setDiameter(50);
-		cl.setDensity(8);
-		cl.setFPS(2);
-		cl.setSpeed(1);
-		cl.setColor("#000000");
+		cl.setDensity(60);
+		cl.setFPS(12);
+		cl.setSpeed(2);
+		cl.setRange(0.3);
+		cl.setColor("#0099ff");
+		
+		/*
+		var cl1 = new CanvasLoader("circle2");
+				cl1.setShape("spiral");
+				cl1.setDensity(60);
+				cl1.setFPS(24);
+				cl1.setSpeed(1);
+				cl1.setColor("#DA20DB");
+				
+				var cl2 = new CanvasLoader("square");
+				cl2.setShape("square");
+				cl2.setDensity(9);
+				cl2.setFPS(6);
+				cl2.setSpeed(1);
+				cl2.setColor("#000000");
+				
+				var cl3 = new CanvasLoader("rectangle");
+				cl3.setShape("rect");
+				cl3.setDensity(18);
+				cl3.setFPS(12);
+				cl3.setSpeed(1);
+				cl3.setRange(0.85);
+				cl3.setColor("#000000");
+				
+				var cl4 = new CanvasLoader("roundRectangle");
+				cl4.setShape("roundRect");
+				cl4.setDensity(24);
+				cl4.setFPS(12);
+				cl4.setSpeed(1);
+				cl4.setRange(0.9);
+				cl4.setColor("#000000");
+				
+				var cl5 = new CanvasLoader("circle3");
+				cl5.setShape("oval");
+				cl5.setDensity(12);
+				cl5.setFPS(6);
+				cl5.setSpeed(1);
+				cl5.setColor("#99cc00");*/
+		
+		
 	</script>
 </body>
 </html>

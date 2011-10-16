@@ -33,22 +33,28 @@
 * @module CanvasLoader
 **/
 (function (window) {
+	"use strict";
 	/**
 	* CanvasLoader is a JavaScript UI library that draws and animates circular preloaders using the Canvas HTML object.<br/>
 	* A CanvasLoader instance creates two canvas elements which are placed into a placeholder div (the id of the div has to be passed in the constructor). The second canvas is invisible and used for caching purposes only.<br/>
 	* If no id is passed in the constructor, the canvas objects are paced in the document directly.
 	* @class CanvasLoader
 	* @constructor
-	* @param {String} id The id of the placeholder div.
+	* @param {String} id The id of the placeholder div
 	**/
-	"use strict";
 	var CanvasLoader = function (id) {
 		this.initialize(id);
-	}, p = CanvasLoader.prototype, engine, engines = ["canvas", "vml"], shapes = ["oval", "spiral", "square", "rect", "roundRect"], colorReg = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/,
+	}, p = CanvasLoader.prototype, engine, engines = ["canvas", "vml"], shapes = ["oval", "spiral", "square", "rect", "roundRect"], colorReg = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/, ie8 = navigator.appVersion.indexOf("MSIE") !== -1 && parseFloat(navigator.appVersion.split("MSIE")[1]) === 8 ? true : false, canvasSupport = !!document.createElement('canvas').getContext,
 	/**
-	* Creates a new element with the tag and applies the passed properties on it.
+	* Creates a new element with the tag and applies the passed properties on it
+	* @method addEl
+	* @protected
+	* @param tag {String} The tag to be created
+	* @param par {String} The DOM element the new element will be appended to
+	* @param props {Object} Additional properties passed to the new DOM element
+	* @return {Object} The DOM element
 	*/
-		addEl = function (tag, props, par) {
+		addEl = function (tag, par, props) {
 			var el = document.createElement(tag), n;
 			for (n in props) { el[n] = props[n]; }
 			if(typeof(par) !== "undefined") {
@@ -58,36 +64,55 @@
 		},
 	/**
 	* Sets the css properties on the element
+	* @method setCSS
+	* @protected
+	* @param el {Object} The DOM element to be styled
+	* @param props {Object} The style properties
+	* @return {Object} The DOM element
 	*/
 		setCSS = function (el, props) {
-			var n;
-			for (n in props) { el.style[n] = props[n]; }
+			for (var n in props) { el.style[n] = props[n]; }
 			return el;
 		},
 	/**
 	* Sets the attributes on the element
+	* @method setAttr
+	* @protected
+	* @param el {Object} The DOM element to add the attributes to
+	* @param props {Object} The attributes
+	* @return {Object} The DOM element
 	*/
 		setAttr = function (el, props) {
-			var n;
-			for (n in props) { el.setAttribute(n, props[n]); }
+			for (var n in props) { el.setAttribute(n, props[n]); }
 			return el;
 		},
 	/**
-	* Checks if the browser supports Canvas
+	* Prepares the cache canvas for drawing
+	* @method transformContext
+	* @protected
+	* @param	x {Object} The canvas context to be transformed
+	* @param	x {Number} x translation
+	* @param	y {Number} y translation
+	* @param	r {Number} Rotation radians
 	*/
-		canvasSupport = function () {
-			return !!document.createElement('canvas').getContext;
+		transformContext = function(c, x, y, r) {
+			c.save();
+			c.translate(x, y);
+			c.rotate(r);
+			c.translate(-x, -y);
+			c.beginPath();
 		};
 	/** 
-	* Initialization method.
+	* Initialization method
 	* @method initialize
-	* @param id String The id of the placeholder div.
 	* @protected
+	* @param parentId (String) The id of the placeholder div, where the loader will be nested into
+	* @param loaderId (String) The id of loader
 	*/
 	p.initialize = function (parentId, loaderId) {
 		/*
-		* Find the containing div by id (passed by the user).
-		* If the container element cannot be found we use the document body itself.
+		* Find the containing div by id
+		* If the container element cannot be found we use the document body itself
 		*/
 		try {
 			// Look for the parent element
@@ -101,15 +126,15 @@
 		}
 		// Creates the parent div of the loader instance
 		loaderId = typeof (loaderId) !== "undefined" ? loaderId : "canvasLoader";
-		this.cont = setCSS(addEl("div", {id: loaderId}, this.mother), {border: "1px solid #ff0000", position: "absolute"});
-		if (canvasSupport()) {
+		this.cont = addEl("div", this.mother, {id: loaderId});
+		if (canvasSupport) {
 		// For browsers with Canvas support...
 			engine = engines[0];
 			// Create the canvas element
-			this.canvas = addEl("canvas", {}, this.cont);
+			this.canvas = addEl("canvas", this.cont);
 			this.context = this.canvas.getContext("2d");
 			// Create the cache canvas element
-			this.cacheCanvas = setCSS(addEl("canvas", {}, this.cont), { display: "none" });
+			this.cacheCanvas = setCSS(addEl("canvas", this.cont), { display: "none" });
 			this.cacheContext = this.cacheCanvas.getContext("2d");
 		} else {
 		// For browsers without Canvas support...
@@ -121,153 +146,147 @@
 				var a = ["group", "oval", "roundrect", "fill"], n;
 				for (n in a) { CanvasLoader.vmlSheet.addRule(a[n], "behavior:url(#default#VML); position:absolute;"); }
 			}
-			this.vml = addEl("group", {}, this.cont);
+			this.vml = addEl("group", this.cont);
 		}
 		// Set the RGB color object
 		this.setColor(this.color);
-		// Set the instance ready
-		p.ready = true;
-		// Draw the shapes on the canvas
+		// Sets the instance to be ready
+		this.ready = true;
+		// Draws the shapes on the canvas
 		this.draw();
-		// Start rendering the preloader
+		// Starts rendering the preloader
 		this.show();
 	};
 /////////////////////////////////////////////////////////////////////////////////////////////
 // Property declarations
 	/**
-	* The div we place the canvas object into.
+	* The div we place the canvas object into
 	* @property container
-	* @type Object
 	* @protected
+	* @type Object
 	**/
 	p.container = {};
 	/**
-	* The div we draw the shapes into.
+	* The div we draw the shapes into
 	* @property canvas
-	* @type Object
 	* @protected
+	* @type Object
 	**/
 	p.canvas = {};
 	/**
-	* The canvas context.
+	* The canvas context
 	* @property context
-	* @type Object
 	* @protected
+	* @type Object
 	**/
 	p.context = {};
 	/**
-	* The canvas we use for caching.
+	* The canvas we use for caching
 	* @property cacheCanvas
-	* @type Object
 	* @protected
+	* @type Object
 	**/
 	p.cacheCanvas = {};
 	/**
-	* The context of the cache canvas.
+	* The context of the cache canvas
 	* @property cacheContext
-	* @type Object
 	* @protected
+	* @type Object
 	**/
 	p.cacheContext = {};
 	/**
-	* Tell if the loader rendering is running.
-	* @property running
-	* @type Boolean
-	* @protected
-	**/
-	p.running = false;
-	/**
-	* Tell if the canvas and its context is ready.
+	* Tells if the canvas and its context is ready
 	* @property ready
-	* @type Boolean
 	* @protected
+	* @type Boolean
 	**/
 	p.ready = false;
 	/**
-	* Add a timer for the rendering.
+	* Adds a timer for the rendering
 	* @property timer
-	* @type Boolean
 	* @protected
+	* @type Boolean
 	**/
 	p.timer = {};
 	/**
-	* The active shape id for rendering.
+	* The active shape id for rendering
 	* @property activeId
-	* @type Number
 	* @protected
+	* @type Number
 	**/
 	p.activeId = 0;
 	/**
-	* The diameter of the loader.
+	* The diameter of the loader
 	* @property diameter
+	* @protected
 	* @type Number
 	* @default 40
-	* @protected
 	**/
 	p.diameter = 40;
 	/**
-	* Sets the diameter of the loader.
+	* Sets the diameter of the loader
 	* @method setDiameter
-	* @param diameter {Number} The default value is 40.
 	* @public
+	* @param diameter {Number} The default value is 40
 	**/
 	p.setDiameter = function (diameter) { this.diameter = Math.round(Math.abs(diameter)); this.redraw(); };
 	/**
 	* Returns the diameter of the loader.
 	* @method getDiameter
-	* @return Number
 	* @public
+	* @return {Number}
 	**/
 	p.getDiameter = function () { return this.diameter; };
 	/**
-	* The color of the loader shapes in RGB.
+	* The color of the loader shapes in RGB
 	* @property colorRGB
-	* @type Object
 	* @protected
+	* @type Object
 	**/
 	p.colorRGB = {};
 	/**
-	* The color of the loader shapes in HEX.
+	* The color of the loader shapes in HEX
 	* @property color
+	* @protected
 	* @type String
 	* @default "#000000"
-	* @protected
 	**/
 	p.color = "#000000";
 	/**
-	* Sets hexadecimal color of the loader.
+	* Sets hexadecimal color of the loader
 	* @method setColor
-	* @param color {String} The default value is '#000000'.
 	* @public
+	* @param color {String} The default value is '#000000'
 	**/
 	p.setColor = function (color) { this.color = colorReg.test(color) ? color : "#000000"; this.colorRGB = this.getRGB(this.color); this.redraw(); };
 	/**
-	* Returns the loader color in a hexadecimal form.
+	* Returns the loader color in a hexadecimal form
 	* @method getColor
-	* @return String
 	* @public
+	* @return {String}
 	**/
 	p.getColor = function () { return this.color; };
 	/**
-	* The type of the loader shapes.
+	* The type of the loader shapes
 	* @property shape
+	* @protected
 	* @type String
 	* @default "oval"
-	* @protected
 	**/
 	p.shape = shapes[0];
 	/**
 	* Sets the type of the loader shapes.<br/>
 	* <br/><b>The acceptable values are:</b>
 	* <ul>
-	* <li>'circle'</li>
+	* <li>'oval'</li>
+	* <li>'spiral'</li>
 	* <li>'square'</li>
-	* <li>'rectangle'</li>
-	* <li>'roundedRectangle'</li>
+	* <li>'rect'</li>
+	* <li>'roundRect'</li>
 	* </ul>
 	* @method setShape
-	* @param shape {String} The default value is 'circle'.
 	* @public
+	* @param shape {String} The default value is 'oval'
 	**/
 	p.setShape = function (shape) {
 		var n;
@@ -276,39 +295,39 @@
 		}
 	};
 	/**
-	* Returns the type of the loader shapes.
+	* Returns the type of the loader shapes
 	* @method getShape
-	* @return String
 	* @public
+	* @return {String}
 	**/
 	p.getShape = function () { return this.shape; };
 	/**
-	* The number of shapes drawn on the loader canvas.
+	* The number of shapes drawn on the loader canvas
 	* @property density
+	* @protected
 	* @type Number
 	* @default 40
-	* @protected
 	**/
 	p.density = 40;
 	/**
-	* Sets the number of shapes drawn on the loader canvas.
+	* Sets the number of shapes drawn on the loader canvas
 	* @method setDensity
-	* @param density {Number} The default value is 40.
 	* @public
+	* @param density {Number} The default value is 40
 	**/
 	p.setDensity = function (density) { this.density = Math.round(Math.abs(density)); this.redraw(); };
 	/**
-	* Returns the number of shapes drawn on the loader canvas.
+	* Returns the number of shapes drawn on the loader canvas
 	* @method getDensity
-	* @return {Number}
 	* @public
+	* @return {Number}
 	**/
 	p.getDensity = function () { return this.density; };
 	/**
-	* Sets the amount of the modified shapes in percent.
+	* The amount of the modified shapes in percent.
 	* @property range
-	* @type Number
 	* @protected
+	* @type Number
 	**/
 	p.range = 1.3;
 	/**
@@ -317,43 +336,22 @@
 	* This minimum amount is 0.1 which means every shape which is out of the range is scaled and/or faded to 10% of the original values.<br/>
 	* The visually acceptable range value should be between 0.4 and 1.5.
 	* @method setRange
-	* @param range {Number} The default value is 1.3.
 	* @public
+	* @param range {Number} The default value is 1.3
 	**/
 	p.setRange = function (range) { this.range = Math.abs(range); this.redraw(); };
 	/**
-	* Returns the modified shape range in percent.
+	* Returns the modified shape range in percent
 	* @method getRange
-	* @return {Number}
 	* @public
+	* @return {Number}
 	**/
 	p.getRange = function () { return this.range; };
 	/**
-	* The fading of the loader shapes.
-	* @property fading
-	* @type Boolean
-	* @protected
-	**/
-	p.fading = true;
-	/**
-	* Sets the fading of the loader shapes.
-	* @method setFading
-	* @param fading {Boolean} The default value is true.
-	* @public
-	**/
-	p.setFading = function (fading) { this.fading = fading; this.redraw(); };
-	/**
-	* Returns the fading of the loader shapes.
-	* @method getFading
-	* @return {Boolean}
-	* @public
-	**/
-	p.getFading = function () { return this.fading; };
-	/**
-	* The speed of the loader animation.
+	* The speed of the loader animation
 	* @property speed
-	* @type Number
 	* @protected
+	* @type Number
 	**/
 	p.speed = 2;
 	/**
@@ -361,23 +359,22 @@
 	* This value tells the loader how many shapes to skip by each tick.<br/>
 	* Using the right combination of the <code>setFPS</code> and the <code>setSpeed</code> methods allows the users to optimize the CPU usage of the loader whilst keeping the animation on a visually pleasing level.
 	* @method setSpeed
-	* @param speed {Number} The default value is 2.
-	* @seealso setFPS
 	* @public
+	* @param speed {Number} The default value is 2
 	**/
 	p.setSpeed = function (speed) { this.speed = Math.round(Math.abs(speed)); this.reset(); };
 	/**
-	* Returns the speed of the loader animation.
+	* Returns the speed of the loader animation
 	* @method getSpeed
-	* @return {Number}
 	* @public
+	* @return {Number}
 	**/
 	p.getSpeed = function () { return this.speed; };
 	/**
-	* The FPS of the loader animation rendering.
+	* The FPS value of the loader animation rendering
 	* @property fps
-	* @type Number
 	* @protected
+	* @type Number
 	**/
 	p.fps = 24;
 	/**
@@ -385,25 +382,24 @@
 	* This value tells the loader how many times to refresh and modify the canvas in 1 second.<br/>
 	* Using the right combination of the <code>setSpeed</code> and the <code>setFPS</code> methods allows the users to optimize the CPU usage of the loader whilst keeping the animation on a visually pleasing level.
 	* @method setFPS
-	* @param fps {Number} The default value is 24.
-	* @seealso setSpeed
 	* @public
+	* @param fps {Number} The default value is 24
 	**/
 	p.setFPS = function (fps) { this.fps = Math.round(Math.abs(fps)); this.reset(); };
 	/**
-	* Returns the fps of the loader.
+	* Returns the fps of the loader
 	* @method getFPS
-	* @return {Number}
 	* @public
+	* @return {Number}
 	**/
 	p.getFPS = function () { return this.fps; };
 // End of Property declarations
 /////////////////////////////////////////////////////////////////////////////////////////////	
 	/**
-	* Return the RGB values of the passed color.
+	* Return the RGB values of the passed color
 	* @method getRGB
-	* @param	color (String) The HEX color value to be converted to RGB
 	* @protected
+	* @param color {String} The HEX color value to be converted to RGB
 	*/
 	p.getRGB = function (color) {
 		color = color.charAt(0) === "#" ? color.substring(1, 7) : color;
@@ -417,7 +413,6 @@
 	p.draw = function () {
 		var i = 0, size, w, h, x, y, angle, radians, radius, animBits = Math.round(this.density * this.range), bitMod, minBitMod = 0, s, g, sh, f, d = 1000, arc = 0;
 		if (engine === engines[0]) {
-			// Clean the cache canvas
 			this.cacheContext.clearRect(0, 0, this.cacheCanvas.width, this.cacheCanvas.height);
 			setAttr(this.canvas, {width: this.diameter, height: this.diameter});
 			setAttr(this.cacheCanvas, {width: this.diameter, height: this.diameter});
@@ -425,8 +420,7 @@
 				bitMod = i <= animBits ? 1 - ((1 - minBitMod) / animBits * i) : bitMod = minBitMod;
 				angle = 360 - 360 / this.density * i;
 				radians = angle / 180 * Math.PI;
-				this.cacheContext.save();
-				if (this.fading) { this.cacheContext.fillStyle = "rgba(" + this.colorRGB.r + "," + this.colorRGB.g + "," + this.colorRGB.b + "," + bitMod.toString() + ")"; } else { this.cacheContext.fillStyle = "rgba(" + this.colorRGB.r + "," + this.colorRGB.g + "," + this.colorRGB.b + ",1)"; }
+				this.cacheContext.fillStyle = "rgba(" + this.colorRGB.r + "," + this.colorRGB.g + "," + this.colorRGB.b + "," + bitMod.toString() + ")";
 				switch (this.shape) {
 				case shapes[0]:
 				case shapes[1]:
@@ -440,42 +434,30 @@
 					size = this.diameter * 0.12;
 					x = Math.cos(radians) * (this.cacheCanvas.width * 0.5 - size) + this.cacheCanvas.width * 0.5;
 					y = Math.sin(radians) * (this.cacheCanvas.width * 0.5 - size) + this.cacheCanvas.height * 0.5;
-					this.cacheContext.translate(x, y);
-					this.cacheContext.rotate(radians);
-					this.cacheContext.translate(-x, -y);
-					this.cacheContext.beginPath();
+					transformContext(this.cacheContext, x, y, radians);
 					this.cacheContext.fillRect(x, y - size * 0.5, size, size);
 					break;
 				case shapes[3]:
-					w = size = this.diameter * 0.3;
-					h = w * 0.27;
-					x = Math.cos(radians) * (h + (this.cacheCanvas.height - h) * 0.13) + this.cacheCanvas.width * 0.5;
-					y = Math.sin(radians) * (h + (this.cacheCanvas.height - h) * 0.13) + this.cacheCanvas.height * 0.5;
-					this.cacheContext.translate(x, y);
-					this.cacheContext.rotate(radians);
-					this.cacheContext.translate(-x, -y);
-					this.cacheContext.beginPath();
-					this.cacheContext.fillRect(x, y - h * 0.5, w, h);
-					break;
 				case shapes[4]:
-					w = size = this.diameter * 0.3;
+					w = this.diameter * 0.3;
 					h = w * 0.27;
-					radius = h * 0.56;
 					x = Math.cos(radians) * (h + (this.cacheCanvas.height - h) * 0.13) + this.cacheCanvas.width * 0.5;
 					y = Math.sin(radians) * (h + (this.cacheCanvas.height - h) * 0.13) + this.cacheCanvas.height * 0.5;
-					this.cacheContext.translate(x, y);
-					this.cacheContext.rotate(radians);
-					this.cacheContext.translate(-x, -y);
-					this.cacheContext.beginPath();
-					this.cacheContext.moveTo(x + radius, y - h * 0.5);
-					this.cacheContext.lineTo(x + w - radius, y - h * 0.5);
-					this.cacheContext.quadraticCurveTo(x + w, y - h * 0.5, x + w, y - h * 0.5 + radius);
-					this.cacheContext.lineTo(x + w, y - h * 0.5 + h - radius);
-					this.cacheContext.quadraticCurveTo(x + w, y - h * 0.5 + h, x + w - radius, y - h * 0.5 + h);
-					this.cacheContext.lineTo(x + radius, y - h * 0.5 + h);
-					this.cacheContext.quadraticCurveTo(x, y - h * 0.5 + h, x, y - h * 0.5 + h - radius);
-					this.cacheContext.lineTo(x, y - h * 0.5 + radius);
-					this.cacheContext.quadraticCurveTo(x, y - h * 0.5, x + radius, y - h * 0.5);
+					transformContext(this.cacheContext, x, y, radians);
+					if(this.shape === shapes[3]) {
+						this.cacheContext.fillRect(x, y - h * 0.5, w, h);
+					} else {
+						radius = h * 0.7;
+						this.cacheContext.moveTo(x + radius, y - h * 0.5);
+						this.cacheContext.lineTo(x + w - radius, y - h * 0.5);
+						this.cacheContext.quadraticCurveTo(x + w, y - h * 0.5, x + w, y - h * 0.5 + radius);
+						this.cacheContext.lineTo(x + w, y - h * 0.5 + h - radius);
+						this.cacheContext.quadraticCurveTo(x + w, y - h * 0.5 + h, x + w - radius, y - h * 0.5 + h);
+						this.cacheContext.lineTo(x + radius, y - h * 0.5 + h);
+						this.cacheContext.quadraticCurveTo(x, y - h * 0.5 + h, x, y - h * 0.5 + h - radius);
+						this.cacheContext.lineTo(x, y - h * 0.5 + radius);
+						this.cacheContext.quadraticCurveTo(x, y - h * 0.5, x + radius, y - h * 0.5);
+					}
 					break;
 				}
 				this.cacheContext.closePath();
@@ -485,7 +467,7 @@
 			}
 		} else {
 			setCSS(this.cont, {width: this.diameter, height: this.diameter});
-			setCSS(this.vml, {width: this.diameter, height: this.diameter});
+			setCSS(this.vml, {width: this.diameter, height: this.diameter, border: "1px solid #ff0000"});
 			switch (this.shape) {
 			case shapes[0]:
 			case shapes[1]:
@@ -514,29 +496,39 @@
 					x = d * 0.5 - size * 0.5 - size * bitMod * 0.5;
 					y = (size - size * bitMod) * 0.5;
 					break;
+				case shapes[0]:
+				case shapes[2]:
+					if (ie8) {
+						y = 0;
+						if(this.shape === shapes[2]) {
+							x = d * 0.5 -h * 0.5;
+						}
+					}
+					break;
 				case shapes[3]:
 				case shapes[4]:
 					w = size * 0.95;
 					h = w * 0.28;
-					x = d * 0.5 - w;
-					y = -h * 0.5;
+					if (ie8) {
+						x = 0;
+						y = d * 0.5 - h * 0.5;
+					} else {
+						x = d * 0.5 - w;
+						y = -h * 0.5;
+					}
 					arc = this.shape === shapes[4] ? 0.6 : 0; 
 					break;
 				}
-				// Adds the group (shape needed to be grouped for accurate rotation)
-				g = setAttr(setCSS(addEl("group", {}, this.vml), {width: d, height: d, rotation: angle}), {coordsize: d + "," + d, coordorigin: -d * 0.5 + "," + (-d * 0.5)});
-				// Adds the shape
-				s = setCSS(addEl(sh, {stroked: false, arcSize: arc}, g), { width: w, height: h, top: y, left: x});
-				// Adds the fill
-				f = addEl("fill", {color: this.color, opacity: bitMod}, s);
+				g = setAttr(setCSS(addEl("group", this.vml), {width: d, height: d, rotation: angle}), {coordsize: d + "," + d, coordorigin: -d * 0.5 + "," + (-d * 0.5)});
+				s = setCSS(addEl(sh, g, {stroked: false, arcSize: arc}), { width: w, height: h, top: y, left: x});
+				f = addEl("fill", s, {color: this.color, opacity: bitMod});
 				++i;
 			}
 		}
-		// Render the changes on the canvas
 		this.tick(true);
 	};
 	/**
-	* Cleans the canvas.
+	* Cleans the canvas
 	* @method clean
 	* @protected
 	*/
@@ -544,7 +536,6 @@
 		if (engine === engines[0]) {
 			this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		} else {
-			// Cleans the VML element from its children
 			if (this.vml.hasChildNodes()) {
 				while (this.vml.childNodes.length >= 1) {
 					this.vml.removeChild(this.vml.firstChild);
@@ -553,7 +544,7 @@
 		}
 	};
 	/**
-	* Redraws the canvas.
+	* Redraws the canvas
 	* @method redraw
 	* @protected
 	*/
@@ -564,7 +555,7 @@
 		}
 	};
 	/**
-	* Resets the timer.
+	* Resets the timer
 	* @method reset
 	* @protected
 	*/
@@ -575,8 +566,8 @@
 		}
 	};
 	/**
-	* Renders the loader animation.
-	* @event tick
+	* Renders the loader animation
+	* @method tick
 	* @protected
 	*/
 	p.tick = function (initialize) {
@@ -586,10 +577,7 @@
 		if (this.activeId >= 360) { this.activeId -= 360; }
 		if (engine === engines[0]) {
 			this.context.clearRect(0, 0, this.diameter, this.diameter);
-			this.context.save();
-			this.context.translate(this.diameter * 0.5, this.diameter * 0.5);
-			this.context.rotate(Math.PI / 180 * this.activeId);
-			this.context.translate(-this.diameter * 0.5, -this.diameter * 0.5);
+			transformContext(this.context, this.diameter * 0.5, this.diameter * 0.5, Math.PI / 180 * this.activeId);
 			this.context.drawImage(this.cacheCanvas, 0, 0, this.diameter, this.diameter);
 			this.context.restore();
 		} else {
@@ -597,7 +585,7 @@
 		}
 	};
 	/**
-	* Shows the rendering of the loader animation.
+	* Shows the rendering of the loader animation
 	* @method show
 	* @public
 	*/
@@ -609,7 +597,7 @@
 		}
 	};
 	/**
-	* Stop the rendering of the loader animation and hides the loader.
+	* Stops the rendering of the loader animation and hides the loader
 	* @method hide
 	* @public
 	*/
@@ -621,7 +609,7 @@
 		}
 	};
 	/**
-	* Remove the CanvasLoader instance and all references.
+	* Removes the CanvasLoader instance and all its references
 	* @method kill
 	* @public
 	*/
