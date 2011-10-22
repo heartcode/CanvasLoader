@@ -16,7 +16,7 @@
 <div id="doc3" class="yui-t2">
 	<div id="hd">
         <h1><a href="http://heartcode.robertpataki.com/canvasloader/" title="Heartcode CanvasLoader YUI Library">Heartcode CanvasLoader YUI Library</a></h1>
-        <h3>CanvasLoader&nbsp; <span class="subtitle">0.8.0</span></h3>
+        <h3>CanvasLoader&nbsp; <span class="subtitle">0.9.0</span></h3>
         <a href="./index.html" title="Heartcode CanvasLoader YUI Library">Heartcode CanvasLoader YUI Library</a> 
             &gt; <a href="./module_canvasloader.html" title="CanvasLoader">CanvasLoader</a>
                  &gt; CanvasLoader 
@@ -59,8 +59,8 @@
   
 
                     <div class="summary description" property="yui:description">
-                        CanvasLoader is a JavaScript UI library that draws and animates circular preloaders using the Canvas HTML object.<br/>
-A CanvasLoader instance creates two canvas elements which are placed into a placeholder div (the id of the div has to be passed in the constructor). The second canvas is invisible and used for caching purposes only.<br/>
+                        CanvasLoader is a JavaScript UI library that draws and animates circular preloaders using the Canvas HTML object.<br/><br/>
+A CanvasLoader instance creates two canvas elements which are placed into a placeholder div (the id of the div has to be passed in the constructor). The second canvas is invisible and used for caching purposes only.<br/><br/>
 If no id is passed in the constructor, the canvas objects are paced in the document directly.
                     </div>
 
@@ -75,6 +75,9 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
                                         
                                                 
                                                 id
+
+                                                , 
+                                                opt
                                     )
                                 </code>
                                 <div class="description">
@@ -84,7 +87,17 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
                                                     <code><span property="yui:name">id</span>
                                                     &lt;<span property="yui:type">String</span>&gt;
                                                     </code>
-                                                    <span property="yui:description"> The id of the placeholder div</span>
+                                                    <span property="yui:description">  The id of the placeholder div</span>
+                                                </dd>
+                                                <dd rel="yui:parameter">
+                                                    <code><span property="yui:name">opt</span>
+                                                    &lt;<span property="yui:type">Object</span>&gt;
+                                                    </code>
+                                                    <span property="yui:description">  Optional parameters<br/><br/>
+<strong>Possible values of optional parameters:</strong><br/>
+<ul>
+<li><strong>id (String):</strong> The id of the CanvasLoader instance</li>
+<li><strong>safeVML (Boolean):</strong> If set to true, the amount of CanvasLoader shapes are limited in VML mode. It prevents CPU overkilling when rendering loaders with high density. The default value is true.</li></span>
                                                 </dd>
                                         </dl>
                                     
@@ -380,7 +393,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
                                                     
                                                 
                                                         , 
-                                                         props
+                                                         opt
                                                     
                                                 
                                             )
@@ -407,7 +420,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
                                                         <span property="yui:description">  The DOM element the new element will be appended to</span>
                                                         </dd>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">props</span>
+                                                        <code><span property="yui:name">opt</span>
                                                         &lt;<span property="yui:type">Object</span>&gt;
                                                         </code>
                                                         <span property="yui:description">  Additional properties passed to the new DOM element</span>
@@ -787,11 +800,11 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
                                            (
                                                 
                                                         
-                                                         pId
+                                                         id
                                                     
                                                 
                                                         , 
-                                                         lId
+                                                         opt
                                                     
                                                 
                                             )
@@ -806,16 +819,20 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
                                                 <dl rel="yui:parameters">
                                                     <dt>Parameters:</dt>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">pId</span>
-                                                        &lt;<span property="yui:type">object</span>&gt;
+                                                        <code><span property="yui:name">id</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
                                                         </code>
-                                                        <span property="yui:description"> (String) The id of the placeholder div, where the loader will be nested into</span>
+                                                        <span property="yui:description">  The id of the placeholder div, where the loader will be nested into</span>
                                                         </dd>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">lId</span>
-                                                        &lt;<span property="yui:type">object</span>&gt;
+                                                        <code><span property="yui:name">opt</span>
+                                                        &lt;<span property="yui:type">Object</span>&gt;
                                                         </code>
-                                                        <span property="yui:description"> (String) The id of loader</span>
+                                                        <span property="yui:description">  Optional parameters<br/><br/>
+<strong>Possible values of optional parameters:</strong><br/>
+<ul>
+<li><strong>id (String):</strong> The id of the CanvasLoader instance</li>
+<li><strong>safeVML (Boolean):</strong> If set to true, the amount of CanvasLoader shapes are limited in VML mode. It prevents CPU overkilling when rendering loaders with high density. The default value is true.</li></span>
                                                         </dd>
                                                 </dl>
 
@@ -935,7 +952,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
                                                     
                                                 
                                                         , 
-                                                         props
+                                                         opt
                                                     
                                                 
                                             )
@@ -956,7 +973,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
                                                         <span property="yui:description">  The DOM element to add the attributes to</span>
                                                         </dd>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">props</span>
+                                                        <code><span property="yui:name">opt</span>
                                                         &lt;<span property="yui:type">Object</span>&gt;
                                                         </code>
                                                         <span property="yui:description">  The attributes</span>
@@ -1040,7 +1057,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
                                                     
                                                 
                                                         , 
-                                                         props
+                                                         opt
                                                     
                                                 
                                             )
@@ -1061,7 +1078,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
                                                         <span property="yui:description">  The DOM element to be styled</span>
                                                         </dd>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">props</span>
+                                                        <code><span property="yui:name">opt</span>
                                                         &lt;<span property="yui:type">Object</span>&gt;
                                                         </code>
                                                         <span property="yui:description">  The style properties</span>

@@ -42,33 +42,30 @@
 			margin:0;
 			padding:0;
 		}
-		ul {
-			display:inline;
-			list-style:none;
-			margin:0;
-			padding:0;
-		}
-		ul li {
-			display:inline-block;
-			float:left;
-			padding:20px;
-			margin:0;
-			width:400px;
-			height:400px;
-			border:1px solid #ff0000;
+		.wrapper {
+			position:absolute;
+			width:60px;
+			height:60px;
+			left:50%;
+			top:50%;
+			margin-left:-30px;
+			margin-top:-30px;
 		}
 	</style>
 </head>
 <body>
-	<ul>
-		<li id="circle"></li>
-	</ul>
-	<script>
-		var cl = new CanvasLoader("circle");
-		cl.setShape("spiral");
-		cl.setDiameter(200);
-		cl.setFPS(12);
-		cl.setDensity(24);
-	</script>
+	<div class='wrapper'>
+		<div id='spinner'>
+			<script>
+				var cl = new CanvasLoader("spinner", {id: "canvasLoader", safeVML: true});
+				cl.setShape("spiral");
+				cl.setDiameter(60);
+				cl.setDensity(80);
+				cl.setSpeed(1);
+				cl.setFPS(24);
+				cl.show();
+			</script>	
+		</div>
+	</div>
 </body>
 </html>

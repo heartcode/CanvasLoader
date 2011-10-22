@@ -16,7 +16,7 @@
 <div id="doc3" class="yui-t2">
 	<div id="hd">
         <h1><a href="http://heartcode.robertpataki.com/canvasloader/" title="Heartcode CanvasLoader YUI Library">Heartcode CanvasLoader YUI Library</a></h1>
-        <h3>CanvasLoader&nbsp; <span class="subtitle">0.8.0</span></h3>
+        <h3>CanvasLoader&nbsp; <span class="subtitle">0.9.0</span></h3>
         <a href="./index.html" title="Heartcode CanvasLoader YUI Library">Heartcode CanvasLoader YUI Library</a> 
             &gt; <a href="./module_canvasloader.html" title="CanvasLoader">CanvasLoader</a>
                 
@@ -77,35 +77,40 @@
 <span class="cm">*/</span>
 
 <span class="cm">/**</span>
-<span class="cm">* This lightweight library uses the HTML5 canvas element to draw and animate the most popular preloader shapes (circle, rectangle, square and rounded rectangle).&lt;br/&gt;</span>
-<span class="cm">* The implementation is (hopefully) very simple and doesn&#39;t require any external libraries.&lt;br/&gt;</span>
+<span class="cm">* CanvasLoader uses the HTML5 canvas element in modern browsers and VML in IE6/7/8 to create and animate the most popular preloader shapes (oval, spiral, rectangle, square and rounded rectangle).&lt;br/&gt;&lt;br/&gt;</span>
+<span class="cm">* It is important to note that CanvasLoader doesn&#39;t show up and starts rendering automatically on instantiation. To start rendering and display the loader use the &lt;code&gt;show()&lt;/code&gt; method.</span>
 <span class="cm">* @module CanvasLoader</span>
 <span class="cm">**/</span>
 <span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nb">window</span><span class="p">)</span> <span class="p">{</span>
 	<span class="s2">&quot;use strict&quot;</span><span class="p">;</span>
 	<span class="cm">/**</span>
-<span class="cm">	* CanvasLoader is a JavaScript UI library that draws and animates circular preloaders using the Canvas HTML object.&lt;br/&gt;</span>
-<span class="cm">	* A CanvasLoader instance creates two canvas elements which are placed into a placeholder div (the id of the div has to be passed in the constructor). The second canvas is invisible and used for caching purposes only.&lt;br/&gt;</span>
+<span class="cm">	* CanvasLoader is a JavaScript UI library that draws and animates circular preloaders using the Canvas HTML object.&lt;br/&gt;&lt;br/&gt;</span>
+<span class="cm">	* A CanvasLoader instance creates two canvas elements which are placed into a placeholder div (the id of the div has to be passed in the constructor). The second canvas is invisible and used for caching purposes only.&lt;br/&gt;&lt;br/&gt;</span>
 <span class="cm">	* If no id is passed in the constructor, the canvas objects are paced in the document directly.</span>
 <span class="cm">	* @class CanvasLoader</span>
 <span class="cm">	* @constructor</span>
-<span class="cm">	* @param {String} id The id of the placeholder div</span>
+<span class="cm">	* @param id {String} The id of the placeholder div</span>
+<span class="cm">	* @param opt {Object} Optional parameters&lt;br/&gt;&lt;br/&gt;</span>
+<span class="cm">	* &lt;strong&gt;Possible values of optional parameters:&lt;/strong&gt;&lt;br/&gt;</span>
+<span class="cm">	* &lt;ul&gt;</span>
+<span class="cm">	* &lt;li&gt;&lt;strong&gt;id (String):&lt;/strong&gt; The id of the CanvasLoader instance&lt;/li&gt;</span>
+<span class="cm">	* &lt;li&gt;&lt;strong&gt;safeVML (Boolean):&lt;/strong&gt; If set to true, the amount of CanvasLoader shapes are limited in VML mode. It prevents CPU overkilling when rendering loaders with high density. The default value is true.&lt;/li&gt;</span>
 <span class="cm">	**/</span>
-	<span class="kd">var</span> <span class="nx">CanvasLoader</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
-		<span class="k">this</span><span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="nx">id</span><span class="p">);</span>
-	<span class="p">},</span> <span class="nx">p</span> <span class="o">=</span> <span class="nx">CanvasLoader</span><span class="p">.</span><span class="nx">prototype</span><span class="p">,</span> <span class="nx">engine</span><span class="p">,</span> <span class="nx">engines</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;canvas&quot;</span><span class="p">,</span> <span class="s2">&quot;vml&quot;</span><span class="p">],</span> <span class="nx">shapes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;oval&quot;</span><span class="p">,</span> <span class="s2">&quot;spiral&quot;</span><span class="p">,</span> <span class="s2">&quot;square&quot;</span><span class="p">,</span> <span class="s2">&quot;rect&quot;</span><span class="p">,</span> <span class="s2">&quot;roundRect&quot;</span><span class="p">],</span> <span class="nx">cRX</span> <span class="o">=</span> <span class="sr">/^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/</span><span class="p">,</span> <span class="nx">ie8</span> <span class="o">=</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">appVersion</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s2">&quot;MSIE&quot;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="nb">parseFloat</span><span class="p">(</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">appVersion</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">&quot;MSIE&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span> <span class="o">===</span> <span class="mi">8</span> <span class="o">?</span> <span class="kc">true</span> <span class="o">:</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">canSup</span> <span class="o">=</span> <span class="o">!!</span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;canvas&#39;</span><span class="p">).</span><span class="nx">getContext</span><span class="p">,</span>
+	<span class="kd">var</span> <span class="nx">CanvasLoader</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">id</span><span class="p">,</span> <span class="nx">opt</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="nx">id</span><span class="p">,</span> <span class="nx">opt</span><span class="p">);</span>
+	<span class="p">},</span> <span class="nx">p</span> <span class="o">=</span> <span class="nx">CanvasLoader</span><span class="p">.</span><span class="nx">prototype</span><span class="p">,</span> <span class="nx">engine</span><span class="p">,</span> <span class="nx">engines</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;canvas&quot;</span><span class="p">,</span> <span class="s2">&quot;vml&quot;</span><span class="p">],</span> <span class="nx">shapes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;oval&quot;</span><span class="p">,</span> <span class="s2">&quot;spiral&quot;</span><span class="p">,</span> <span class="s2">&quot;square&quot;</span><span class="p">,</span> <span class="s2">&quot;rect&quot;</span><span class="p">,</span> <span class="s2">&quot;roundRect&quot;</span><span class="p">],</span> <span class="nx">cRX</span> <span class="o">=</span> <span class="sr">/^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/</span><span class="p">,</span> <span class="nx">ie8</span> <span class="o">=</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">appVersion</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s2">&quot;MSIE&quot;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="nb">parseFloat</span><span class="p">(</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">appVersion</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">&quot;MSIE&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span> <span class="o">===</span> <span class="mi">8</span> <span class="o">?</span> <span class="kc">true</span> <span class="o">:</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">canSup</span> <span class="o">=</span> <span class="o">!!</span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;canvas&#39;</span><span class="p">).</span><span class="nx">getContext</span><span class="p">,</span> <span class="nx">safeDensity</span> <span class="o">=</span> <span class="mi">40</span><span class="p">,</span> <span class="nx">safeVML</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
 	<span class="cm">/**</span>
 <span class="cm">	* Creates a new element with the tag and applies the passed properties on it</span>
 <span class="cm">	* @method addEl</span>
 <span class="cm">	* @protected</span>
 <span class="cm">	* @param tag {String} The tag to be created</span>
 <span class="cm">	* @param par {String} The DOM element the new element will be appended to</span>
-<span class="cm">	* @param props {Object} Additional properties passed to the new DOM element</span>
+<span class="cm">	* @param opt {Object} Additional properties passed to the new DOM element</span>
 <span class="cm">	* @return {Object} The DOM element</span>
 <span class="cm">	*/</span>
-		<span class="nx">addEl</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">tag</span><span class="p">,</span> <span class="nx">par</span><span class="p">,</span> <span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">addEl</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">tag</span><span class="p">,</span> <span class="nx">par</span><span class="p">,</span> <span class="nx">opt</span><span class="p">)</span> <span class="p">{</span>
 			<span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="nx">tag</span><span class="p">),</span> <span class="nx">n</span><span class="p">;</span>
-			<span class="k">for</span> <span class="p">(</span><span class="nx">n</span> <span class="k">in</span> <span class="nx">props</span><span class="p">)</span> <span class="p">{</span> <span class="nx">el</span><span class="p">[</span><span class="nx">n</span><span class="p">]</span> <span class="o">=</span> <span class="nx">props</span><span class="p">[</span><span class="nx">n</span><span class="p">];</span> <span class="p">}</span>
+			<span class="k">for</span> <span class="p">(</span><span class="nx">n</span> <span class="k">in</span> <span class="nx">opt</span><span class="p">)</span> <span class="p">{</span> <span class="nx">el</span><span class="p">[</span><span class="nx">n</span><span class="p">]</span> <span class="o">=</span> <span class="nx">opt</span><span class="p">[</span><span class="nx">n</span><span class="p">];</span> <span class="p">}</span>
 			<span class="k">if</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">par</span><span class="p">)</span> <span class="o">!==</span> <span class="s2">&quot;undefined&quot;</span><span class="p">)</span> <span class="p">{</span>
 				<span class="nx">par</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">el</span><span class="p">);</span>
 			<span class="p">}</span>
@@ -116,11 +121,11 @@
 <span class="cm">	* @method setCSS</span>
 <span class="cm">	* @protected</span>
 <span class="cm">	* @param el {Object} The DOM element to be styled</span>
-<span class="cm">	* @param props {Object} The style properties</span>
+<span class="cm">	* @param opt {Object} The style properties</span>
 <span class="cm">	* @return {Object} The DOM element</span>
 <span class="cm">	*/</span>
-		<span class="nx">setCSS</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
-			<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">n</span> <span class="k">in</span> <span class="nx">props</span><span class="p">)</span> <span class="p">{</span> <span class="nx">el</span><span class="p">.</span><span class="nx">style</span><span class="p">[</span><span class="nx">n</span><span class="p">]</span> <span class="o">=</span> <span class="nx">props</span><span class="p">[</span><span class="nx">n</span><span class="p">];</span> <span class="p">}</span>
+		<span class="nx">setCSS</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">opt</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">n</span> <span class="k">in</span> <span class="nx">opt</span><span class="p">)</span> <span class="p">{</span> <span class="nx">el</span><span class="p">.</span><span class="nx">style</span><span class="p">[</span><span class="nx">n</span><span class="p">]</span> <span class="o">=</span> <span class="nx">opt</span><span class="p">[</span><span class="nx">n</span><span class="p">];</span> <span class="p">}</span>
 			<span class="k">return</span> <span class="nx">el</span><span class="p">;</span>
 		<span class="p">},</span>
 	<span class="cm">/**</span>
@@ -128,11 +133,11 @@
 <span class="cm">	* @method setAttr</span>
 <span class="cm">	* @protected</span>
 <span class="cm">	* @param el {Object} The DOM element to add the attributes to</span>
-<span class="cm">	* @param props {Object} The attributes</span>
+<span class="cm">	* @param opt {Object} The attributes</span>
 <span class="cm">	* @return {Object} The DOM element</span>
 <span class="cm">	*/</span>
-		<span class="nx">setAttr</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
-			<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">n</span> <span class="k">in</span> <span class="nx">props</span><span class="p">)</span> <span class="p">{</span> <span class="nx">el</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="nx">n</span><span class="p">,</span> <span class="nx">props</span><span class="p">[</span><span class="nx">n</span><span class="p">]);</span> <span class="p">}</span>
+		<span class="nx">setAttr</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">opt</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">n</span> <span class="k">in</span> <span class="nx">opt</span><span class="p">)</span> <span class="p">{</span> <span class="nx">el</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="nx">n</span><span class="p">,</span> <span class="nx">opt</span><span class="p">[</span><span class="nx">n</span><span class="p">]);</span> <span class="p">}</span>
 			<span class="k">return</span> <span class="nx">el</span><span class="p">;</span>
 		<span class="p">},</span>
 	<span class="cm">/**</span>
@@ -155,10 +160,17 @@
 <span class="cm">	* Initialization method</span>
 <span class="cm">	* @method init</span>
 <span class="cm">	* @protected</span>
-<span class="cm">	* @param pId (String) The id of the placeholder div, where the loader will be nested into</span>
-<span class="cm">	* @param lId (String) The id of loader</span>
-<span class="cm">	*/</span>
-	<span class="nx">p</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">pId</span><span class="p">,</span> <span class="nx">lId</span><span class="p">)</span> <span class="p">{</span>
+<span class="cm">	* @param id {String} The id of the placeholder div, where the loader will be nested into</span>
+<span class="cm">	* @param opt {Object} Optional parameters&lt;br/&gt;&lt;br/&gt;</span>
+<span class="cm">	* &lt;strong&gt;Possible values of optional parameters:&lt;/strong&gt;&lt;br/&gt;</span>
+<span class="cm">	* &lt;ul&gt;</span>
+<span class="cm">	* &lt;li&gt;&lt;strong&gt;id (String):&lt;/strong&gt; The id of the CanvasLoader instance&lt;/li&gt;</span>
+<span class="cm">	* &lt;li&gt;&lt;strong&gt;safeVML (Boolean):&lt;/strong&gt; If set to true, the amount of CanvasLoader shapes are limited in VML mode. It prevents CPU overkilling when rendering loaders with high density. The default value is true.&lt;/li&gt;</span>
+<span class="cm">	**/</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">pId</span><span class="p">,</span> <span class="nx">opt</span><span class="p">)</span> <span class="p">{</span>
+		
+		<span class="k">if</span> <span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">opt</span><span class="p">.</span><span class="nx">safeVML</span><span class="p">)</span> <span class="o">===</span> <span class="s2">&quot;boolean&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="nx">safeVML</span> <span class="o">=</span> <span class="nx">opt</span><span class="p">.</span><span class="nx">safeVML</span><span class="p">;</span> <span class="p">}</span>
+		
 		<span class="cm">/*</span>
 <span class="cm">		* Find the containing div by id</span>
 <span class="cm">		* If the container element cannot be found we use the document body itself</span>
@@ -174,8 +186,8 @@
 			<span class="k">this</span><span class="p">.</span><span class="nx">mum</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">;</span>
 		<span class="p">}</span>
 		<span class="c1">// Creates the parent div of the loader instance</span>
-		<span class="nx">lId</span> <span class="o">=</span> <span class="k">typeof</span> <span class="p">(</span><span class="nx">lId</span><span class="p">)</span> <span class="o">!==</span> <span class="s2">&quot;undefined&quot;</span> <span class="o">?</span> <span class="nx">lId</span> <span class="o">:</span> <span class="s2">&quot;canvasLoader&quot;</span><span class="p">;</span>
-		<span class="k">this</span><span class="p">.</span><span class="nx">cont</span> <span class="o">=</span> <span class="nx">addEl</span><span class="p">(</span><span class="s2">&quot;div&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">mum</span><span class="p">,</span> <span class="p">{</span><span class="nx">id</span><span class="o">:</span> <span class="nx">lId</span><span class="p">});</span>
+		<span class="nx">opt</span><span class="p">.</span><span class="nx">id</span> <span class="o">=</span> <span class="k">typeof</span> <span class="p">(</span><span class="nx">opt</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span> <span class="o">!==</span> <span class="s2">&quot;undefined&quot;</span> <span class="o">?</span> <span class="nx">opt</span><span class="p">.</span><span class="nx">id</span> <span class="o">:</span> <span class="s2">&quot;canvasLoader&quot;</span><span class="p">;</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">cont</span> <span class="o">=</span> <span class="nx">addEl</span><span class="p">(</span><span class="s2">&quot;div&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">mum</span><span class="p">,</span> <span class="p">{</span><span class="nx">id</span><span class="o">:</span> <span class="nx">opt</span><span class="p">.</span><span class="nx">id</span><span class="p">});</span>
 		<span class="k">if</span> <span class="p">(</span><span class="nx">canSup</span><span class="p">)</span> <span class="p">{</span>
 		<span class="c1">// For browsers with Canvas support...</span>
 			<span class="nx">engine</span> <span class="o">=</span> <span class="nx">engines</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
@@ -203,8 +215,8 @@
 		<span class="k">this</span><span class="p">.</span><span class="nx">ready</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
 		<span class="c1">// Draws the shapes on the canvas</span>
 		<span class="k">this</span><span class="p">.</span><span class="nx">draw</span><span class="p">();</span>
-		<span class="c1">// Starts rendering the preloader</span>
-		<span class="k">this</span><span class="p">.</span><span class="nx">show</span><span class="p">();</span>
+		<span class="c1">//Hides the preloader</span>
+		<span class="nx">setCSS</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">cont</span><span class="p">,</span> <span class="p">{</span><span class="nx">display</span><span class="o">:</span> <span class="s2">&quot;none&quot;</span><span class="p">});</span>
 	<span class="p">};</span>
 <span class="c1">/////////////////////////////////////////////////////////////////////////////////////////////</span>
 <span class="c1">// Property declarations</span>
@@ -364,7 +376,14 @@
 <span class="cm">	* @public</span>
 <span class="cm">	* @param density {Number} The default value is 40</span>
 <span class="cm">	**/</span>
-	<span class="nx">p</span><span class="p">.</span><span class="nx">setDensity</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">density</span><span class="p">)</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">density</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">density</span><span class="p">));</span> <span class="k">this</span><span class="p">.</span><span class="nx">redraw</span><span class="p">();</span> <span class="p">};</span>
+	<span class="nx">p</span><span class="p">.</span><span class="nx">setDensity</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">density</span><span class="p">)</span> <span class="p">{</span> 
+		<span class="k">if</span> <span class="p">(</span><span class="nx">safeVML</span> <span class="o">&amp;&amp;</span> <span class="nx">engine</span> <span class="o">===</span> <span class="nx">engines</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="p">{</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">density</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">density</span><span class="p">))</span> <span class="o">&lt;=</span> <span class="nx">safeDensity</span> <span class="o">?</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">density</span><span class="p">))</span> <span class="o">:</span> <span class="nx">safeDensity</span><span class="p">;</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">density</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">density</span><span class="p">));</span>
+		<span class="p">}</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">redraw</span><span class="p">();</span>
+	<span class="p">};</span>
 	<span class="cm">/**</span>
 <span class="cm">	* Returns the number of shapes drawn on the loader canvas</span>
 <span class="cm">	* @method getDensity</span>
@@ -462,7 +481,7 @@
 	<span class="nx">p</span><span class="p">.</span><span class="nx">draw</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
 		<span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">size</span><span class="p">,</span> <span class="nx">w</span><span class="p">,</span> <span class="nx">h</span><span class="p">,</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">ang</span><span class="p">,</span> <span class="nx">rads</span><span class="p">,</span> <span class="nx">rad</span><span class="p">,</span> <span class="nx">de</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">density</span><span class="p">,</span> <span class="nx">animBits</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">(</span><span class="nx">de</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">range</span><span class="p">),</span> <span class="nx">bitMod</span><span class="p">,</span> <span class="nx">minBitMod</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">s</span><span class="p">,</span> <span class="nx">g</span><span class="p">,</span> <span class="nx">sh</span><span class="p">,</span> <span class="nx">f</span><span class="p">,</span> <span class="nx">d</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="nx">arc</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">c</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cCon</span><span class="p">,</span> <span class="nx">di</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">diameter</span><span class="p">;</span>
 		<span class="k">if</span> <span class="p">(</span><span class="nx">engine</span> <span class="o">===</span> <span class="nx">engines</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="p">{</span>
-			<span class="nx">c</span><span class="p">.</span><span class="nx">clearRect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">);</span>
+			<span class="nx">c</span><span class="p">.</span><span class="nx">clearRect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">d</span><span class="p">,</span> <span class="nx">d</span><span class="p">);</span>
 			<span class="nx">setAttr</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">can</span><span class="p">,</span> <span class="p">{</span><span class="nx">width</span><span class="o">:</span> <span class="nx">di</span><span class="p">,</span> <span class="nx">height</span><span class="o">:</span> <span class="nx">di</span><span class="p">});</span>
 			<span class="nx">setAttr</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">cCan</span><span class="p">,</span> <span class="p">{</span><span class="nx">width</span><span class="o">:</span> <span class="nx">di</span><span class="p">,</span> <span class="nx">height</span><span class="o">:</span> <span class="nx">di</span><span class="p">});</span>
 			<span class="k">while</span> <span class="p">(</span><span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">de</span><span class="p">)</span> <span class="p">{</span>
@@ -496,7 +515,7 @@
 					<span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">shape</span> <span class="o">===</span> <span class="nx">shapes</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="p">{</span>
 						<span class="nx">c</span><span class="p">.</span><span class="nx">fillRect</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="o">-</span> <span class="nx">h</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span> <span class="nx">w</span><span class="p">,</span> <span class="nx">h</span><span class="p">);</span>
 					<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-						<span class="nx">rad</span> <span class="o">=</span> <span class="nx">h</span> <span class="o">*</span> <span class="mf">0.7</span><span class="p">;</span>
+						<span class="nx">rad</span> <span class="o">=</span> <span class="nx">h</span> <span class="o">*</span> <span class="mf">0.2</span><span class="p">;</span>
 						<span class="nx">c</span><span class="p">.</span><span class="nx">moveTo</span><span class="p">(</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">rad</span><span class="p">,</span> <span class="nx">y</span> <span class="o">-</span> <span class="nx">h</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">);</span>
 						<span class="nx">c</span><span class="p">.</span><span class="nx">lineTo</span><span class="p">(</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">w</span> <span class="o">-</span> <span class="nx">rad</span><span class="p">,</span> <span class="nx">y</span> <span class="o">-</span> <span class="nx">h</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">);</span>
 						<span class="nx">c</span><span class="p">.</span><span class="nx">quadraticCurveTo</span><span class="p">(</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">w</span><span class="p">,</span> <span class="nx">y</span> <span class="o">-</span> <span class="nx">h</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">w</span><span class="p">,</span> <span class="nx">y</span> <span class="o">-</span> <span class="nx">h</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="nx">rad</span><span class="p">);</span>
@@ -516,7 +535,7 @@
 			<span class="p">}</span>
 		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
 			<span class="nx">setCSS</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">cont</span><span class="p">,</span> <span class="p">{</span><span class="nx">width</span><span class="o">:</span> <span class="nx">di</span><span class="p">,</span> <span class="nx">height</span><span class="o">:</span> <span class="nx">di</span><span class="p">});</span>
-			<span class="nx">setCSS</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">vml</span><span class="p">,</span> <span class="p">{</span><span class="nx">width</span><span class="o">:</span> <span class="nx">di</span><span class="p">,</span> <span class="nx">height</span><span class="o">:</span> <span class="nx">di</span><span class="p">,</span> <span class="nx">border</span><span class="o">:</span> <span class="s2">&quot;1px solid #ff0000&quot;</span><span class="p">});</span>
+			<span class="nx">setCSS</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">vml</span><span class="p">,</span> <span class="p">{</span><span class="nx">width</span><span class="o">:</span> <span class="nx">di</span><span class="p">,</span> <span class="nx">height</span><span class="o">:</span> <span class="nx">di</span><span class="p">});</span>
 			<span class="k">switch</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">shape</span><span class="p">)</span> <span class="p">{</span>
 			<span class="k">case</span> <span class="nx">shapes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">:</span>
 			<span class="k">case</span> <span class="nx">shapes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">:</span>

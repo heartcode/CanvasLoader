@@ -28,35 +28,40 @@
 */
 
 /**
-* This lightweight library uses the HTML5 canvas element to draw and animate the most popular preloader shapes (circle, rectangle, square and rounded rectangle).<br/>
-* The implementation is (hopefully) very simple and doesn't require any external libraries.<br/>
+* CanvasLoader uses the HTML5 canvas element in modern browsers and VML in IE6/7/8 to create and animate the most popular preloader shapes (oval, spiral, rectangle, square and rounded rectangle).<br/><br/>
+* It is important to note that CanvasLoader doesn't show up and starts rendering automatically on instantiation. To start rendering and display the loader use the <code>show()</code> method.
 * @module CanvasLoader
 **/
 (function (window) {
 	"use strict";
 	/**
-	* CanvasLoader is a JavaScript UI library that draws and animates circular preloaders using the Canvas HTML object.<br/>
-	* A CanvasLoader instance creates two canvas elements which are placed into a placeholder div (the id of the div has to be passed in the constructor). The second canvas is invisible and used for caching purposes only.<br/>
+	* CanvasLoader is a JavaScript UI library that draws and animates circular preloaders using the Canvas HTML object.<br/><br/>
+	* A CanvasLoader instance creates two canvas elements which are placed into a placeholder div (the id of the div has to be passed in the constructor). The second canvas is invisible and used for caching purposes only.<br/><br/>
 	* If no id is passed in the constructor, the canvas objects are paced in the document directly.
 	* @class CanvasLoader
 	* @constructor
-	* @param {String} id The id of the placeholder div
+	* @param id {String} The id of the placeholder div
+	* @param opt {Object} Optional parameters<br/><br/>
+	* <strong>Possible values of optional parameters:</strong><br/>
+	* <ul>
+	* <li><strong>id (String):</strong> The id of the CanvasLoader instance</li>
+	* <li><strong>safeVML (Boolean):</strong> If set to true, the amount of CanvasLoader shapes are limited in VML mode. It prevents CPU overkilling when rendering loaders with high density. The default value is true.</li>
 	**/
-	var CanvasLoader = function (id) {
-		this.init(id);
-	}, p = CanvasLoader.prototype, engine, engines = ["canvas", "vml"], shapes = ["oval", "spiral", "square", "rect", "roundRect"], cRX = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/, ie8 = navigator.appVersion.indexOf("MSIE") !== -1 && parseFloat(navigator.appVersion.split("MSIE")[1]) === 8 ? true : false, canSup = !!document.createElement('canvas').getContext,
+	var CanvasLoader = function (id, opt) {
+		this.init(id, opt);
+	}, p = CanvasLoader.prototype, engine, engines = ["canvas", "vml"], shapes = ["oval", "spiral", "square", "rect", "roundRect"], cRX = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/, ie8 = navigator.appVersion.indexOf("MSIE") !== -1 && parseFloat(navigator.appVersion.split("MSIE")[1]) === 8 ? true : false, canSup = !!document.createElement('canvas').getContext, safeDensity = 40, safeVML = true,
 	/**
 	* Creates a new element with the tag and applies the passed properties on it
 	* @method addEl
 	* @protected
 	* @param tag {String} The tag to be created
 	* @param par {String} The DOM element the new element will be appended to
-	* @param props {Object} Additional properties passed to the new DOM element
+	* @param opt {Object} Additional properties passed to the new DOM element
 	* @return {Object} The DOM element
 	*/
-		addEl = function (tag, par, props) {
+		addEl = function (tag, par, opt) {
 			var el = document.createElement(tag), n;
-			for (n in props) { el[n] = props[n]; }
+			for (n in opt) { el[n] = opt[n]; }
 			if(typeof(par) !== "undefined") {
 				par.appendChild(el);
 			}
@@ -67,11 +72,11 @@
 	* @method setCSS
 	* @protected
 	* @param el {Object} The DOM element to be styled
-	* @param props {Object} The style properties
+	* @param opt {Object} The style properties
 	* @return {Object} The DOM element
 	*/
-		setCSS = function (el, props) {
-			for (var n in props) { el.style[n] = props[n]; }
+		setCSS = function (el, opt) {
+			for (var n in opt) { el.style[n] = opt[n]; }
 			return el;
 		},
 	/**
@@ -79,11 +84,11 @@
 	* @method setAttr
 	* @protected
 	* @param el {Object} The DOM element to add the attributes to
-	* @param props {Object} The attributes
+	* @param opt {Object} The attributes
 	* @return {Object} The DOM element
 	*/
-		setAttr = function (el, props) {
-			for (var n in props) { el.setAttribute(n, props[n]); }
+		setAttr = function (el, opt) {
+			for (var n in opt) { el.setAttribute(n, opt[n]); }
 			return el;
 		},
 	/**
@@ -106,10 +111,17 @@
 	* Initialization method
 	* @method init
 	* @protected
-	* @param pId (String) The id of the placeholder div, where the loader will be nested into
-	* @param lId (String) The id of loader
-	*/
-	p.init = function (pId, lId) {
+	* @param id {String} The id of the placeholder div, where the loader will be nested into
+	* @param opt {Object} Optional parameters<br/><br/>
+	* <strong>Possible values of optional parameters:</strong><br/>
+	* <ul>
+	* <li><strong>id (String):</strong> The id of the CanvasLoader instance</li>
+	* <li><strong>safeVML (Boolean):</strong> If set to true, the amount of CanvasLoader shapes are limited in VML mode. It prevents CPU overkilling when rendering loaders with high density. The default value is true.</li>
+	**/
+	p.init = function (pId, opt) {
+		
+		if (typeof(opt.safeVML) === "boolean") { safeVML = opt.safeVML; }
+		
 		/*
 		* Find the containing div by id
 		* If the container element cannot be found we use the document body itself
@@ -125,8 +137,8 @@
 			this.mum = document.body;
 		}
 		// Creates the parent div of the loader instance
-		lId = typeof (lId) !== "undefined" ? lId : "canvasLoader";
-		this.cont = addEl("div", this.mum, {id: lId});
+		opt.id = typeof (opt.id) !== "undefined" ? opt.id : "canvasLoader";
+		this.cont = addEl("div", this.mum, {id: opt.id});
 		if (canSup) {
 		// For browsers with Canvas support...
 			engine = engines[0];
@@ -154,8 +166,8 @@
 		this.ready = true;
 		// Draws the shapes on the canvas
 		this.draw();
-		// Starts rendering the preloader
-		this.show();
+		//Hides the preloader
+		setCSS(this.cont, {display: "none"});
 	};
 /////////////////////////////////////////////////////////////////////////////////////////////
 // Property declarations
@@ -315,7 +327,14 @@
 	* @public
 	* @param density {Number} The default value is 40
 	**/
-	p.setDensity = function (density) { this.density = Math.round(Math.abs(density)); this.redraw(); };
+	p.setDensity = function (density) { 
+		if (safeVML && engine === engines[1]) {
+			this.density = Math.round(Math.abs(density)) <= safeDensity ? Math.round(Math.abs(density)) : safeDensity;
+		} else {
+			this.density = Math.round(Math.abs(density));
+		}
+		this.redraw();
+	};
 	/**
 	* Returns the number of shapes drawn on the loader canvas
 	* @method getDensity
@@ -413,7 +432,7 @@
 	p.draw = function () {
 		var i = 0, size, w, h, x, y, ang, rads, rad, de = this.density, animBits = Math.round(de * this.range), bitMod, minBitMod = 0, s, g, sh, f, d = 1000, arc = 0, c = this.cCon, di = this.diameter;
 		if (engine === engines[0]) {
-			c.clearRect(0, 0, 10000, 10000);
+			c.clearRect(0, 0, d, d);
 			setAttr(this.can, {width: di, height: di});
 			setAttr(this.cCan, {width: di, height: di});
 			while (i < de) {
@@ -447,7 +466,7 @@
 					if(this.shape === shapes[3]) {
 						c.fillRect(x, y - h * 0.5, w, h);
 					} else {
-						rad = h * 0.7;
+						rad = h * 0.2;
 						c.moveTo(x + rad, y - h * 0.5);
 						c.lineTo(x + w - rad, y - h * 0.5);
 						c.quadraticCurveTo(x + w, y - h * 0.5, x + w, y - h * 0.5 + rad);
