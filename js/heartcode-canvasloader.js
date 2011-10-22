@@ -48,6 +48,7 @@
 	* <li><strong>safeVML (Boolean):</strong> If set to true, the amount of CanvasLoader shapes are limited in VML mode. It prevents CPU overkilling when rendering loaders with high density. The default value is true.</li>
 	**/
 	var CanvasLoader = function (id, opt) {
+		if (typeof(opt) == "undefined") { opt = {}; }
 		this.init(id, opt);
 	}, p = CanvasLoader.prototype, engine, engines = ["canvas", "vml"], shapes = ["oval", "spiral", "square", "rect", "roundRect"], cRX = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/, ie8 = navigator.appVersion.indexOf("MSIE") !== -1 && parseFloat(navigator.appVersion.split("MSIE")[1]) === 8 ? true : false, canSup = !!document.createElement('canvas').getContext, safeDensity = 40, safeVML = true,
 	/**
@@ -466,7 +467,7 @@
 					if(this.shape === shapes[3]) {
 						c.fillRect(x, y - h * 0.5, w, h);
 					} else {
-						rad = h * 0.2;
+						rad = h * 0.55;
 						c.moveTo(x + rad, y - h * 0.5);
 						c.lineTo(x + w - rad, y - h * 0.5);
 						c.quadraticCurveTo(x + w, y - h * 0.5, x + w, y - h * 0.5 + rad);
