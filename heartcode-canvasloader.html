@@ -36,36 +36,99 @@
 	<meta name="language" content="en" />
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
-	<script src="js/heartcode-canvasloader-min.js"></script>
+	<script src="js/heartcode-canvasloader.js"></script>
 	<style>
 		body, html {
 			margin:0;
 			padding:0;
 		}
 		.wrapper {
-			position:absolute;
-			width:60px;
-			height:60px;
+			width:600px;
+			height:100%;
+			margin:50px auto 50px auto;
+		}
+		.loader {
+			position:relative;
 			left:50%;
-			top:50%;
-			margin-left:-30px;
-			margin-top:-30px;
 		}
 	</style>
 </head>
 <body>
 	<div class='wrapper'>
-		<div id='spinner'>
-			<script>
-				var cl = new CanvasLoader("spinner", {id: "canvasLoader", safeVML: true});
-				cl.setShape("spiral");
-				cl.setDiameter(60);
-				cl.setDensity(80);
-				cl.setSpeed(1);
-				cl.setFPS(24);
-				cl.show();
-			</script>	
-		</div>
+		<fieldset>
+			<legend>Spiral</legend>
+			<div id='cl_spiral' class="loader" style="margin-left:-10px;">
+				<script>
+					var cl = new CanvasLoader("cl_spiral", {id: "canvasLoader", safeVML: true});
+					cl.setShape("spiral");
+					cl.setDiameter(20);
+					cl.setDensity(40);
+					cl.setSpeed(4);
+					cl.setFPS(12);
+					cl.show();
+				</script>	
+			</div>
+		</fieldset>
+		<fieldset>
+			<legend>Oval</legend>
+			<div id='cl_oval' class="loader" style="margin-left:-5px;">
+				<script>
+					var cl = new CanvasLoader("cl_oval", {id: "canvasLoader", safeVML: true});
+					cl.setShape("oval");
+					cl.setDiameter(10);
+					cl.setDensity(80);
+					cl.setSpeed(2);
+					cl.setFPS(12);
+					cl.setRange(0.95);
+					cl.show();
+				</script>	
+			</div>
+		</fieldset>
+		<fieldset>
+			<legend>Square</legend>
+			<div id='cl_square' class="loader" style="margin-left:-10px;">
+				<script>
+					var cl = new CanvasLoader("cl_square", {id: "canvasLoader", safeVML: true});
+					cl.setShape("square");
+					cl.setDiameter(20);
+					cl.setDensity(40);
+					cl.setSpeed(2);
+					cl.setFPS(12);
+					cl.setRange(0.95);
+					cl.show();
+				</script>	
+			</div>
+		</fieldset>
+		<fieldset>
+			<legend>Rectangle</legend>
+			<div id='cl_rect' class="loader" style="margin-left:-9px;">
+				<script>
+					var cl = new CanvasLoader("cl_rect", {id: "canvasLoader", safeVML: true});
+					cl.setShape("rect");
+					cl.setDiameter(20);
+					cl.setDensity(12);
+					cl.setSpeed(1);
+					cl.setFPS(2);
+					cl.setRange(0.95);
+					cl.show();
+				</script>	
+			</div>
+		</fieldset>
+		<fieldset>
+			<legend>Rounded rectangle</legend>
+			<div id='cl_roundRect' class="loader" style="margin-left:-20px;">
+				<script>
+					var cl = new CanvasLoader("cl_roundRect", {id: "canvasLoader", safeVML: true});
+					cl.setShape("roundRect");
+					cl.setDiameter(40);
+					cl.setDensity(12);
+					cl.setSpeed(1);
+					cl.setFPS(2);
+					cl.setRange(0.95);
+					cl.show();
+				</script>	
+			</div>
+		</fieldset>
 	</div>
 </body>
 </html>

@@ -431,7 +431,7 @@
 	* @protected
 	*/
 	p.draw = function () {
-		var i = 0, size, w, h, x, y, ang, rads, rad, de = this.density, animBits = Math.round(de * this.range), bitMod, minBitMod = 0, s, g, sh, f, d = 1000, arc = 0, c = this.cCon, di = this.diameter;
+		var i = 0, size, w, h, x, y, ang, rads, rad, de = this.density, animBits = Math.round(de * this.range), bitMod, minBitMod = 0, s, g, sh, f, d = 1000, arc = 0, c = this.cCon, di = this.diameter, e = 0.49;
 		if (engine === engines[0]) {
 			c.clearRect(0, 0, d, d);
 			setAttr(this.can, {width: di, height: di});
@@ -445,15 +445,15 @@
 				case shapes[0]:
 				case shapes[1]:
 					size = di * 0.07;
-					x = di * 0.5 + Math.cos(rads) * (di * 0.5 - size) - di * 0.5;
-					y = di * 0.5 + Math.sin(rads) * (di * 0.5 - size) - di * 0.5;
+					x = di * e + Math.cos(rads) * (di * e - size) - di * e;
+					y = di * e + Math.sin(rads) * (di * e - size) - di * e;
 					c.beginPath();
 					if (this.shape === shapes[1]) { c.arc(di * 0.5 + x, di * 0.5 + y, size * bitMod, 0, Math.PI * 2, false); } else { c.arc(di * 0.5 + x, di * 0.5 + y, size, 0, Math.PI * 2, false); }
 					break;
 				case shapes[2]:
 					size = di * 0.12;
-					x = Math.cos(rads) * (di * 0.5 - size) + di * 0.5;
-					y = Math.sin(rads) * (di * 0.5 - size) + di * 0.5;
+					x = Math.cos(rads) * (di * e - size) + di * 0.5;
+					y = Math.sin(rads) * (di * e - size) + di * 0.5;
 					transCon(c, x, y, rads);
 					c.fillRect(x, y - size * 0.5, size, size);
 					break;
