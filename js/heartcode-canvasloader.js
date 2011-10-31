@@ -431,7 +431,7 @@
 	* @protected
 	*/
 	p.draw = function () {
-		var i = 0, size, w, h, x, y, ang, rads, rad, de = this.density, animBits = Math.round(de * this.range), bitMod, minBitMod = 0, s, g, sh, f, d = 1000, arc = 0, c = this.cCon, di = this.diameter, e = 0.49;
+		var i = 0, size, w, h, x, y, ang, rads, rad, de = this.density, animBits = Math.round(de * this.range), bitMod, minBitMod = 0, s, g, sh, f, d = 1000, arc = 0, c = this.cCon, di = this.diameter, e = 0.47;
 		if (engine === engines[0]) {
 			c.clearRect(0, 0, d, d);
 			setAttr(this.can, {width: di, height: di});
