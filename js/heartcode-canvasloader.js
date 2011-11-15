@@ -163,8 +163,6 @@
 		}
 		// Set the RGB color object
 		this.setColor(this.color);
-		// Sets the instance to be ready
-		this.ready = true;
 		// Draws the shapes on the canvas
 		this.draw();
 		//Hides the preloader
@@ -207,13 +205,6 @@
 	* @type Object
 	**/
 	p.cCon = {};
-	/**
-	* Tells if the canvas and its context is ready
-	* @property ready
-	* @protected
-	* @type Boolean
-	**/
-	p.ready = false;
 	/**
 	* Adds a timer for the rendering
 	* @property timer
@@ -334,6 +325,8 @@
 		} else {
 			this.density = Math.round(Math.abs(density));
 		}
+		if (this.density > 360) { this.density = 360; }
+		this.activeId = 0;
 		this.redraw();
 	};
 	/**
@@ -382,7 +375,7 @@
 	* @public
 	* @param speed {Number} The default value is 2
 	**/
-	p.setSpeed = function (speed) { this.speed = Math.round(Math.abs(speed)); this.reset(); };
+	p.setSpeed = function (speed) { this.speed = Math.round(Math.abs(speed)); };
 	/**
 	* Returns the speed of the loader animation
 	* @method getSpeed
@@ -545,7 +538,7 @@
 				++i;
 			}
 		}
-		this.tick(true);
+		this.tick();
 	};
 	/**
 	* Cleans the canvas
@@ -554,7 +547,7 @@
 	*/
 	p.clean = function () {
 		if (engine === engines[0]) {
-			this.con.clearRect(0, 0, 10000, 10000);
+			this.con.clearRect(0, 0, 1000, 1000);
 		} else {
 			var v = this.vml;
 			if (v.hasChildNodes()) {
@@ -570,38 +563,35 @@
 	* @protected
 	*/
 	p.redraw = function () {
-		if (this.ready) {
 			this.clean();
 			this.draw();
-		}
 	};
 	/**
-	* Resets the timer
-	* @method reset
-	* @protected
-	*/
-	p.reset = function () {
-		if (typeof (this.timer) === "number") {
-			this.hide();
-			this.show();
-		}
-	};
+		* Resets the timer
+		* @method reset
+		* @protected
+		*/
+		p.reset = function () {
+			if (typeof (this.timer) === "number") {
+				this.hide();
+				this.show();
+			}
+		};
 	/**
 	* Renders the loader animation
 	* @method tick
 	* @protected
 	*/
-	p.tick = function (init) {
-		var d = this.density, rotUnit = d > 360 ? d / 360 : 360 / d, c = this.con, di = this.diameter;
-		rotUnit *= this.speed;
-		if (!init) { this.activeId += rotUnit; }
-		if (this.activeId >= 360) { this.activeId -= 360; }
+	p.tick = function () {
+		var c = this.con, di = this.diameter;
+		if (typeof(timer) !== "number") { this.activeId += 360 / this.density * this.speed; }
 		if (engine === engines[0]) {
 			c.clearRect(0, 0, di, di);
-			transCon(c, di * 0.5, di * 0.5, Math.PI / 180 * this.activeId);
+			transCon(c, di * 0.5, di * 0.5, this.activeId / 180 * Math.PI);
 			c.drawImage(this.cCan, 0, 0, di, di);
 			c.restore();
 		} else {
+			if (this.activeId >= 360) { this.activeId -= 360; }
 			setCSS(this.vml, {rotation:this.activeId});
 		}
 	};
