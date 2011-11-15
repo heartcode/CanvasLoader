@@ -431,7 +431,7 @@
 			setAttr(this.cCan, {width: di, height: di});
 			while (i < de) {
 				bitMod = i <= animBits ? 1 - ((1 - minBitMod) / animBits * i) : bitMod = minBitMod;
-				ang = 360 - 360 / de * i;
+				ang = 270 - 360 / de * i;
 				rads = ang / 180 * Math.PI;
 				c.fillStyle = "rgba(" + this.cRGB.r + "," + this.cRGB.g + "," + this.cRGB.b + "," + bitMod.toString() + ")";
 				switch (this.shape) {
@@ -538,7 +538,7 @@
 				++i;
 			}
 		}
-		this.tick();
+		this.tick(true);
 	};
 	/**
 	* Cleans the canvas
@@ -582,9 +582,9 @@
 	* @method tick
 	* @protected
 	*/
-	p.tick = function () {
+	p.tick = function (init) {
 		var c = this.con, di = this.diameter;
-		if (typeof(timer) !== "number") { this.activeId += 360 / this.density * this.speed; }
+		if (!init) { this.activeId += 360 / this.density * this.speed; }
 		if (engine === engines[0]) {
 			c.clearRect(0, 0, di, di);
 			transCon(c, di * 0.5, di * 0.5, this.activeId / 180 * Math.PI);
