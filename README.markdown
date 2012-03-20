@@ -1,18 +1,19 @@
-# Heartcode CanvasLoader UI Library
-
-Heartcode CanvasLoader is a lightweight JavaScript UI library, which uses the HTML canvas element to draw and animate circular preloaders.<br/>
+# Heartcode CanvasLoader
+Heartcode CanvasLoader is a JavaScript UI library, which uses the HTML canvas element to draw and animate circular preloaders.<br/>
 The library is currently in beta, some minor changes and improvements might be done to it in the near future.
 
-The live demo for the library can be found at http://heartcode.robertpataki.com/canvasloader<br/>
+##Tools
+I created a tool that can help with generating and previewing loaders with copy/paste code snippets and instructions: http://heartcode.robertpataki.com/canvasloader
 
-For downloads and documentation please visit the GitHub repository at http://github.com/heartcode/CanvasLoader
+##Documentation
+The latest documentation can be found here: http://heartcode.robertpataki.com/canvasloader/docs/CanvasLoader.html
 
-## Credits
+## Contribution
+Please contribute :) I am quite new to JavaScript and I am pretty sure that there are million ways of making the library better, cleaner and smaller. Any constructive contribution is welcome and appriciated.
 
-Heartcode CanvasLoader was created by Róbert Pataki.
+You can also add your website / web app link to the Wiki, so the community can see how others use CanvasLoader.
 
 ## License
-
 **(The MIT License)**
 
 Copyright (c) 2011 Róbert Pataki heartcode@robertpataki.com;
@@ -35,3 +36,6 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+## Credits
+Heartcode CanvasLoader was created by Róbert Pataki.
