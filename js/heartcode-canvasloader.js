@@ -157,7 +157,7 @@
 				document.getElementsByTagName("head")[0].appendChild(addEl("style"));
 				CanvasLoader.vmlSheet = document.styleSheets[document.styleSheets.length - 1];
 				var a = ["group", "oval", "roundrect", "fill"], n;
-				for (n in a) { CanvasLoader.vmlSheet.addRule(a[n], "behavior:url(#default#VML); position:absolute;"); }
+				for ( var n = 0; n < a.length; ++n ) { CanvasLoader.vmlSheet.addRule(a[n], "behavior:url(#default#VML); position:absolute;"); }
 			}
 			this.vml = addEl("group", this.cont);
 		}
