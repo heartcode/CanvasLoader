@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2011 Róbert Pataki
+* Copyright (c) 2013 Róbert Pataki
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -41,15 +41,15 @@
 	* @class CanvasLoader
 	* @constructor
 	* @param id {String} The id of the placeholder div
-	* @param opt {Object} Optional parameters<br/><br/>
-	* <strong>Possible values of optional parameters:</strong><br/>
+	* @param settings {Object} Settings to customise the spinner instance<br/><br/>
+	* <strong>Possible values:</strong><br/>
 	* <ul>
-	* <li><strong>id (String):</strong> The id of the CanvasLoader instance</li>
-	* <li><strong>safeVML (Boolean):</strong> If set to true, the amount of CanvasLoader shapes are limited in VML mode. It prevents CPU overkilling when rendering loaders with high density. The default value is true.</li>
+	* 
+	* 
 	**/
-	var CanvasLoader = function (id, opt) {
-		if (typeof(opt) == "undefined") { opt = {}; }
-		this.init(id, opt);
+	var CanvasLoader = function (id, settings) {
+		if (typeof(settings) == "undefined") { settings = {}; }
+		this.init(id, settings);
 	}, p = CanvasLoader.prototype, engine, engines = ["canvas", "vml"], shapes = ["oval", "spiral", "square", "rect", "roundRect"], cRX = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/, ie8 = navigator.appVersion.indexOf("MSIE") !== -1 && parseFloat(navigator.appVersion.split("MSIE")[1]) === 8 ? true : false, canSup = !!document.createElement('canvas').getContext, safeDensity = 40, safeVML = true,
 	/**
 	* Creates a new element with the tag and applies the passed properties on it
@@ -123,6 +123,13 @@
 		
 		if (typeof(opt.safeVML) === "boolean") { safeVML = opt.safeVML; }
 		
+		// Setting up the new instance
+		var optValue = opt['diameter'],
+				value = Math.round(Math.abs(opt['diameter']));
+		if(value && !isNaN(value) && value > 0) {
+			this.diameter = value;
+		}
+
 		/*
 		* Find the containing div by id
 		* If the container element cannot be found we use the document body itself
@@ -227,13 +234,6 @@
 	* @default 40
 	**/
 	p.diameter = 40;
-	/**
-	* Sets the diameter of the loader
-	* @method setDiameter
-	* @public
-	* @param diameter {Number} The default value is 40
-	**/
-	p.setDiameter = function (diameter) { this.diameter = Math.round(Math.abs(diameter)); this.redraw(); };
 	/**
 	* Returns the diameter of the loader.
 	* @method getDiameter

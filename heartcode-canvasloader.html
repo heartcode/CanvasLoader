@@ -36,7 +36,7 @@
 	<meta name="language" content="en" />
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
-	<script src="js/heartcode-canvasloader-min.js"></script>
+	<script src="js/heartcode-canvasloader.js"></script>
 	<style>
 		body, html {
 			margin:0;
@@ -59,77 +59,13 @@
 			<legend>Spiral</legend>
 			<div id='cl_spiral' class="loader" style="margin-left:-10px;">
 				<script>
-					var cl0 = new CanvasLoader("cl_spiral", {id: "canvasLoader", safeVML: true});
-					cl0.setShape("spiral");
-					cl0.setDiameter(20);
-					cl0.setDensity(40);
-					cl0.setSpeed(4);
-					cl0.setFPS(24);
-					cl0.setDensity(400);
-					cl0.setSpeed(4);
-					cl0.setFPS(12);
-					cl0.show();
-				</script>	
-			</div>
-		</fieldset>
-		<fieldset>
-			<legend>Oval</legend>
-			<div id='cl_oval' class="loader" style="margin-left:-5px;">
-				<script>
-					var cl1 = new CanvasLoader("cl_oval", {id: "canvasLoader", safeVML: true});
-					cl1.setShape("oval");
-					cl1.setDiameter(10);
-					cl1.setDensity(80);
-					cl1.setSpeed(2);
-					cl1.setFPS(36);
-					cl1.setFPS(12);
-					cl1.setRange(0.95);
-					cl1.show();
-				</script>	
-			</div>
-		</fieldset>
-		<fieldset>
-			<legend>Square</legend>
-			<div id='cl_square' class="loader" style="margin-left:-10px;">
-				<script>
-					var cl2 = new CanvasLoader("cl_square", {id: "canvasLoader", safeVML: true});
-					cl2.setShape("square");
-					cl2.setDiameter(20);
-					cl2.setDensity(40);
-					cl2.setSpeed(2);
-					cl2.setFPS(12);
-					cl2.setRange(0.95);
-					cl2.show();
-				</script>	
-			</div>
-		</fieldset>
-		<fieldset>
-			<legend>Rectangle</legend>
-			<div id='cl_rect' class="loader" style="margin-left:-9px;">
-				<script>
-					var cl3 = new CanvasLoader("cl_rect", {id: "canvasLoader", safeVML: true});
-					cl3.setShape("rect");
-					cl3.setDiameter(20);
-					cl3.setDensity(12);
-					cl3.setSpeed(1);
-					cl3.setFPS(2);
-					cl3.setRange(0.95);
-					cl3.show();
-				</script>	
-			</div>
-		</fieldset>
-		<fieldset>
-			<legend>Rounded rectangle</legend>
-			<div id='cl_roundRect' class="loader" style="margin-left:-20px;">
-				<script>
-					var cl4 = new CanvasLoader("cl_roundRect", {id: "canvasLoader", safeVML: true});
-					cl4.setShape("roundRect");
-					cl4.setDiameter(40);
-					cl4.setDensity(12);
-					cl4.setSpeed(1);
-					cl4.setFPS(2);
-					cl4.setRange(0.95);
-					cl4.show();
+					var cl0 = new CanvasLoader('cl_spiral', {
+						shape: 'spiral',
+						diameter: 'lkasdjf',
+						density: 40,
+						speed: 4,
+						fps: 24
+					}).show();
 				</script>	
 			</div>
 		</fieldset>
