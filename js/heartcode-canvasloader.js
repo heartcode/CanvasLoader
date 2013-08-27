@@ -129,7 +129,12 @@
 		*/
 		try {
 			// Look for the parent element
-			if (document.getElementById(pId) !== undefined) {
+            /**
+             * it was "if (document.getElementById(pId) !== undefined)", it's not correct,
+             * if lookup faild, e.g. we want set the parent element = document.body,i pass pId=null or '' document.getElementById(pId)=null,
+             * (null !== undefined)==true, thus this.mum == null.
+             */
+            if (document.getElementById(pId)) {
 				this.mum = document.getElementById(pId);
 			} else {
 				this.mum = document.body;
