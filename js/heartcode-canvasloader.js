@@ -48,12 +48,11 @@
 	* 
 	**/
 	var CanvasLoader = function (id, settings) {
-		if (typeof(settings) == "undefined") { settings = {}; }
-		this.init(id, settings);
-	}, p = CanvasLoader.prototype, engine, engines = ["canvas", "vml"], shapes = ["oval", "spiral", "square", "rect", "roundRect"], cRX = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/, ie8 = navigator.appVersion.indexOf("MSIE") !== -1 && parseFloat(navigator.appVersion.split("MSIE")[1]) === 8 ? true : false, canSup = !!document.createElement('canvas').getContext, safeDensity = 40, safeVML = true,
+		if (typeof settings == "undefined") { settings = {}; }
+		this._init(id, settings);
+	}, p = CanvasLoader.prototype, engine, engines = ["canvas", "vml"], shapes = ["oval", "spiral", "square", "rect", "roundRect"], cRX = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/, ie8 = navigator.appVersion.indexOf("MSIE") !== -1 && parseFloat(navigator.appVersion.split("MSIE")[1]) === 8 ? true : false, canSup = !!document.createElement("canvas").getContext, safeDensity = 40, safeVML = true,
 	/**
 	* Creates a new element with the tag and applies the passed properties on it
-	* @method addEl
 	* @protected
 	* @param tag {String} The tag to be created
 	* @param par {String} The DOM element the new element will be appended to
@@ -63,14 +62,13 @@
 		addEl = function (tag, par, opt) {
 			var el = document.createElement(tag), n;
 			for (n in opt) { el[n] = opt[n]; }
-			if(typeof(par) !== "undefined") {
+			if(typeof par !== "undefined") {
 				par.appendChild(el);
 			}
 			return el;
 		},
 	/**
 	* Sets the css properties on the element
-	* @method setCSS
 	* @protected
 	* @param el {Object} The DOM element to be styled
 	* @param opt {Object} The style properties
@@ -82,7 +80,6 @@
 		},
 	/**
 	* Sets the attributes on the element
-	* @method setAttr
 	* @protected
 	* @param el {Object} The DOM element to add the attributes to
 	* @param opt {Object} The attributes
@@ -94,7 +91,6 @@
 		},
 	/**
 	* Transforms the cache canvas before drawing
-	* @method transCon
 	* @protected
 	* @param	x {Object} The canvas context to be transformed
 	* @param	x {Number} x translation
@@ -108,9 +104,34 @@
 			c.translate(-x, -y);
 			c.beginPath();
 		};
+
+  /**
+   * Holds all accessible arguments on the CL instance
+   * @type {Object}
+   */
+  p.arguments = {
+    shape: "oval",
+    color: "#000000",
+    diameter: 40,
+    range: 0.2,
+    density: 40,
+    speed: 2,
+    fps: 60
+  };
+
+  /**
+   * Return argument value by key if defined
+   * @param  {[type]} key [description]
+   * @return {[type]}     [description]
+   */
+  p.get = function(key) {
+    if(typeof key !== "undefined" && this.arguments.hasOwnProperty(key.toString())) {
+      return this.arguments[key.toString()];
+    }
+  };
+
 	/** 
 	* Initialization method
-	* @method init
 	* @protected
 	* @param id {String} The id of the placeholder div, where the loader will be nested into
 	* @param opt {Object} Optional parameters<br/><br/>
@@ -119,13 +140,15 @@
 	* <li><strong>id (String):</strong> The id of the CanvasLoader instance</li>
 	* <li><strong>safeVML (Boolean):</strong> If set to true, the amount of CanvasLoader shapes are limited in VML mode. It prevents CPU overkilling when rendering loaders with high density. The default value is true.</li>
 	**/
-	p.init = function (pId, opt) {
+	p._init = function (pId, opt) {
 		
-		if (typeof(opt.safeVML) === "boolean") { safeVML = opt.safeVML; }
+    var arg = this.arguments;
+
+		if (typeof opt.safeVML === "boolean") { safeVML = opt.safeVML; }
 		
 		// Setting up the new instance
-		var optValue = opt['diameter'],
-				value = Math.round(Math.abs(opt['diameter']));
+		var optValue = opt["diameter"],
+				value = Math.round(Math.abs(opt["diameter"]));
 		if(value && !isNaN(value) && value > 0) {
 			this.diameter = value;
 		}
@@ -145,7 +168,7 @@
 			this.mum = document.body;
 		}
 		// Creates the parent div of the loader instance
-		opt.id = typeof (opt.id) !== "undefined" ? opt.id : "canvasLoader";
+		opt.id = typeof opt.id !== "undefined" ? opt.id : "canvasLoader";
 		this.cont = addEl("div", this.mum, {id: opt.id});
 		if (canSup) {
 		// For browsers with Canvas support...
@@ -160,20 +183,48 @@
 		// For browsers without Canvas support...
 			engine = engines[1];
 			// Adds the VML stylesheet
-			if (typeof (CanvasLoader.vmlSheet) === "undefined") {
+			if (typeof CanvasLoader.vmlSheet === "undefined") {
 				document.getElementsByTagName("head")[0].appendChild(addEl("style"));
 				CanvasLoader.vmlSheet = document.styleSheets[document.styleSheets.length - 1];
-				var a = ["group", "oval", "roundrect", "fill"], n;
+				var a = ["group", "oval", "roundrect", "fill"];
 				for ( var n = 0; n < a.length; ++n ) { CanvasLoader.vmlSheet.addRule(a[n], "behavior:url(#default#VML); position:absolute;"); }
 			}
 			this.vml = addEl("group", this.cont);
-		}
-		// Set the RGB color object
-		this.setColor(this.color);
-		// Draws the shapes on the canvas
-		this.draw();
+		}	
+
+    // Shape setup
+    var shape = opt.shape || arg.shape;
+    for (var i = 0; i < shapes.length; i++) {
+      if (opt.shape === shapes[i]) {
+        this.shape = opt.shape;
+        break;
+      }
+    }
+    // Density setup
+    var density = opt.density || arg.density;
+    if (safeVML && engine === engines[1]) {
+      this.density = Math.round(Math.abs(density)) <= safeDensity ? Math.round(Math.abs(density)) : safeDensity;
+    } else {
+      this.density = Math.round(Math.abs(density));
+    }
+    if (this.density > 360) { this.density = 360; }
+    this.activeId = 0;
+    // Colour setup
+    var color = opt.color;
+    this.color = cRX.test(color) ? color : arg.color;
+    this.cRGB = this._getRGB(this.color);
+    // Range setup
+    this.range = Math.abs(opt.range || arg.range);
+    // Speed setup
+    this.speed = Math.round(Math.abs(opt.speed || arg.speed));
+    // FPS setup
+    this.fps = Math.round(Math.abs(opt.fps || arg.fps));
+
+    // Initial rendering
+		this._draw();
+
 		//Hides the preloader
-		setCSS(this.cont, {display: "none"});
+		setCSS(this.cont, {visibility: "hidden"});
 	};
 /////////////////////////////////////////////////////////////////////////////////////////////
 // Property declarations
@@ -233,14 +284,7 @@
 	* @type Number
 	* @default 40
 	**/
-	p.diameter = 40;
-	/**
-	* Returns the diameter of the loader.
-	* @method getDiameter
-	* @public
-	* @return {Number}
-	**/
-	p.getDiameter = function () { return this.diameter; };
+	p.diameter = p.arguments.diameter;
 	/**
 	* The color of the loader shapes in RGB
 	* @property cRGB
@@ -248,28 +292,14 @@
 	* @type Object
 	**/
 	p.cRGB = {};
-	/**
-	* The color of the loader shapes in HEX
-	* @property color
-	* @protected
-	* @type String
-	* @default "#000000"
-	**/
-	p.color = "#000000";
-	/**
-	* Sets hexadecimal color of the loader
-	* @method setColor
-	* @public
-	* @param color {String} The default value is '#000000'
-	**/
-	p.setColor = function (color) { this.color = cRX.test(color) ? color : "#000000"; this.cRGB = this.getRGB(this.color); this.redraw(); };
-	/**
-	* Returns the loader color in a hexadecimal form
-	* @method getColor
-	* @public
-	* @return {String}
-	**/
-	p.getColor = function () { return this.color; };
+  /**
+  * The color of the loader shapes in HEX
+  * @property color
+  * @protected
+  * @type String
+  * @default "#000000"
+  **/
+  p.color = p.arguments.color;
 	/**
 	* The type of the loader shapes
 	* @property shape
@@ -277,34 +307,7 @@
 	* @type String
 	* @default "oval"
 	**/
-	p.shape = shapes[0];
-	/**
-	* Sets the type of the loader shapes.<br/>
-	* <br/><b>The acceptable values are:</b>
-	* <ul>
-	* <li>'oval'</li>
-	* <li>'spiral'</li>
-	* <li>'square'</li>
-	* <li>'rect'</li>
-	* <li>'roundRect'</li>
-	* </ul>
-	* @method setShape
-	* @public
-	* @param shape {String} The default value is 'oval'
-	**/
-	p.setShape = function (shape) {
-		var n;
-		for (n in shapes) {
-			if (shape === shapes[n]) { this.shape = shape; this.redraw(); break; }
-		}
-	};
-	/**
-	* Returns the type of the loader shapes
-	* @method getShape
-	* @public
-	* @return {String}
-	**/
-	p.getShape = function () { return this.shape; };
+	p.shape = p.arguments.shape;
 	/**
 	* The number of shapes drawn on the loader canvas
 	* @property density
@@ -312,118 +315,44 @@
 	* @type Number
 	* @default 40
 	**/
-	p.density = 40;
-	/**
-	* Sets the number of shapes drawn on the loader canvas
-	* @method setDensity
-	* @public
-	* @param density {Number} The default value is 40
-	**/
-	p.setDensity = function (density) { 
-		if (safeVML && engine === engines[1]) {
-			this.density = Math.round(Math.abs(density)) <= safeDensity ? Math.round(Math.abs(density)) : safeDensity;
-		} else {
-			this.density = Math.round(Math.abs(density));
-		}
-		if (this.density > 360) { this.density = 360; }
-		this.activeId = 0;
-		this.redraw();
-	};
-	/**
-	* Returns the number of shapes drawn on the loader canvas
-	* @method getDensity
-	* @public
-	* @return {Number}
-	**/
-	p.getDensity = function () { return this.density; };
+	p.density = p.arguments.density;
 	/**
 	* The amount of the modified shapes in percent.
 	* @property range
 	* @protected
 	* @type Number
 	**/
-	p.range = 1.3;
-	/**
-	* Sets the amount of the modified shapes in percent.<br/>
-	* With this value the user can set what range of the shapes should be scaled and/or faded. The shapes that are out of this range will be scaled and/or faded with a minimum amount only.<br/>
-	* This minimum amount is 0.1 which means every shape which is out of the range is scaled and/or faded to 10% of the original values.<br/>
-	* The visually acceptable range value should be between 0.4 and 1.5.
-	* @method setRange
-	* @public
-	* @param range {Number} The default value is 1.3
-	**/
-	p.setRange = function (range) { this.range = Math.abs(range); this.redraw(); };
-	/**
-	* Returns the modified shape range in percent
-	* @method getRange
-	* @public
-	* @return {Number}
-	**/
-	p.getRange = function () { return this.range; };
+	p.range = p.arguments.range;
 	/**
 	* The speed of the loader animation
 	* @property speed
 	* @protected
 	* @type Number
 	**/
-	p.speed = 2;
-	/**
-	* Sets the speed of the loader animation.<br/>
-	* This value tells the loader how many shapes to skip by each tick.<br/>
-	* Using the right combination of the <code>setFPS</code> and the <code>setSpeed</code> methods allows the users to optimize the CPU usage of the loader whilst keeping the animation on a visually pleasing level.
-	* @method setSpeed
-	* @public
-	* @param speed {Number} The default value is 2
-	**/
-	p.setSpeed = function (speed) { this.speed = Math.round(Math.abs(speed)); };
-	/**
-	* Returns the speed of the loader animation
-	* @method getSpeed
-	* @public
-	* @return {Number}
-	**/
-	p.getSpeed = function () { return this.speed; };
+	p.speed = p.arguments.speed;
 	/**
 	* The FPS value of the loader animation rendering
 	* @property fps
 	* @protected
 	* @type Number
 	**/
-	p.fps = 24;
-	/**
-	* Sets the rendering frequency.<br/>
-	* This value tells the loader how many times to refresh and modify the canvas in 1 second.<br/>
-	* Using the right combination of the <code>setSpeed</code> and the <code>setFPS</code> methods allows the users to optimize the CPU usage of the loader whilst keeping the animation on a visually pleasing level.
-	* @method setFPS
-	* @public
-	* @param fps {Number} The default value is 24
-	**/
-	p.setFPS = function (fps) { this.fps = Math.round(Math.abs(fps)); this.reset(); };
-	/**
-	* Returns the fps of the loader
-	* @method getFPS
-	* @public
-	* @return {Number}
-	**/
-	p.getFPS = function () { return this.fps; };
+	p.fps = p.arguments.fps;
 // End of Property declarations
 /////////////////////////////////////////////////////////////////////////////////////////////	
 	/**
 	* Return the RGB values of the passed color
-	* @method getRGB
 	* @protected
 	* @param color {String} The HEX color value to be converted to RGB
 	*/
-	p.getRGB = function (c) {
+	p._getRGB = function (c) {
 		c = c.charAt(0) === "#" ? c.substring(1, 7) : c;
 		return {r: parseInt(c.substring(0, 2), 16), g: parseInt(c.substring(2, 4), 16), b: parseInt(c.substring(4, 6), 16) };
 	};
 	/**
 	* Draw the shapes on the canvas
-	* @method draw
 	* @protected
 	*/
-	p.draw = function () {
+	p._draw = function () {
 		var i = 0, size, w, h, x, y, ang, rads, rad, de = this.density, animBits = Math.round(de * this.range), bitMod, minBitMod = 0, s, g, sh, f, d = 1000, arc = 0, c = this.cCon, di = this.diameter, e = 0.47;
 		if (engine === engines[0]) {
 			c.clearRect(0, 0, d, d);
@@ -538,51 +467,13 @@
 				++i;
 			}
 		}
-		this.tick(true);
+		this._tick(true);
 	};
-	/**
-	* Cleans the canvas
-	* @method clean
-	* @protected
-	*/
-	p.clean = function () {
-		if (engine === engines[0]) {
-			this.con.clearRect(0, 0, 1000, 1000);
-		} else {
-			var v = this.vml;
-			if (v.hasChildNodes()) {
-				while (v.childNodes.length >= 1) {
-					v.removeChild(v.firstChild);
-				}
-			}
-		}
-	};
-	/**
-	* Redraws the canvas
-	* @method redraw
-	* @protected
-	*/
-	p.redraw = function () {
-			this.clean();
-			this.draw();
-	};
-	/**
-		* Resets the timer
-		* @method reset
-		* @protected
-		*/
-		p.reset = function () {
-			if (typeof (this.timer) === "number") {
-				this.hide();
-				this.show();
-			}
-		};
 	/**
 	* Renders the loader animation
-	* @method tick
 	* @protected
 	*/
-	p.tick = function (init) {
+	p._tick = function (init) {
 		var c = this.con, di = this.diameter;
 		if (!init) { this.activeId += 360 / this.density * this.speed; }
 		if (engine === engines[0]) {
@@ -595,38 +486,36 @@
 			setCSS(this.vml, {rotation:this.activeId});
 		}
 	};
+
+
 	/**
 	* Shows the rendering of the loader animation
-	* @method show
-	* @public
 	*/
 	p.show = function () {
-		if (typeof (this.timer) !== "number") {
+		if (typeof this.timer !== "number") {
 			var t = this;
-			this.timer = self.setInterval(function () { t.tick(); }, Math.round(1000 / this.fps));
-			setCSS(this.cont, {display: "block"});
+			this.timer = self.setInterval(function () { t._tick(); }, Math.round(1000 / this.fps));
+			setCSS(this.cont, {visibility: "visible"});
 		}
+    return this;
 	};
 	/**
 	* Stops the rendering of the loader animation and hides the loader
-	* @method hide
-	* @public
 	*/
 	p.hide = function () {
-		if (typeof (this.timer) === "number") {
+		if (typeof this.timer === "number") {
 			clearInterval(this.timer);			
 			delete this.timer;
-			setCSS(this.cont, {display: "none"});
+			setCSS(this.cont, {visibility: "hidden"});
 		}
+    return this;
 	};
 	/**
 	* Removes the CanvasLoader instance and all its references
-	* @method kill
-	* @public
 	*/
 	p.kill = function () {
 		var c = this.cont;
-		if (typeof (this.timer) === "number") { this.hide(); }
+		if (typeof this.timer === "number") { this.hide(); }
 		if (engine === engines[0]) {
 			c.removeChild(this.can);
 			c.removeChild(this.cCan);
@@ -635,6 +524,7 @@
 		}
 		var n;
 		for (n in this) { delete this[n]; }
+    return this;
 	};
 	window.CanvasLoader = CanvasLoader;
 }(window));

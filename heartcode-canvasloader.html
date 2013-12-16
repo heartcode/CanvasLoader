@@ -56,17 +56,26 @@
 <body>
 	<div class='wrapper'>
 		<fieldset>
-			<legend>Spiral</legend>
+			<legend>Teszt</legend>
 			<div id='cl_spiral' class="loader" style="margin-left:-10px;">
-				<script>
-					var cl0 = new CanvasLoader('cl_spiral', {
-						shape: 'spiral',
-						diameter: 'lkasdjf',
-						density: 40,
-						speed: 4,
-						fps: 24
-					}).show();
-				</script>	
+				<script type='text/javascript'>
+					var clSettings = {
+						shape: 'roundRect',
+						diameter: 100,
+						density: 8,
+						speed: 1,
+						range: 1,
+						fps: 1,
+						color: ''
+					}
+					var cl0 = new CanvasLoader('cl_spiral', clSettings).show();
+
+					clSettings.color = '#ff0000';
+					var cl1 = new CanvasLoader('cl_spiral', clSettings).show();
+
+					clSettings.color = '#ff00ff';
+					var cl1 = new CanvasLoader('cl_spiral', clSettings).show();
+				</script>
 			</div>
 		</fieldset>
 	</div>
