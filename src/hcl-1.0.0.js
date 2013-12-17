@@ -121,8 +121,9 @@
 
   /**
    * Return argument value by key if defined
-   * @param  {[type]} key [description]
-   * @return {[type]}     [description]
+   * @param  {String} key The key we're after
+   * @return {*}     	The value of the key we're looking for
+   * @method get
    */
   p.get = function(key) {
     if(typeof key !== "undefined" && this.arguments.hasOwnProperty(key.toString())) {
@@ -139,6 +140,7 @@
 	* <ul>
 	* <li><strong>id (String):</strong> The id of the CanvasLoader instance</li>
 	* <li><strong>safeVML (Boolean):</strong> If set to true, the amount of CanvasLoader shapes are limited in VML mode. It prevents CPU overkilling when rendering loaders with high density. The default value is true.</li>
+	* @method _init
 	**/
 	p._init = function (pId, opt) {
 		
@@ -147,8 +149,7 @@
 		if (typeof opt.safeVML === "boolean") { safeVML = opt.safeVML; }
 		
 		// Setting up the new instance
-		var optValue = opt["diameter"],
-				value = Math.round(Math.abs(opt["diameter"]));
+		var value = Math.round(Math.abs(opt["diameter"]));
 		if(value && !isNaN(value) && value > 0) {
 			this.diameter = value;
 		}
@@ -195,8 +196,8 @@
     // Shape setup
     var shape = opt.shape || arg.shape;
     for (var i = 0; i < shapes.length; i++) {
-      if (opt.shape === shapes[i]) {
-        this.shape = opt.shape;
+      if (shape === shapes[i]) {
+        this.shape = shape;
         break;
       }
     }
@@ -343,6 +344,7 @@
 	* Return the RGB values of the passed color
 	* @protected
 	* @param color {String} The HEX color value to be converted to RGB
+	* @method _getRGB
 	*/
 	p._getRGB = function (c) {
 		c = c.charAt(0) === "#" ? c.substring(1, 7) : c;
@@ -351,6 +353,7 @@
 	/**
 	* Draw the shapes on the canvas
 	* @protected
+	* @method _draw
 	*/
 	p._draw = function () {
 		var i = 0, size, w, h, x, y, ang, rads, rad, de = this.density, animBits = Math.round(de * this.range), bitMod, minBitMod = 0, s, g, sh, f, d = 1000, arc = 0, c = this.cCon, di = this.diameter, e = 0.47;
@@ -472,6 +475,7 @@
 	/**
 	* Renders the loader animation
 	* @protected
+	* @method _tick
 	*/
 	p._tick = function (init) {
 		var c = this.con, di = this.diameter;
@@ -490,6 +494,7 @@
 
 	/**
 	* Shows the rendering of the loader animation
+	* @method show
 	*/
 	p.show = function () {
 		if (typeof this.timer !== "number") {
@@ -501,6 +506,7 @@
 	};
 	/**
 	* Stops the rendering of the loader animation and hides the loader
+	* @method hide
 	*/
 	p.hide = function () {
 		if (typeof this.timer === "number") {
@@ -512,6 +518,7 @@
 	};
 	/**
 	* Removes the CanvasLoader instance and all its references
+	* @method kill
 	*/
 	p.kill = function () {
 		var c = this.cont;
