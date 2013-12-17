@@ -10,15 +10,15 @@ module.exports = function(grunt) {
         mangle: true
       },
       build: {
-        src: 'src/hcl-1.0.0.js',
-        dest: 'build/hcl-1.0.0.min.js'
+        src: 'src/hcl-<%= pkg.version %>.js',
+        dest: 'build/hcl-<%= pkg.version %>.min.js'
       }
     },
     yuidoc: {
       compile: {
         name: '<%= pkg.name %>',
         description: '<%= pkg.description %>',
-        version: '<%= pkg.version %>',
+        version: '<%= pkg.version%>',
         url: '<%= pkg.homepage %>',
         options: {
           paths: 'src',
