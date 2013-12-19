@@ -211,6 +211,38 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "Gruntfile.js",
+			"settings":
+			{
+				"buffer_size": 2025,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "package.json",
+			"settings":
+			{
+				"buffer_size": 408,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/hcl-1.0.0.js",
+			"settings":
+			{
+				"buffer_size": 16495,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "examples/hcl.html",
+			"settings":
+			{
+				"buffer_size": 2607,
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -277,12 +309,15 @@
 	},
 	"file_history":
 	[
+		"/Users/rob/Workspace/social-coding/CanvasLoader/package.json",
+		"/Users/rob/Workspace/social-coding/CanvasLoader/examples/hcl.html",
+		"/Users/rob/Workspace/social-coding/CanvasLoader/.gitignore",
+		"/Users/rob/Workspace/social-coding/CanvasLoader/examples/heartcode-canvasloader.html",
 		"/Users/rob/Workspace/social-coding/CanvasLoader/hcl.sublime-project",
 		"/Users/rob/Workspace/social-coding/CanvasLoader/heartcode-canvasloader.html",
 		"/Users/rob/Workspace/social-coding/CanvasLoader/Gemfile",
 		"/Users/rob/Workspace/social-coding/CanvasLoader/js/heartcode-canvasloader.js",
 		"/Users/rob/Workspace/social-coding/CanvasLoader/config/assets.yml",
-		"/Users/rob/Workspace/social-coding/CanvasLoader/.gitignore",
 		"/Users/rob/Workspace/social-coding/CanvasLoader/README.markdown",
 		"/Users/rob/Workspace/ustwo/bkey/src/common/js/bk/payment/bk.payment-stack.js",
 		"/Users/rob/Workspace/ustwo/bkey/src/common/js/bk/bk.stack-step.js",
@@ -401,10 +436,7 @@
 		"/Users/rob/Workspace/ustwo/bkey/src/common/js/bk/outofband/bk.out-of-band.js",
 		"/Users/rob/Workspace/ustwo/bkey/src/common/sass/out-of-band.scss",
 		"/Users/rob/Workspace/ustwo/bkey/src/common/sass/change-passcode.scss",
-		"/Users/rob/Workspace/ustwo/bkey/src/common/js/bk/models/bk.standing-order-model.js",
-		"/Users/rob/Workspace/ustwo/bkey/src/common/data/get-future-dated-payments.js",
-		"/Users/rob/Workspace/ustwo/bkey/src/common/js/bk/data-loaders/bk.mock-api-engine.js",
-		"/Users/rob/Workspace/ustwo/bkey/Guardfile"
+		"/Users/rob/Workspace/ustwo/bkey/src/common/js/bk/models/bk.standing-order-model.js"
 	],
 	"find":
 	{
@@ -624,8 +656,129 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "Gruntfile.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2025,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1891,
+								1909
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true,
+							"word_separators": "./\\\\()\\\"\\'-:,.;<>~!@#%^&*|+=[]{}`~?"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "package.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 408,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								401,
+								401
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/hcl-1.0.0.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 16495,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								448,
+								448
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false,
+							"word_separators": "./\\\\()\\\"\\'-:,.;<>~!@#%^&*|+=[]{}`~?"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "examples/hcl.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2607,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2561,
+								2566
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -660,6 +813,10 @@
 		]
 	},
 	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
 	"project": "hcl.sublime-project",
 	"replace":
 	{
