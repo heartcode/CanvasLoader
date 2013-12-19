@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>Heartcode CanvasLoader test</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="language" content="en" />
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	<script src="../build/hcl-1.0.0.min.js"></script>
+	<style>
+		body, html {
+			margin:0;
+			padding:0;
+		}
+		.wrapper {
+			width:200px;
+			height:100%;
+			margin:50px auto 50px auto;
+		}
+		.loader {
+			position:relative;
+			left:50%;
+			margin-bottom: 30px;
+		}
+		.loader:first-child {
+			margin-top: 20px;
+		}
+		.loader:last-child {
+			margin-bottom: 20px;
+		}
+	</style>
+</head>
+<body>
+	<div class='wrapper'>
+		<fieldset>
+			<div id='canvasloader-oval' class="loader"></div>
+			<div id='canvasloader-spiral' class="loader"></div>
+			<div id='canvasloader-square' class="loader"></div>
+			<div id='canvasloader-rect' class="loader"></div>
+			<div id='canvasloader-roundRect' class="loader"></div>
+		</fieldset>
+	</div>
+	<script>
+		var settings = {
+			shape: 'spiral',
+			diameter: 90,
+			density: 12,
+			speed: 1,
+			range: 1,
+			fps: 12,
+			color: '#0099ff'
+		}
+		var target = document.getElementById('canvasloader-spiral');
+		var cl0 = new CanvasLoader(target, settings).show();
+
+		settings.shape = 'oval';
+		target = document.getElementById('canvasloader-oval');
+		var cl1 = new CanvasLoader(target, settings).show();
+
+		settings.shape = 'square';
+		target = document.getElementById('canvasloader-square');
+		var cl2 = new CanvasLoader(target, settings).show();
+
+		settings.shape = 'rect';
+		target = document.getElementById('canvasloader-rect');
+		var cl3 = new CanvasLoader(target, settings).show();
+
+		settings.shape = 'roundRect';
+		target = document.getElementById('canvasloader-roundRect');
+		var cl4 = new CanvasLoader(target, settings).show();
+	</script>
+</body>
+</html>
