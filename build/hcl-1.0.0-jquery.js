@@ -1,98 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>src/hcl-1.0.0.js - heartcode-canvasloader</title>
-    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
-    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
-    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
-    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
-</head>
-<body class="yui3-skin-sam">
-
-<div id="doc">
-    <div id="hd" class="yui3-g header">
-        <div class="yui3-u-3-4">
-            
-                <h1><img src="../assets/css/logo.png" title="heartcode-canvasloader"></h1>
-            
-        </div>
-        <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.0.0</em>
-        </div>
-    </div>
-    <div id="bd" class="yui3-g">
-
-        <div class="yui3-u-1-4">
-            <div id="docs-sidebar" class="sidebar apidocs">
-                <div id="api-list">
-    <h2 class="off-left">APIs</h2>
-    <div id="api-tabview" class="tabview">
-        <ul class="tabs">
-            <li><a href="#api-classes">Classes</a></li>
-            <li><a href="#api-modules">Modules</a></li>
-        </ul>
-
-        <div id="api-tabview-filter">
-            <input type="search" id="api-filter" placeholder="Type to filter APIs">
-        </div>
-
-        <div id="api-tabview-panel">
-            <ul id="api-classes" class="apis classes">
-            
-                <li><a href="../classes/CanvasLoader.html">CanvasLoader</a></li>
-            
-            </ul>
-
-            <ul id="api-modules" class="apis modules">
-            
-                <li><a href="../modules/CanvasLoader.html">CanvasLoader</a></li>
-            
-            </ul>
-        </div>
-    </div>
-</div>
-
-            </div>
-        </div>
-        <div class="yui3-u-3-4">
-                <div id="api-options">
-        Show:
-        <label for="api-show-inherited">
-            <input type="checkbox" id="api-show-inherited" checked>
-            Inherited
-        </label>
-
-        <label for="api-show-protected">
-            <input type="checkbox" id="api-show-protected">
-            Protected
-        </label>
-
-        <label for="api-show-private">
-            <input type="checkbox" id="api-show-private">
-            Private
-        </label>
-        <label for="api-show-deprecated">
-            <input type="checkbox" id="api-show-deprecated">
-            Deprecated
-        </label>
-
-    </div>
-
-
-            <div class="apidocs">
-                <div id="docs-main">
-                    <div class="content">
-                        <h1 class="file-heading">File: src/hcl-1.0.0.js</h1>
-
-<div class="file">
-    <pre class="code prettyprint linenums">
 /*
 * Copyright (c) 2013 Róbert Pataki
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
-* of this software and associated documentation files (the &quot;Software&quot;), to deal
+* of this software and associated documentation files (the "Software"), to deal
 * in the Software without restriction, including without limitation the rights
 * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 * copies of the Software, and to permit persons to whom the Software is
@@ -101,7 +11,7 @@
 * The above copyright notice and this permission notice shall be included in
 * all copies or substantial portions of the Software.
 * 
-* THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
@@ -118,15 +28,15 @@
 */
 
 /**
-* CanvasLoader uses the HTML5 canvas element in modern browsers and VML in IE6/7/8 to create and animate the most popular preloader shapes (oval, spiral, rectangle, square and rounded rectangle).&lt;br/&gt;&lt;br/&gt;
-* It is important to note that CanvasLoader doesn&#x27;t show up and starts rendering automatically on instantiation. To start rendering and display the loader use the &lt;code&gt;show()&lt;/code&gt; method.
+* CanvasLoader uses the HTML5 canvas element in modern browsers and VML in IE6/7/8 to create and animate the most popular preloader shapes (oval, spiral, rectangle, square and rounded rectangle).<br/><br/>
+* It is important to note that CanvasLoader doesn't show up and starts rendering automatically on instantiation. To start rendering and display the loader use the <code>show()</code> method.
 * @module CanvasLoader
 **/
 (function (window) {
-	&quot;use strict&quot;;
+	"use strict";
 	/**
-	* CanvasLoader is a JavaScript UI library that draws and animates circular preloaders using the Canvas HTML object.&lt;br/&gt;&lt;br/&gt;
-	* A CanvasLoader instance creates two canvas elements which are placed into a placeholder div (the id of the div has to be passed in the constructor). The second canvas is invisible and used for caching purposes only.&lt;br/&gt;&lt;br/&gt;
+	* CanvasLoader is a JavaScript UI library that draws and animates circular preloaders using the Canvas HTML object.<br/><br/>
+	* A CanvasLoader instance creates two canvas elements which are placed into a placeholder div (the id of the div has to be passed in the constructor). The second canvas is invisible and used for caching purposes only.<br/><br/>
 	* If no id is passed in the constructor, the canvas objects are paced in the document directly.
 	* @class CanvasLoader
 	* @constructor
@@ -147,7 +57,7 @@
 	var CanvasLoader = function (target, settings) {
 		settings = settings || {};
 		this._init(target, settings);
-	}, p = CanvasLoader.prototype, engine, engines = [&quot;canvas&quot;, &quot;vml&quot;], shapes = [&quot;oval&quot;, &quot;spiral&quot;, &quot;square&quot;, &quot;rect&quot;, &quot;roundRect&quot;], cRX = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/, ie8 = navigator.appVersion.indexOf(&quot;MSIE&quot;) !== -1 &amp;&amp; parseFloat(navigator.appVersion.split(&quot;MSIE&quot;)[1]) === 8 ? true : false, canSup = !!document.createElement(&quot;canvas&quot;).getContext, safeDensity = 40, safeVML = true,
+	}, p = CanvasLoader.prototype, engine, engines = ["canvas", "vml"], shapes = ["oval", "spiral", "square", "rect", "roundRect"], cRX = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/, ie8 = navigator.appVersion.indexOf("MSIE") !== -1 && parseFloat(navigator.appVersion.split("MSIE")[1]) === 8 ? true : false, canSup = !!document.createElement("canvas").getContext, safeDensity = 40, safeVML = true,
 	
 		/**
 		* Creates a new element with the tag and applies the passed properties on it
@@ -164,7 +74,7 @@
 				el[n] = opt[n];
 			}
 
-			if(typeof par !== &quot;undefined&quot;) {
+			if(typeof par !== "undefined") {
 				par.appendChild(el);
 			}
 			return el;
@@ -224,8 +134,8 @@
    * @type {Object}
    */
   p._settings = {
-    shape: &quot;oval&quot;,
-    color: &quot;#000000&quot;,
+    shape: "oval",
+    color: "#000000",
     diameter: 40,
     range: 0.2,
     density: 40,
@@ -302,7 +212,7 @@
   * @property _color
   * @private
   * @type String
-  * @default &quot;#000000&quot;
+  * @default "#000000"
   **/
   p._color = p._settings.color;
 	/**
@@ -310,7 +220,7 @@
 	* @property _shape
 	* @private
 	* @type String
-	* @default &quot;oval&quot;
+	* @default "oval"
 	**/
 	p._shape = p._settings.shape;
 	/**
@@ -363,33 +273,33 @@
 		t.mum = target;
 
 		// Creates the parent div of the loader instance
-		t._cont = _addEl(&quot;div&quot;, t.mum, {className: &quot;canvasloader&quot;});
+		t._cont = _addEl("div", t.mum, {className: "canvasloader"});
 
 		if (canSup) {
 		// For browsers with Canvas support...
 			engine = engines[0];
 			// Createse the canvas element
-			t._can = _addEl(&quot;canvas&quot;, t._cont);
-			t._con = t._can.getContext(&quot;2d&quot;);
+			t._can = _addEl("canvas", t._cont);
+			t._con = t._can.getContext("2d");
 			// Create the cache canvas element
-			t._cCan = _setCSS(_addEl(&quot;canvas&quot;, t._cont), { display: &quot;none&quot; });
-			t._cCon = t._cCan.getContext(&quot;2d&quot;);
+			t._cCan = _setCSS(_addEl("canvas", t._cont), { display: "none" });
+			t._cCon = t._cCan.getContext("2d");
 		} else {
 		// For browsers without Canvas support...
 			engine = engines[1];
 			// Adds the VML stylesheet
-			if (typeof CanvasLoader.vmlSheet === &quot;undefined&quot;) {
-				document.getElementsByTagName(&quot;head&quot;)[0].appendChild(_addEl(&quot;style&quot;));
+			if (typeof CanvasLoader.vmlSheet === "undefined") {
+				document.getElementsByTagName("head")[0].appendChild(_addEl("style"));
 				CanvasLoader.vmlSheet = document.styleSheets[document.styleSheets.length - 1];
-				var a = [&quot;group&quot;, &quot;oval&quot;, &quot;roundrect&quot;, &quot;fill&quot;];
-				for ( var n = 0; n &lt; a.length; ++n ) { CanvasLoader.vmlSheet.addRule(a[n], &quot;behavior:url(#default#VML); position:absolute;&quot;); }
+				var a = ["group", "oval", "roundrect", "fill"];
+				for ( var n = 0; n < a.length; ++n ) { CanvasLoader.vmlSheet.addRule(a[n], "behavior:url(#default#VML); position:absolute;"); }
 			}
-			t.vml = _addEl(&quot;group&quot;, t._cont);
+			t.vml = _addEl("group", t._cont);
 		}	
 
     // Shape setup
     var shape = settings.shape || arg.shape;
-    for (var i = 0; i &lt; shapes.length; i++) {
+    for (var i = 0; i < shapes.length; i++) {
       if (shape === shapes[i]) {
         t._shape = shape;
         break;
@@ -403,16 +313,16 @@
 		var diameter = settings.diameter || arg.diameter;
 		t._diameter = Math.round(Math.abs(diameter));
 
-		_setCSS(this.mum, {&quot;margin-left&quot;: Math.round(diameter * -0.5) + &#x27;px&#x27;});
+		_setCSS(this.mum, {"margin-left": Math.round(diameter * -0.5) + 'px'});
 
     // Density setup
     var density = settings.density || arg.density;
-    if (safeVML &amp;&amp; engine === engines[1]) {
-      t._density = Math.round(Math.abs(density)) &lt;= safeDensity ? Math.round(Math.abs(density)) : safeDensity;
+    if (safeVML && engine === engines[1]) {
+      t._density = Math.round(Math.abs(density)) <= safeDensity ? Math.round(Math.abs(density)) : safeDensity;
     } else {
       t._density = Math.round(Math.abs(density));
     }
-    if (t._density &gt; 360) { t._density = 360; }
+    if (t._density > 360) { t._density = 360; }
     t._currentId = 0;
 
     // Colour setup
@@ -433,7 +343,7 @@
 		t._draw();
 
 		//Hides the preloader
-		_setCSS(t._cont, {visibility: &quot;hidden&quot;, display: &quot;none&quot;});
+		_setCSS(t._cont, {visibility: "hidden", display: "none"});
 	};
 
 	/**
@@ -443,7 +353,7 @@
 	* @param color {String} The HEX color value to be converted to RGB
 	*/
 	p._getRGB = function (c) {
-		c = c.charAt(0) === &quot;#&quot; ? c.substring(1, 7) : c;
+		c = c.charAt(0) === "#" ? c.substring(1, 7) : c;
 		return {r: parseInt(c.substring(0, 2), 16), g: parseInt(c.substring(2, 4), 16), b: parseInt(c.substring(4, 6), 16) };
 	};
 
@@ -458,11 +368,11 @@
 			c.clearRect(0, 0, d, d);
 			_setAttr(t._can, {width: di, height: di});
 			_setAttr(t._cCan, {width: di, height: di});
-			while (i &lt; de) {
-				bitMod = i &lt;= animBits ? 1 - ((1 - minBitMod) / animBits * i) : bitMod = minBitMod;
+			while (i < de) {
+				bitMod = i <= animBits ? 1 - ((1 - minBitMod) / animBits * i) : bitMod = minBitMod;
 				ang = 270 - 360 / de * i;
 				rads = ang / 180 * Math.PI;
-				c.fillStyle = &quot;rgba(&quot; + t._cRGB.r + &quot;,&quot; + t._cRGB.g + &quot;,&quot; + t._cRGB.b + &quot;,&quot; + bitMod.toString() + &quot;)&quot;;
+				c.fillStyle = "rgba(" + t._cRGB.r + "," + t._cRGB.g + "," + t._cRGB.b + "," + bitMod.toString() + ")";
 				switch (t._shape) {
 				case shapes[0]:
 				case shapes[1]:
@@ -513,24 +423,24 @@
 			switch (t._shape) {
 			case shapes[0]:
 			case shapes[1]:
-				sh = &quot;oval&quot;;
+				sh = "oval";
 				size = d * 0.14;
 				break;
 			case shapes[2]:
-				sh = &quot;roundrect&quot;;
+				sh = "roundrect";
 				size = d * 0.12;
 				break;
 			case shapes[3]:
 			case shapes[4]:
-				sh = &quot;roundrect&quot;;
+				sh = "roundrect";
 				size = d * 0.3;
 				break;
 			}
 			w = h = size;
 			x = d * 0.5 - h;
 			y = -h * 0.5;		
-			while (i &lt; de) {
-				bitMod = i &lt;= animBits ? 1 - ((1 - minBitMod) / animBits * i) : bitMod = minBitMod;
+			while (i < de) {
+				bitMod = i <= animBits ? 1 - ((1 - minBitMod) / animBits * i) : bitMod = minBitMod;
 				ang = 270 - 360 / de * i;
 				switch (t._shape) {
 				case shapes[1]:
@@ -561,9 +471,9 @@
 					arc = t._shape === shapes[4] ? 0.6 : 0; 
 					break;
 				}
-				g = _setAttr(_setCSS(_addEl(&quot;group&quot;, t.vml), {width: d, height: d, rotation: ang}), {coordsize: d + &quot;,&quot; + d, coordorigin: -d * 0.5 + &quot;,&quot; + (-d * 0.5)});
+				g = _setAttr(_setCSS(_addEl("group", t.vml), {width: d, height: d, rotation: ang}), {coordsize: d + "," + d, coordorigin: -d * 0.5 + "," + (-d * 0.5)});
 				s = _setCSS(_addEl(sh, g, {stroked: false, arcSize: arc}), { width: w, height: h, top: y, left: x});
-				f = _addEl(&quot;fill&quot;, s, {color: t._color, opacity: bitMod});
+				f = _addEl("fill", s, {color: t._color, opacity: bitMod});
 				++i;
 			}
 		}
@@ -584,7 +494,7 @@
 			c.drawImage(t._cCan, 0, 0, di, di);
 			c.restore();
 		} else {
-			if (t._currentId &gt;= 360) { t._currentId -= 360; }
+			if (t._currentId >= 360) { t._currentId -= 360; }
 			_setCSS(t.vml, {rotation:t._currentId});
 		}
 	};
@@ -604,7 +514,7 @@
 		var t = this;
 		if(!t._timer) {
 			t._timer = self.setInterval(function () { t._tick(); }, Math.round(1000 / t._fps));
-			_setCSS(t._cont, {visibility: &quot;visible&quot;, display: &quot;block&quot;});
+			_setCSS(t._cont, {visibility: "visible", display: "block"});
 		}
     return t;
 	};
@@ -621,7 +531,7 @@
 			clearInterval(t._timer);
 			t._timer = null;
 
-			_setCSS(t._cont, {visibility: &quot;hidden&quot;, display: &quot;none&quot;});	
+			_setCSS(t._cont, {visibility: "hidden", display: "none"});	
 		}
 		return t;
 	};
@@ -648,29 +558,28 @@
    * @method get
    */
   p.get = function(key) {
-    if(typeof key !== &quot;undefined&quot; &amp;&amp; this._settings.hasOwnProperty(&quot;_&quot; + key.toString())) {
+    if(typeof key !== "undefined" && this._settings.hasOwnProperty("_" + key.toString())) {
       return this._settings[key.toString()];
     }
   };
 
 	window.CanvasLoader = CanvasLoader;
-}(window));
-    </pre>
-</div>
+}(window));;(function ($) {
+  $.fn.hcl = function(settings) {
+    var cl = new CanvasLoader(this[0], settings).show();
 
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<script src="../assets/vendor/prettify/prettify-min.js"></script>
-<script>prettyPrint();</script>
-<script src="../assets/js/yui-prettify.js"></script>
-<script src="../assets/../api.js"></script>
-<script src="../assets/js/api-filter.js"></script>
-<script src="../assets/js/api-list.js"></script>
-<script src="../assets/js/api-search.js"></script>
-<script src="../assets/js/apidocs.js"></script>
-</body>
-</html>
+    this.show = function() {
+      cl.show();
+    };
+
+    this.hide = function() {
+      cl.hide();
+    };
+
+    this.destruct = function() {
+      cl.destruct();
+    };
+
+    return this;
+  };
+})(jQuery);

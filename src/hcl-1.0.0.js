@@ -310,7 +310,7 @@
     safeVML = settings.safeVML || true;
 
 		// Diameter setup
-		var diameter = settings.diameter || args.diameter;
+		var diameter = settings.diameter || arg.diameter;
 		t._diameter = Math.round(Math.abs(diameter));
 
 		_setCSS(this.mum, {"margin-left": Math.round(diameter * -0.5) + 'px'});

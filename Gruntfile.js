@@ -5,14 +5,27 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     uglify: {
       options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
-        compress: true,
-        mangle: true
+          banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+          compress: true,
+          mangle: true
+        },
+        build_min: {
+          src: 'src/hcl-<%= pkg.version %>.js',
+          dest: 'build/hcl-<%= pkg.version %>.min.js'
+        },
+        build_jquery_min: {
+          src: ['src/hcl-<%= pkg.version %>.js', 'src/hcl-<%= pkg.version %>-jquery.js'],
+          dest: 'build/hcl-<%= pkg.version %>-jquery.min.js'
+        }
+    },
+    concat: {
+      options: {
+        separator: ';',
       },
-      build: {
-        src: 'src/hcl-<%= pkg.version %>.js',
-        dest: 'build/hcl-<%= pkg.version %>.min.js'
-      }
+      dist: {
+        src: ['src/hcl-<%= pkg.version %>.js', 'src/hcl-<%= pkg.version %>-jquery.js'],
+        dest: 'build/hcl-<%= pkg.version %>-jquery.js'
+      },
     },
     yuidoc: {
       compile: {
@@ -28,13 +41,11 @@ module.exports = function(grunt) {
     }
   });
 
-  // Load the plugin that provides the "uglify" task.
   grunt.loadNpmTasks('grunt-contrib-uglify');
-
-  // Load the plugin that provides the "yuidoc" task.
   grunt.loadNpmTasks('grunt-contrib-yuidoc');
+  grunt.loadNpmTasks('grunt-contrib-concat');
 
   // Default task(s).
-  grunt.registerTask('default', ['uglify', 'yuidoc']);
+  grunt.registerTask('default', ['uglify', 'concat', 'yuidoc']);
 
 };
