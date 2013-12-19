@@ -582,6 +582,7 @@
 
     this.destruct = function() {
       cl.destruct();
+      cl = null;
     };
 
     return this;
