@@ -40,16 +40,16 @@
 	* If no id is passed in the constructor, the canvas objects are paced in the document directly.
 	* @class CanvasLoader
 	* @constructor
-	* @param id {String} The id of the placeholder div
+	* @param target {Object} The target DOM element to place the spinner into
 	* @param settings {Object} Settings to customise the spinner instance<br/><br/>
 	* <strong>Possible values:</strong><br/>
 	* <ul>
 	* 
 	* 
 	**/
-	var CanvasLoader = function (id, settings) {
+	var CanvasLoader = function (target, settings) {
 		settings = settings || {};
-		this._init(id, settings);
+		this._init(target, settings);
 	}, p = CanvasLoader.prototype, engine, engines = ["canvas", "vml"], shapes = ["oval", "spiral", "square", "rect", "roundRect"], cRX = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/, ie8 = navigator.appVersion.indexOf("MSIE") !== -1 && parseFloat(navigator.appVersion.split("MSIE")[1]) === 8 ? true : false, canSup = !!document.createElement("canvas").getContext, safeDensity = 40, safeVML = true,
 	
 		/**
@@ -255,47 +255,27 @@
 	/** 
 	* Initialization method
 	* @private
-	* @param id {String} The id of the placeholder div, where the loader will be nested into
-	* @param opt {Object} Optional parameters<br/><br/>
+	* @param target {Object} The target DOM element to place the spinner into
+	* @param settings {Object} Settings to customise the spinner instance<br/><br/>
 	* <strong>Possible values of optional parameters:</strong><br/>
 	* <ul>
 	* <li><strong>id (String):</strong> The id of the CanvasLoader instance</li>
 	* <li><strong>safeVML (Boolean):</strong> If set to true, the amount of CanvasLoader shapes are limited in VML mode. It prevents CPU overkilling when rendering loaders with high density. The default value is true.</li>
 	* @method _init
 	**/
-	p._init = function (pId, opt) {
+	p._init = function (target, settings) {
     var t = this,
     	arg = t._settings;
 
-		if (typeof opt.safeVML === "boolean") { safeVML = opt.safeVML; }
-		
-		// Setting up the new instance
-		var value = Math.round(Math.abs(opt["diameter"]));
-		if(value && !isNaN(value) && value > 0) {
-			t._diameter = value;
-		}
+		t.mum = target;
 
-		/*
-		* Find the containing div by id
-		* If the container element cannot be found we use the document body itself
-		*/
-		try {
-			// Look for the parent element
-			if (document.getElementById(pId) !== undefined) {
-				t.mum = document.getElementById(pId);
-			} else {
-				t.mum = document.body;
-			}
-		} catch (error) {
-			t.mum = document.body;
-		}
 		// Creates the parent div of the loader instance
-		opt.id = typeof opt.id !== "undefined" ? opt.id : "canvasLoader";
-		t._cont = _addEl("div", t.mum, {id: opt.id});
+		t._cont = _addEl("div", t.mum, {className: "canvasloader"});
+
 		if (canSup) {
 		// For browsers with Canvas support...
 			engine = engines[0];
-			// Create the canvas element
+			// Createse the canvas element
 			t._can = _addEl("canvas", t._cont);
 			t._con = t._can.getContext("2d");
 			// Create the cache canvas element
@@ -315,7 +295,7 @@
 		}	
 
     // Shape setup
-    var shape = opt.shape || arg.shape;
+    var shape = settings.shape || arg.shape;
     for (var i = 0; i < shapes.length; i++) {
       if (shape === shapes[i]) {
         t._shape = shape;
@@ -323,8 +303,17 @@
       }
     }
 
+    // safeVML for safe IE rendering
+    safeVML = settings.safeVML || true;
+
+		// Diameter setup
+		var diameter = settings.diameter || args.diameter;
+		t._diameter = Math.round(Math.abs(diameter));
+
+		_setCSS(this.mum, {"margin-left": Math.round(diameter * -0.5) + 'px'});
+
     // Density setup
-    var density = opt.density || arg.density;
+    var density = settings.density || arg.density;
     if (safeVML && engine === engines[1]) {
       t._density = Math.round(Math.abs(density)) <= safeDensity ? Math.round(Math.abs(density)) : safeDensity;
     } else {
@@ -334,18 +323,18 @@
     t._currentId = 0;
 
     // Colour setup
-    var color = opt.color;
+    var color = settings.color;
     t._color = cRX.test(color) ? color : arg.color;
     t._cRGB = t._getRGB(t._color);
     
     // Range setup
-    t._range = Math.abs(opt.range || arg.range);
+    t._range = Math.abs(settings.range || arg.range);
     
     // Speed setup
-    t._speed = Math.round(Math.abs(opt.speed || arg.speed));
+    t._speed = Math.round(Math.abs(settings.speed || arg.speed));
     
     // FPS setup
-    t._fps = Math.round(Math.abs(opt.fps || arg.fps));
+    t._fps = Math.round(Math.abs(settings.fps || arg.fps));
 
     // Initial rendering
 		t._draw();

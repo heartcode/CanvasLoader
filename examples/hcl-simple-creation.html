@@ -43,7 +43,7 @@
 			padding:0;
 		}
 		.wrapper {
-			width:600px;
+			width:200px;
 			height:100%;
 			margin:50px auto 50px auto;
 		}
@@ -56,25 +56,19 @@
 <body>
 	<div class='wrapper'>
 		<fieldset>
-			<legend>Teszt</legend>
-			<div id='cl_spiral' class="loader" style="margin-left:-10px;">
+			<div id='cl_spiral' class="loader">
 				<script type='text/javascript'>
-					var clSettings = {
-						shape: 'roundRect',
-						diameter: 100,
-						density: 8,
+					var settings = {
+						shape: 'spiral',
+						diameter: 45,
+						density: 60,
 						speed: 1,
-						range: 1,
-						fps: 1,
-						color: ''
+						range: 1.2,
+						fps: 12,
+						color: '#0099ff'
 					}
-					var cl0 = new CanvasLoader('cl_spiral', clSettings).show();
-
-					clSettings.color = '#ff0000';
-					var cl1 = new CanvasLoader('cl_spiral', clSettings).show();
-
-					clSettings.color = '#ff00ff';
-					var cl2 = new CanvasLoader('cl_spiral', clSettings).show();
+					var target = document.getElementById('cl_spiral');
+					var cl0 = new CanvasLoader(target, settings).show();
 				</script>
 			</div>
 		</fieldset>
