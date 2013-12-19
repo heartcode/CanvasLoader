@@ -129,7 +129,7 @@
 	/////////////
 
 	/**
-   * Holds all accessible arguments (and defaults) on the CL instance
+   * Holds settings (this is updated with user settings)
    * @private
    * @type {Object}
    */
@@ -140,8 +140,16 @@
     range: 0.2,
     density: 40,
     speed: 2,
-    fps: 60
+    fps: 60,
+    autoShow: true
   };
+
+  /**
+   * Holds default settings
+   * @private
+   * @type {Object}
+   */
+  p._defaults = p._settings;
 
 	/**
 	* The div we place the canvas object into
@@ -344,6 +352,11 @@
 
 		//Hides the preloader
 		_setCSS(t._cont, {visibility: "hidden", display: "none"});
+
+		var autoShow = settings.autoShow || arg.autoShow;
+		if(autoShow) {
+			this.show();
+		}
 	};
 
 	/**
@@ -355,6 +368,15 @@
 	p._getRGB = function (c) {
 		c = c.charAt(0) === "#" ? c.substring(1, 7) : c;
 		return {r: parseInt(c.substring(0, 2), 16), g: parseInt(c.substring(2, 4), 16), b: parseInt(c.substring(4, 6), 16) };
+	};
+
+	/**
+	* Return the default settings
+	* @private
+	* @method _getDefaults
+	*/
+	p._getDefaults = function () {
+		return this._defaults;
 	};
 
 	/**
@@ -558,6 +580,10 @@
    * @method get
    */
   p.get = function(key) {
+    if(key === "defaults") {
+    	return this._getDefaults();
+    }
+
     if(this._settings.hasOwnProperty(key) && this.hasOwnProperty("_" + key)) {
       return this["_" + key];
     }

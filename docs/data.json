@@ -242,7 +242,7 @@
         {
             "file": "src/hcl-1.0.0.js",
             "line": 131,
-            "description": "Holds all accessible arguments (and defaults) on the CL instance",
+            "description": "Holds settings (this is updated with user settings)",
             "access": "private",
             "tagname": "",
             "type": "{Object}",
@@ -251,7 +251,17 @@
         },
         {
             "file": "src/hcl-1.0.0.js",
-            "line": 146,
+            "line": 147,
+            "description": "Holds default settings",
+            "access": "private",
+            "tagname": "",
+            "type": "{Object}",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 154,
             "description": "The div we place the canvas object into",
             "itemtype": "property",
             "name": "_cont",
@@ -263,7 +273,7 @@
         },
         {
             "file": "src/hcl-1.0.0.js",
-            "line": 153,
+            "line": 161,
             "description": "The div we draw the shapes into",
             "itemtype": "property",
             "name": "_can",
@@ -275,7 +285,7 @@
         },
         {
             "file": "src/hcl-1.0.0.js",
-            "line": 160,
+            "line": 168,
             "description": "The canvas context",
             "itemtype": "property",
             "name": "_con",
@@ -287,7 +297,7 @@
         },
         {
             "file": "src/hcl-1.0.0.js",
-            "line": 167,
+            "line": 175,
             "description": "The canvas we use for caching",
             "itemtype": "property",
             "name": "_cCan",
@@ -299,7 +309,7 @@
         },
         {
             "file": "src/hcl-1.0.0.js",
-            "line": 174,
+            "line": 182,
             "description": "The context of the cache canvas",
             "itemtype": "property",
             "name": "_cCon",
@@ -311,7 +321,7 @@
         },
         {
             "file": "src/hcl-1.0.0.js",
-            "line": 181,
+            "line": 189,
             "description": "Adds a timer for the rendering",
             "itemtype": "property",
             "name": "_timer",
@@ -323,7 +333,7 @@
         },
         {
             "file": "src/hcl-1.0.0.js",
-            "line": 188,
+            "line": 196,
             "description": "The active shape id for rendering",
             "itemtype": "property",
             "name": "_currentId",
@@ -335,7 +345,7 @@
         },
         {
             "file": "src/hcl-1.0.0.js",
-            "line": 195,
+            "line": 203,
             "description": "The diameter of the loader",
             "itemtype": "property",
             "name": "_diameter",
@@ -348,7 +358,7 @@
         },
         {
             "file": "src/hcl-1.0.0.js",
-            "line": 203,
+            "line": 211,
             "description": "The color of the loader shapes in RGB",
             "itemtype": "property",
             "name": "_cRGB",
@@ -360,7 +370,7 @@
         },
         {
             "file": "src/hcl-1.0.0.js",
-            "line": 210,
+            "line": 218,
             "description": "The color of the loader shapes in HEX",
             "itemtype": "property",
             "name": "_color",
@@ -373,7 +383,7 @@
         },
         {
             "file": "src/hcl-1.0.0.js",
-            "line": 218,
+            "line": 226,
             "description": "The type of the loader shapes",
             "itemtype": "property",
             "name": "_shape",
@@ -386,7 +396,7 @@
         },
         {
             "file": "src/hcl-1.0.0.js",
-            "line": 226,
+            "line": 234,
             "description": "The number of shapes drawn on the loader canvas",
             "itemtype": "property",
             "name": "_density",
@@ -399,7 +409,7 @@
         },
         {
             "file": "src/hcl-1.0.0.js",
-            "line": 234,
+            "line": 242,
             "description": "The amount of the modified shapes in percent.",
             "itemtype": "property",
             "name": "_range",
@@ -411,7 +421,7 @@
         },
         {
             "file": "src/hcl-1.0.0.js",
-            "line": 241,
+            "line": 249,
             "description": "The speed of the loader animation",
             "itemtype": "property",
             "name": "_speed",
@@ -423,7 +433,7 @@
         },
         {
             "file": "src/hcl-1.0.0.js",
-            "line": 248,
+            "line": 256,
             "description": "The FPS value of the loader animation rendering",
             "itemtype": "property",
             "name": "_fps",
@@ -435,7 +445,7 @@
         },
         {
             "file": "src/hcl-1.0.0.js",
-            "line": 262,
+            "line": 270,
             "description": "Initialization method",
             "itemtype": "method",
             "name": "_init",
@@ -458,7 +468,7 @@
         },
         {
             "file": "src/hcl-1.0.0.js",
-            "line": 349,
+            "line": 362,
             "description": "Return the RGB values of the passed color",
             "access": "private",
             "tagname": "",
@@ -476,7 +486,18 @@
         },
         {
             "file": "src/hcl-1.0.0.js",
-            "line": 360,
+            "line": 373,
+            "description": "Return the default settings",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_getDefaults",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 382,
             "description": "Draw the shapes on the canvas",
             "access": "private",
             "tagname": "",
@@ -487,7 +508,7 @@
         },
         {
             "file": "src/hcl-1.0.0.js",
-            "line": 483,
+            "line": 505,
             "description": "Renders the loader animation",
             "access": "private",
             "tagname": "",
@@ -498,7 +519,7 @@
         },
         {
             "file": "src/hcl-1.0.0.js",
-            "line": 507,
+            "line": 529,
             "description": "Shows the rendering of the loader animation",
             "itemtype": "method",
             "name": "show",
@@ -512,7 +533,7 @@
         },
         {
             "file": "src/hcl-1.0.0.js",
-            "line": 522,
+            "line": 544,
             "description": "Stops the rendering of the loader animation and hides the loader",
             "itemtype": "method",
             "name": "hide",
@@ -526,7 +547,7 @@
         },
         {
             "file": "src/hcl-1.0.0.js",
-            "line": 539,
+            "line": 561,
             "description": "Clears the DOM and resets all params",
             "itemtype": "method",
             "name": "destruct",
@@ -535,7 +556,7 @@
         },
         {
             "file": "src/hcl-1.0.0.js",
-            "line": 554,
+            "line": 576,
             "description": "Return argument value by key if defined",
             "params": [
                 {
@@ -555,8 +576,12 @@
     ],
     "warnings": [
         {
-            "message": "Missing item type\nHolds all accessible arguments (and defaults) on the CL instance",
+            "message": "Missing item type\nHolds settings (this is updated with user settings)",
             "line": " src/hcl-1.0.0.js:131"
+        },
+        {
+            "message": "Missing item type\nHolds default settings",
+            "line": " src/hcl-1.0.0.js:147"
         }
     ]
 }
