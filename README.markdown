@@ -2,16 +2,23 @@
 Heartcode CanvasLoader is a JavaScript UI library, which uses the HTML canvas element to draw and animate circular preloaders.<br/>
 The library is currently in beta, some minor changes and improvements might be done to it in the near future.
 
-##Tools
-I created a tool that can help with generating and previewing loaders with copy/paste code snippets and instructions: http://heartcode.robertpataki.com/canvasloader
-
-##Documentation
-The latest documentation can be found here: http://heartcode.robertpataki.com/canvasloader/docs/CanvasLoader.html
+## Documentation
+The latest version of the API documentation can be found in the repository under the `docs` folder.
 
 ## Contribution
-Please contribute :) I am quite new to JavaScript and I am pretty sure that there are million ways of making the library better, cleaner and smaller. Any constructive contribution is welcome and appriciated.
+Contributions are more than welcome. Once you made your changes to your fork please make sure you run the build task using Grunt and make a pull request.
 
 You can also add your website / web app link to the Wiki, so the community can see how others use CanvasLoader.
+
+### Using Grunt
+I added a few useful Grunt tasks to the project to automate the documentation genetation and the production file compilation. To use Grunt you will need to install npm
+
+and then run ```$ npm install``` in the project root folder to install all dependencies for the project.
+
+Once done with installing the node modules run ```grunt``` to get your build of the documentation and the canvasloader JavaScript file.
+
+## CanvasLoader Creator
+I created a tool that can help with generating and previewing loaders with copy/paste code snippets and instructions: http://heartcode.robertpataki.com/canvasloader
 
 ## License
 **(The MIT License)**
