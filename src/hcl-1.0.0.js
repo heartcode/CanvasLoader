@@ -558,7 +558,7 @@
    * @method get
    */
   p.get = function(key) {
-    if(typeof key !== "undefined" && this._settings.hasOwnProperty(key.toString())) {
+    if(typeof key !== "undefined" && this._settings.hasOwnProperty("_" + key.toString())) {
       return this._settings[key.toString()];
     }
   };
