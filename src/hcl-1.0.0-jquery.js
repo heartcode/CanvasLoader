@@ -3,11 +3,15 @@
     var cl = new CanvasLoader(this[0], settings).show();
 
     this.show = function() {
-      cl.show();
+      return cl.show();
     };
 
     this.hide = function() {
-      cl.hide();
+      return cl.hide();
+    };
+
+    this.get = function(key) {
+      return cl.get(key);
     };
 
     this.destruct = function() {
