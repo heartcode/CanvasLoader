@@ -40,10 +40,17 @@
 	* If no id is passed in the constructor, the canvas objects are paced in the document directly.
 	* @class CanvasLoader
 	* @constructor
-	* @param target {Object} The target DOM element to place the spinner into
-	* @param settings {Object} Settings to customise the spinner instance<br/><br/>
-	* <strong>Possible values:</strong><br/>
-	* <ul>
+	* @param {Object} 	target								The target DOM element to place the spinner into
+	* @param {Object} 	[settings]						Settings to customise the spinner instance
+	*	@param {Number} 	[settings.diameter]		The expected diameter
+	*	@param {Number} 	[settings.density]		The number of the shapes
+	*	@param {Number} 	[settings.color]			The color of the shapes
+	*	@param {Number} 	[settings.range]			The weight of the trail
+	*	@param {Number} 	[settings.speed]			The speed
+	*	@param {Number} 	[settings.fps]				The FPS
+	*	@param {Number} 	[settings.shape]			The shape type (oval, rect, square, roundRect)
+	*	@param {String} 	[settings.id] 				The id of the CanvasLoader instance
+	*	@param {Boolean} 	[settings.safeVML]		Whether or not density should be capped in IE
 	* 
 	* 
 	**/
@@ -254,14 +261,10 @@
 	
 	/** 
 	* Initialization method
+	* @method _init
 	* @private
 	* @param target {Object} The target DOM element to place the spinner into
-	* @param settings {Object} Settings to customise the spinner instance<br/><br/>
-	* <strong>Possible values of optional parameters:</strong><br/>
-	* <ul>
-	* <li><strong>id (String):</strong> The id of the CanvasLoader instance</li>
-	* <li><strong>safeVML (Boolean):</strong> If set to true, the amount of CanvasLoader shapes are limited in VML mode. It prevents CPU overkilling when rendering loaders with high density. The default value is true.</li>
-	* @method _init
+	* @param settings {Object} Settings to customise the spinner instance
 	**/
 	p._init = function (target, settings) {
     var t = this,
