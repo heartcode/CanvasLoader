@@ -22,9 +22,9 @@
 * ----------------------------------------------------------------------------------------
 * 
 * Check out my GitHub:	http://github.com/heartcode/
-* Send me an email:		heartcode@robertpataki.com
+* Send me an email:			heartcode@robertpataki.com
 * Follow me on Twitter:	http://twitter.com/#iHeartcode
-* Blog:					http://heartcode.robertpataki.com
+* Blog:									http://heartcode.robertpataki.com
 */
 
 /**
@@ -48,56 +48,67 @@
 	* 
 	**/
 	var CanvasLoader = function (id, settings) {
-		if (typeof settings == "undefined") { settings = {}; }
+		settings = settings || {};
 		this._init(id, settings);
 	}, p = CanvasLoader.prototype, engine, engines = ["canvas", "vml"], shapes = ["oval", "spiral", "square", "rect", "roundRect"], cRX = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/, ie8 = navigator.appVersion.indexOf("MSIE") !== -1 && parseFloat(navigator.appVersion.split("MSIE")[1]) === 8 ? true : false, canSup = !!document.createElement("canvas").getContext, safeDensity = 40, safeVML = true,
-	/**
-	* Creates a new element with the tag and applies the passed properties on it
-	* @protected
-	* @param tag {String} The tag to be created
-	* @param par {String} The DOM element the new element will be appended to
-	* @param opt {Object} Additional properties passed to the new DOM element
-	* @return {Object} The DOM element
-	*/
-		addEl = function (tag, par, opt) {
+	
+		/**
+		* Creates a new element with the tag and applies the passed properties on it
+		* @private
+		* @method _addEl
+		* @param tag {String} The tag to be created
+		* @param par {String} The DOM element the new element will be appended to
+		* @param opt {Object} Additional properties passed to the new DOM element
+		* @return {Object} The DOM element
+		*/
+		_addEl = function (tag, par, opt) {
 			var el = document.createElement(tag), n;
-			for (n in opt) { el[n] = opt[n]; }
+			for (n in opt) {
+				el[n] = opt[n];
+			}
+
 			if(typeof par !== "undefined") {
 				par.appendChild(el);
 			}
 			return el;
 		},
-	/**
-	* Sets the css properties on the element
-	* @protected
-	* @param el {Object} The DOM element to be styled
-	* @param opt {Object} The style properties
-	* @return {Object} The DOM element
-	*/
-		setCSS = function (el, opt) {
+
+		/**
+		* Sets the css properties on the element
+		* @private
+		* @method _setCSS
+		* @param el {Object} The DOM element to be styled
+		* @param opt {Object} The style properties
+		* @return {Object} The DOM element
+		*/
+		_setCSS = function (el, opt) {
 			for (var n in opt) { el.style[n] = opt[n]; }
 			return el;
 		},
-	/**
-	* Sets the attributes on the element
-	* @protected
-	* @param el {Object} The DOM element to add the attributes to
-	* @param opt {Object} The attributes
-	* @return {Object} The DOM element
-	*/
-		setAttr = function (el, opt) {
+
+		/**
+		* Sets the attributes on the element
+		* @private
+		* @method _setAttr
+		* @param el {Object} The DOM element to add the attributes to
+		* @param opt {Object} The attributes
+		* @return {Object} The DOM element
+		*/
+		_setAttr = function (el, opt) {
 			for (var n in opt) { el.setAttribute(n, opt[n]); }
 			return el;
 		},
-	/**
-	* Transforms the cache canvas before drawing
-	* @protected
-	* @param	x {Object} The canvas context to be transformed
-	* @param	x {Number} x translation
-	* @param	y {Number} y translation
-	* @param	r {Number} Rotation radians
-	*/
-		transCon = function(c, x, y, r) {
+
+		/**
+		* Transforms the cache canvas before drawing
+		* @private
+		* @method _transCon
+		* @param	x {Object} The canvas context to be transformed
+		* @param	x {Number} x translation
+		* @param	y {Number} y translation
+		* @param	r {Number} Rotation radians
+		*/
+		_transCon = function(c, x, y, r) {
 			c.save();
 			c.translate(x, y);
 			c.rotate(r);
@@ -105,11 +116,17 @@
 			c.beginPath();
 		};
 
-  /**
-   * Holds all accessible arguments on the CL instance
+
+	//////////////
+	//// Private fields
+	/////////////
+
+	/**
+   * Holds all accessible arguments (and defaults) on the CL instance
+   * @private
    * @type {Object}
    */
-  p.arguments = {
+  p._settings = {
     shape: "oval",
     color: "#000000",
     diameter: 40,
@@ -119,21 +136,125 @@
     fps: 60
   };
 
+	/**
+	* The div we place the canvas object into
+	* @property _cont
+	* @private
+	* @type Object
+	**/
+	p._cont = null;
+	/**
+	* The div we draw the shapes into
+	* @property _can
+	* @private
+	* @type Object
+	**/
+	p._can = null;
+	/**
+	* The canvas context
+	* @property _con
+	* @private
+	* @type Object
+	**/
+	p._con = null;
+	/**
+	* The canvas we use for caching
+	* @property _cCan
+	* @private
+	* @type Object
+	**/
+	p._cCan = null;
+	/**
+	* The context of the cache canvas
+	* @property _cCon
+	* @private
+	* @type Object
+	**/
+	p._cCon = null;
+	/**
+	* Adds a timer for the rendering
+	* @property _timer
+	* @private
+	* @type Boolean
+	**/
+	p._timer = 0;
+	/**
+	* The active shape id for rendering
+	* @property _currentId
+	* @private
+	* @type Number
+	**/
+	p._currentId = 0;
+	/**
+	* The diameter of the loader
+	* @property _diameter
+	* @private
+	* @type Number
+	* @default 40
+	**/
+	p._diameter = p._settings.diameter;
+	/**
+	* The color of the loader shapes in RGB
+	* @property _cRGB
+	* @private
+	* @type Object
+	**/
+	p._cRGB = {};
   /**
-   * Return argument value by key if defined
-   * @param  {String} key The key we're after
-   * @return {*}     	The value of the key we're looking for
-   * @method get
-   */
-  p.get = function(key) {
-    if(typeof key !== "undefined" && this.arguments.hasOwnProperty(key.toString())) {
-      return this.arguments[key.toString()];
-    }
-  };
+  * The color of the loader shapes in HEX
+  * @property _color
+  * @private
+  * @type String
+  * @default "#000000"
+  **/
+  p._color = p._settings.color;
+	/**
+	* The type of the loader shapes
+	* @property _shape
+	* @private
+	* @type String
+	* @default "oval"
+	**/
+	p._shape = p._settings.shape;
+	/**
+	* The number of shapes drawn on the loader canvas
+	* @property _density
+	* @private
+	* @type Number
+	* @default 40
+	**/
+	p._density = p._settings.density;
+	/**
+	* The amount of the modified shapes in percent.
+	* @property _range
+	* @private
+	* @type Number
+	**/
+	p._range = p._settings.range;
+	/**
+	* The speed of the loader animation
+	* @property _speed
+	* @private
+	* @type Number
+	**/
+	p._speed = p._settings.speed;
+	/**
+	* The FPS value of the loader animation rendering
+	* @property _fps
+	* @private
+	* @type Number
+	**/
+	p._fps = p._settings.fps;
 
+
+	
+	//////////////
+	//// Private methods
+	/////////////
+	
 	/** 
 	* Initialization method
-	* @protected
+	* @private
 	* @param id {String} The id of the placeholder div, where the loader will be nested into
 	* @param opt {Object} Optional parameters<br/><br/>
 	* <strong>Possible values of optional parameters:</strong><br/>
@@ -143,15 +264,15 @@
 	* @method _init
 	**/
 	p._init = function (pId, opt) {
-		
-    var arg = this.arguments;
+    var t = this,
+    	arg = t._settings;
 
 		if (typeof opt.safeVML === "boolean") { safeVML = opt.safeVML; }
 		
 		// Setting up the new instance
 		var value = Math.round(Math.abs(opt["diameter"]));
 		if(value && !isNaN(value) && value > 0) {
-			this.diameter = value;
+			t._diameter = value;
 		}
 
 		/*
@@ -161,225 +282,119 @@
 		try {
 			// Look for the parent element
 			if (document.getElementById(pId) !== undefined) {
-				this.mum = document.getElementById(pId);
+				t.mum = document.getElementById(pId);
 			} else {
-				this.mum = document.body;
+				t.mum = document.body;
 			}
 		} catch (error) {
-			this.mum = document.body;
+			t.mum = document.body;
 		}
 		// Creates the parent div of the loader instance
 		opt.id = typeof opt.id !== "undefined" ? opt.id : "canvasLoader";
-		this.cont = addEl("div", this.mum, {id: opt.id});
+		t._cont = _addEl("div", t.mum, {id: opt.id});
 		if (canSup) {
 		// For browsers with Canvas support...
 			engine = engines[0];
 			// Create the canvas element
-			this.can = addEl("canvas", this.cont);
-			this.con = this.can.getContext("2d");
+			t._can = _addEl("canvas", t._cont);
+			t._con = t._can.getContext("2d");
 			// Create the cache canvas element
-			this.cCan = setCSS(addEl("canvas", this.cont), { display: "none" });
-			this.cCon = this.cCan.getContext("2d");
+			t._cCan = _setCSS(_addEl("canvas", t._cont), { display: "none" });
+			t._cCon = t._cCan.getContext("2d");
 		} else {
 		// For browsers without Canvas support...
 			engine = engines[1];
 			// Adds the VML stylesheet
 			if (typeof CanvasLoader.vmlSheet === "undefined") {
-				document.getElementsByTagName("head")[0].appendChild(addEl("style"));
+				document.getElementsByTagName("head")[0].appendChild(_addEl("style"));
 				CanvasLoader.vmlSheet = document.styleSheets[document.styleSheets.length - 1];
 				var a = ["group", "oval", "roundrect", "fill"];
 				for ( var n = 0; n < a.length; ++n ) { CanvasLoader.vmlSheet.addRule(a[n], "behavior:url(#default#VML); position:absolute;"); }
 			}
-			this.vml = addEl("group", this.cont);
+			t.vml = _addEl("group", t._cont);
 		}	
 
     // Shape setup
     var shape = opt.shape || arg.shape;
     for (var i = 0; i < shapes.length; i++) {
       if (shape === shapes[i]) {
-        this.shape = shape;
+        t._shape = shape;
         break;
       }
     }
+
     // Density setup
     var density = opt.density || arg.density;
     if (safeVML && engine === engines[1]) {
-      this.density = Math.round(Math.abs(density)) <= safeDensity ? Math.round(Math.abs(density)) : safeDensity;
+      t._density = Math.round(Math.abs(density)) <= safeDensity ? Math.round(Math.abs(density)) : safeDensity;
     } else {
-      this.density = Math.round(Math.abs(density));
+      t._density = Math.round(Math.abs(density));
     }
-    if (this.density > 360) { this.density = 360; }
-    this.activeId = 0;
+    if (t._density > 360) { t._density = 360; }
+    t._currentId = 0;
+
     // Colour setup
     var color = opt.color;
-    this.color = cRX.test(color) ? color : arg.color;
-    this.cRGB = this._getRGB(this.color);
+    t._color = cRX.test(color) ? color : arg.color;
+    t._cRGB = t._getRGB(t._color);
+    
     // Range setup
-    this.range = Math.abs(opt.range || arg.range);
+    t._range = Math.abs(opt.range || arg.range);
+    
     // Speed setup
-    this.speed = Math.round(Math.abs(opt.speed || arg.speed));
+    t._speed = Math.round(Math.abs(opt.speed || arg.speed));
+    
     // FPS setup
-    this.fps = Math.round(Math.abs(opt.fps || arg.fps));
+    t._fps = Math.round(Math.abs(opt.fps || arg.fps));
 
     // Initial rendering
-		this._draw();
+		t._draw();
 
 		//Hides the preloader
-		setCSS(this.cont, {visibility: "hidden"});
+		_setCSS(t._cont, {visibility: "hidden", display: "none"});
 	};
-/////////////////////////////////////////////////////////////////////////////////////////////
-// Property declarations
-	/**
-	* The div we place the canvas object into
-	* @property cont
-	* @protected
-	* @type Object
-	**/
-	p.cont = {};
-	/**
-	* The div we draw the shapes into
-	* @property can
-	* @protected
-	* @type Object
-	**/
-	p.can = {};
-	/**
-	* The canvas context
-	* @property con
-	* @protected
-	* @type Object
-	**/
-	p.con = {};
-	/**
-	* The canvas we use for caching
-	* @property cCan
-	* @protected
-	* @type Object
-	**/
-	p.cCan = {};
-	/**
-	* The context of the cache canvas
-	* @property cCon
-	* @protected
-	* @type Object
-	**/
-	p.cCon = {};
-	/**
-	* Adds a timer for the rendering
-	* @property timer
-	* @protected
-	* @type Boolean
-	**/
-	p.timer = {};
-	/**
-	* The active shape id for rendering
-	* @property activeId
-	* @protected
-	* @type Number
-	**/
-	p.activeId = 0;
-	/**
-	* The diameter of the loader
-	* @property diameter
-	* @protected
-	* @type Number
-	* @default 40
-	**/
-	p.diameter = p.arguments.diameter;
-	/**
-	* The color of the loader shapes in RGB
-	* @property cRGB
-	* @protected
-	* @type Object
-	**/
-	p.cRGB = {};
-  /**
-  * The color of the loader shapes in HEX
-  * @property color
-  * @protected
-  * @type String
-  * @default "#000000"
-  **/
-  p.color = p.arguments.color;
-	/**
-	* The type of the loader shapes
-	* @property shape
-	* @protected
-	* @type String
-	* @default "oval"
-	**/
-	p.shape = p.arguments.shape;
-	/**
-	* The number of shapes drawn on the loader canvas
-	* @property density
-	* @protected
-	* @type Number
-	* @default 40
-	**/
-	p.density = p.arguments.density;
-	/**
-	* The amount of the modified shapes in percent.
-	* @property range
-	* @protected
-	* @type Number
-	**/
-	p.range = p.arguments.range;
-	/**
-	* The speed of the loader animation
-	* @property speed
-	* @protected
-	* @type Number
-	**/
-	p.speed = p.arguments.speed;
-	/**
-	* The FPS value of the loader animation rendering
-	* @property fps
-	* @protected
-	* @type Number
-	**/
-	p.fps = p.arguments.fps;
-// End of Property declarations
-/////////////////////////////////////////////////////////////////////////////////////////////	
+
 	/**
 	* Return the RGB values of the passed color
-	* @protected
-	* @param color {String} The HEX color value to be converted to RGB
+	* @private
 	* @method _getRGB
+	* @param color {String} The HEX color value to be converted to RGB
 	*/
 	p._getRGB = function (c) {
 		c = c.charAt(0) === "#" ? c.substring(1, 7) : c;
 		return {r: parseInt(c.substring(0, 2), 16), g: parseInt(c.substring(2, 4), 16), b: parseInt(c.substring(4, 6), 16) };
 	};
+
 	/**
 	* Draw the shapes on the canvas
-	* @protected
+	* @private
 	* @method _draw
 	*/
 	p._draw = function () {
-		var i = 0, size, w, h, x, y, ang, rads, rad, de = this.density, animBits = Math.round(de * this.range), bitMod, minBitMod = 0, s, g, sh, f, d = 1000, arc = 0, c = this.cCon, di = this.diameter, e = 0.47;
+		var t = this, i = 0, size, w, h, x, y, ang, rads, rad, de = t._density, animBits = Math.round(de * t._range), bitMod, minBitMod = 0, s, g, sh, f, d = 1000, arc = 0, c = t._cCon, di = t._diameter, e = 0.47;
 		if (engine === engines[0]) {
 			c.clearRect(0, 0, d, d);
-			setAttr(this.can, {width: di, height: di});
-			setAttr(this.cCan, {width: di, height: di});
+			_setAttr(t._can, {width: di, height: di});
+			_setAttr(t._cCan, {width: di, height: di});
 			while (i < de) {
 				bitMod = i <= animBits ? 1 - ((1 - minBitMod) / animBits * i) : bitMod = minBitMod;
 				ang = 270 - 360 / de * i;
 				rads = ang / 180 * Math.PI;
-				c.fillStyle = "rgba(" + this.cRGB.r + "," + this.cRGB.g + "," + this.cRGB.b + "," + bitMod.toString() + ")";
-				switch (this.shape) {
+				c.fillStyle = "rgba(" + t._cRGB.r + "," + t._cRGB.g + "," + t._cRGB.b + "," + bitMod.toString() + ")";
+				switch (t._shape) {
 				case shapes[0]:
 				case shapes[1]:
 					size = di * 0.07;
 					x = di * e + Math.cos(rads) * (di * e - size) - di * e;
 					y = di * e + Math.sin(rads) * (di * e - size) - di * e;
 					c.beginPath();
-					if (this.shape === shapes[1]) { c.arc(di * 0.5 + x, di * 0.5 + y, size * bitMod, 0, Math.PI * 2, false); } else { c.arc(di * 0.5 + x, di * 0.5 + y, size, 0, Math.PI * 2, false); }
+					if (t._shape === shapes[1]) { c.arc(di * 0.5 + x, di * 0.5 + y, size * bitMod, 0, Math.PI * 2, false); } else { c.arc(di * 0.5 + x, di * 0.5 + y, size, 0, Math.PI * 2, false); }
 					break;
 				case shapes[2]:
 					size = di * 0.12;
 					x = Math.cos(rads) * (di * e - size) + di * 0.5;
 					y = Math.sin(rads) * (di * e - size) + di * 0.5;
-					transCon(c, x, y, rads);
+					_transCon(c, x, y, rads);
 					c.fillRect(x, y - size * 0.5, size, size);
 					break;
 				case shapes[3]:
@@ -388,8 +403,8 @@
 					h = w * 0.27;
 					x = Math.cos(rads) * (h + (di - h) * 0.13) + di * 0.5;
 					y = Math.sin(rads) * (h + (di - h) * 0.13) + di * 0.5;
-					transCon(c, x, y, rads);
-					if(this.shape === shapes[3]) {
+					_transCon(c, x, y, rads);
+					if(t._shape === shapes[3]) {
 						c.fillRect(x, y - h * 0.5, w, h);
 					} else {
 						rad = h * 0.55;
@@ -411,9 +426,9 @@
 				++i;
 			}
 		} else {
-			setCSS(this.cont, {width: di, height: di});
-			setCSS(this.vml, {width: di, height: di});
-			switch (this.shape) {
+			_setCSS(t._cont, {width: di, height: di});
+			_setCSS(t.vml, {width: di, height: di});
+			switch (t._shape) {
 			case shapes[0]:
 			case shapes[1]:
 				sh = "oval";
@@ -435,7 +450,7 @@
 			while (i < de) {
 				bitMod = i <= animBits ? 1 - ((1 - minBitMod) / animBits * i) : bitMod = minBitMod;
 				ang = 270 - 360 / de * i;
-				switch (this.shape) {
+				switch (t._shape) {
 				case shapes[1]:
 					w = h = size * bitMod;
 					x = d * 0.5 - size * 0.5 - size * bitMod * 0.5;
@@ -445,7 +460,7 @@
 				case shapes[2]:
 					if (ie8) {
 						y = 0;
-						if(this.shape === shapes[2]) {
+						if(t._shape === shapes[2]) {
 							x = d * 0.5 -h * 0.5;
 						}
 					}
@@ -461,77 +476,100 @@
 						x = d * 0.5 - w;
 						y = -h * 0.5;
 					}
-					arc = this.shape === shapes[4] ? 0.6 : 0; 
+					arc = t._shape === shapes[4] ? 0.6 : 0; 
 					break;
 				}
-				g = setAttr(setCSS(addEl("group", this.vml), {width: d, height: d, rotation: ang}), {coordsize: d + "," + d, coordorigin: -d * 0.5 + "," + (-d * 0.5)});
-				s = setCSS(addEl(sh, g, {stroked: false, arcSize: arc}), { width: w, height: h, top: y, left: x});
-				f = addEl("fill", s, {color: this.color, opacity: bitMod});
+				g = _setAttr(_setCSS(_addEl("group", t.vml), {width: d, height: d, rotation: ang}), {coordsize: d + "," + d, coordorigin: -d * 0.5 + "," + (-d * 0.5)});
+				s = _setCSS(_addEl(sh, g, {stroked: false, arcSize: arc}), { width: w, height: h, top: y, left: x});
+				f = _addEl("fill", s, {color: t._color, opacity: bitMod});
 				++i;
 			}
 		}
-		this._tick(true);
+		t._tick(true);
 	};
+
 	/**
 	* Renders the loader animation
-	* @protected
+	* @private
 	* @method _tick
 	*/
 	p._tick = function (init) {
-		var c = this.con, di = this.diameter;
-		if (!init) { this.activeId += 360 / this.density * this.speed; }
+		var t = this, c = t._con, di = t._diameter;
+		if (!init) { t._currentId += 360 / t._density * t._speed; }
 		if (engine === engines[0]) {
 			c.clearRect(0, 0, di, di);
-			transCon(c, di * 0.5, di * 0.5, this.activeId / 180 * Math.PI);
-			c.drawImage(this.cCan, 0, 0, di, di);
+			_transCon(c, di * 0.5, di * 0.5, t._currentId / 180 * Math.PI);
+			c.drawImage(t._cCan, 0, 0, di, di);
 			c.restore();
 		} else {
-			if (this.activeId >= 360) { this.activeId -= 360; }
-			setCSS(this.vml, {rotation:this.activeId});
+			if (t._currentId >= 360) { t._currentId -= 360; }
+			_setCSS(t.vml, {rotation:t._currentId});
 		}
 	};
 
+
+	//////////////
+	//// Public methods
+	/////////////
 
 	/**
 	* Shows the rendering of the loader animation
 	* @method show
+	* @chainable
+	* @return {CanvasLoader} The CanvasLoader instance
 	*/
 	p.show = function () {
-		if (typeof this.timer !== "number") {
-			var t = this;
-			this.timer = self.setInterval(function () { t._tick(); }, Math.round(1000 / this.fps));
-			setCSS(this.cont, {visibility: "visible"});
+		var t = this;
+		if(!t._timer) {
+			t._timer = self.setInterval(function () { t._tick(); }, Math.round(1000 / t._fps));
+			_setCSS(t._cont, {visibility: "visible", display: "block"});
 		}
-    return this;
+    return t;
 	};
+	
 	/**
 	* Stops the rendering of the loader animation and hides the loader
 	* @method hide
+	* @chainable
+	* @return {CanvasLoader} The CanvasLoader instance
 	*/
 	p.hide = function () {
-		if (typeof this.timer === "number") {
-			clearInterval(this.timer);			
-			delete this.timer;
-			setCSS(this.cont, {visibility: "hidden"});
+		var t = this;
+		if(t._timer) {
+			clearInterval(t._timer);
+			t._timer = null;
+
+			_setCSS(t._cont, {visibility: "hidden", display: "none"});	
 		}
-    return this;
+		return t;
 	};
+
 	/**
-	* Removes the CanvasLoader instance and all its references
-	* @method kill
+	* Clears the DOM and resets all params
+	* @method destruct
 	*/
-	p.kill = function () {
-		var c = this.cont;
-		if (typeof this.timer === "number") { this.hide(); }
-		if (engine === engines[0]) {
-			c.removeChild(this.can);
-			c.removeChild(this.cCan);
-		} else {
-			c.removeChild(this.vml);
+	p.destruct = function () {
+		var t = this, n;
+		t.hide();
+		t.mum.removeChild(t._cont);
+
+		for (n in t) {
+			delete t[n];
+			t[n] = null;
 		}
-		var n;
-		for (n in this) { delete this[n]; }
-    return this;
 	};
+
+	/**
+   * Return argument value by key if defined
+   * @param  {String} 	key The key to look up
+   * @return 						The value of the key
+   * @method get
+   */
+  p.get = function(key) {
+    if(typeof key !== "undefined" && this._settings.hasOwnProperty(key.toString())) {
+      return this._settings[key.toString()];
+    }
+  };
+
 	window.CanvasLoader = CanvasLoader;
 }(window));
