@@ -1,0 +1,562 @@
+{
+    "project": {
+        "name": "heartcode-canvasloader",
+        "description": "JS spinners",
+        "version": "1.0.0",
+        "url": ""
+    },
+    "files": {
+        "src/hcl-1.0.0.js": {
+            "name": "src/hcl-1.0.0.js",
+            "modules": {
+                "CanvasLoader": 1
+            },
+            "classes": {
+                "CanvasLoader": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {
+        "CanvasLoader": {
+            "name": "CanvasLoader",
+            "submodules": {},
+            "classes": {
+                "CanvasLoader": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "src/hcl-1.0.0.js",
+            "line": 37,
+            "description": "CanvasLoader uses the HTML5 canvas element in modern browsers and VML in IE6/7/8 to create and animate the most popular preloader shapes (oval, spiral, rectangle, square and rounded rectangle).<br/><br/>\nIt is important to note that CanvasLoader doesn't show up and starts rendering automatically on instantiation. To start rendering and display the loader use the <code>show()</code> method."
+        }
+    },
+    "classes": {
+        "CanvasLoader": {
+            "name": "CanvasLoader",
+            "shortname": "CanvasLoader",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "CanvasLoader",
+            "namespace": "",
+            "file": "src/hcl-1.0.0.js",
+            "line": 37,
+            "description": "CanvasLoader is a JavaScript UI library that draws and animates circular preloaders using the Canvas HTML object.<br/><br/>\nA CanvasLoader instance creates two canvas elements which are placed into a placeholder div (the id of the div has to be passed in the constructor). The second canvas is invisible and used for caching purposes only.<br/><br/>\nIf no id is passed in the constructor, the canvas objects are paced in the document directly.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "target",
+                    "description": "The target DOM element to place the spinner into",
+                    "type": "Object"
+                },
+                {
+                    "name": "settings",
+                    "description": "Settings to customise the spinner instance",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "diameter",
+                            "description": "The expected diameter",
+                            "type": "Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "density",
+                            "description": "The number of the shapes",
+                            "type": "Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "color",
+                            "description": "The color of the shapes",
+                            "type": "Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "range",
+                            "description": "The weight of the trail",
+                            "type": "Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "speed",
+                            "description": "The speed",
+                            "type": "Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "fps",
+                            "description": "The FPS",
+                            "type": "Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "shape",
+                            "description": "The shape type (oval, rect, square, roundRect)",
+                            "type": "Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "id",
+                            "description": "The id of the CanvasLoader instance",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "safeVML",
+                            "description": "Whether or not density should be capped in IE",
+                            "type": "Boolean",
+                            "optional": true
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "classitems": [
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 62,
+            "description": "Creates a new element with the tag and applies the passed properties on it",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_addEl",
+            "params": [
+                {
+                    "name": "tag",
+                    "description": "The tag to be created",
+                    "type": "String"
+                },
+                {
+                    "name": "par",
+                    "description": "The DOM element the new element will be appended to",
+                    "type": "String"
+                },
+                {
+                    "name": "opt",
+                    "description": "Additional properties passed to the new DOM element",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "The DOM element",
+                "type": "Object"
+            },
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 83,
+            "description": "Sets the css properties on the element",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_setCSS",
+            "params": [
+                {
+                    "name": "el",
+                    "description": "The DOM element to be styled",
+                    "type": "Object"
+                },
+                {
+                    "name": "opt",
+                    "description": "The style properties",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "The DOM element",
+                "type": "Object"
+            },
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 96,
+            "description": "Sets the attributes on the element",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_setAttr",
+            "params": [
+                {
+                    "name": "el",
+                    "description": "The DOM element to add the attributes to",
+                    "type": "Object"
+                },
+                {
+                    "name": "opt",
+                    "description": "The attributes",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "The DOM element",
+                "type": "Object"
+            },
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 109,
+            "description": "Transforms the cache canvas before drawing",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_transCon",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "The canvas context to be transformed",
+                    "type": "Object"
+                },
+                {
+                    "name": "x",
+                    "description": "x translation",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "y translation",
+                    "type": "Number"
+                },
+                {
+                    "name": "r",
+                    "description": "Rotation radians",
+                    "type": "Number"
+                }
+            ],
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 131,
+            "description": "Holds all accessible arguments (and defaults) on the CL instance",
+            "access": "private",
+            "tagname": "",
+            "type": "{Object}",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 146,
+            "description": "The div we place the canvas object into",
+            "itemtype": "property",
+            "name": "_cont",
+            "access": "private",
+            "tagname": "",
+            "type": "Object",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 153,
+            "description": "The div we draw the shapes into",
+            "itemtype": "property",
+            "name": "_can",
+            "access": "private",
+            "tagname": "",
+            "type": "Object",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 160,
+            "description": "The canvas context",
+            "itemtype": "property",
+            "name": "_con",
+            "access": "private",
+            "tagname": "",
+            "type": "Object",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 167,
+            "description": "The canvas we use for caching",
+            "itemtype": "property",
+            "name": "_cCan",
+            "access": "private",
+            "tagname": "",
+            "type": "Object",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 174,
+            "description": "The context of the cache canvas",
+            "itemtype": "property",
+            "name": "_cCon",
+            "access": "private",
+            "tagname": "",
+            "type": "Object",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 181,
+            "description": "Adds a timer for the rendering",
+            "itemtype": "property",
+            "name": "_timer",
+            "access": "private",
+            "tagname": "",
+            "type": "Boolean",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 188,
+            "description": "The active shape id for rendering",
+            "itemtype": "property",
+            "name": "_currentId",
+            "access": "private",
+            "tagname": "",
+            "type": "Number",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 195,
+            "description": "The diameter of the loader",
+            "itemtype": "property",
+            "name": "_diameter",
+            "access": "private",
+            "tagname": "",
+            "type": "Number",
+            "default": "40",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 203,
+            "description": "The color of the loader shapes in RGB",
+            "itemtype": "property",
+            "name": "_cRGB",
+            "access": "private",
+            "tagname": "",
+            "type": "Object",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 210,
+            "description": "The color of the loader shapes in HEX",
+            "itemtype": "property",
+            "name": "_color",
+            "access": "private",
+            "tagname": "",
+            "type": "String",
+            "default": "\"#000000\"",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 218,
+            "description": "The type of the loader shapes",
+            "itemtype": "property",
+            "name": "_shape",
+            "access": "private",
+            "tagname": "",
+            "type": "String",
+            "default": "\"oval\"",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 226,
+            "description": "The number of shapes drawn on the loader canvas",
+            "itemtype": "property",
+            "name": "_density",
+            "access": "private",
+            "tagname": "",
+            "type": "Number",
+            "default": "40",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 234,
+            "description": "The amount of the modified shapes in percent.",
+            "itemtype": "property",
+            "name": "_range",
+            "access": "private",
+            "tagname": "",
+            "type": "Number",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 241,
+            "description": "The speed of the loader animation",
+            "itemtype": "property",
+            "name": "_speed",
+            "access": "private",
+            "tagname": "",
+            "type": "Number",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 248,
+            "description": "The FPS value of the loader animation rendering",
+            "itemtype": "property",
+            "name": "_fps",
+            "access": "private",
+            "tagname": "",
+            "type": "Number",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 262,
+            "description": "Initialization method",
+            "itemtype": "method",
+            "name": "_init",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "target",
+                    "description": "The target DOM element to place the spinner into",
+                    "type": "Object"
+                },
+                {
+                    "name": "settings",
+                    "description": "Settings to customise the spinner instance",
+                    "type": "Object"
+                }
+            ],
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 349,
+            "description": "Return the RGB values of the passed color",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_getRGB",
+            "params": [
+                {
+                    "name": "color",
+                    "description": "The HEX color value to be converted to RGB",
+                    "type": "String"
+                }
+            ],
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 360,
+            "description": "Draw the shapes on the canvas",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_draw",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 483,
+            "description": "Renders the loader animation",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_tick",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 507,
+            "description": "Shows the rendering of the loader animation",
+            "itemtype": "method",
+            "name": "show",
+            "chainable": 1,
+            "return": {
+                "description": "The CanvasLoader instance",
+                "type": "CanvasLoader"
+            },
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 522,
+            "description": "Stops the rendering of the loader animation and hides the loader",
+            "itemtype": "method",
+            "name": "hide",
+            "chainable": 1,
+            "return": {
+                "description": "The CanvasLoader instance",
+                "type": "CanvasLoader"
+            },
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 539,
+            "description": "Clears the DOM and resets all params",
+            "itemtype": "method",
+            "name": "destruct",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/hcl-1.0.0.js",
+            "line": 554,
+            "description": "Return argument value by key if defined",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "The key to look up",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "The value of the key"
+            },
+            "itemtype": "method",
+            "name": "get",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        }
+    ],
+    "warnings": [
+        {
+            "message": "Missing item type\nHolds all accessible arguments (and defaults) on the CL instance",
+            "line": " src/hcl-1.0.0.js:131"
+        }
+    ]
+}
