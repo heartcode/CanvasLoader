@@ -211,38 +211,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "Gruntfile.js",
-			"settings":
-			{
-				"buffer_size": 2025,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "package.json",
-			"settings":
-			{
-				"buffer_size": 408,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/hcl-1.0.0.js",
-			"settings":
-			{
-				"buffer_size": 16495,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "examples/hcl.html",
-			"settings":
-			{
-				"buffer_size": 2607,
-				"line_ending": "Windows"
-			}
-		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -309,16 +277,29 @@
 	},
 	"file_history":
 	[
-		"/Users/rob/Workspace/social-coding/CanvasLoader/package.json",
-		"/Users/rob/Workspace/social-coding/CanvasLoader/examples/hcl.html",
-		"/Users/rob/Workspace/social-coding/CanvasLoader/.gitignore",
-		"/Users/rob/Workspace/social-coding/CanvasLoader/examples/heartcode-canvasloader.html",
+		"/Users/rob/Workspace/social-coding/CanvasLoader/demos/jquery-demo.html",
+		"/Users/rob/Workspace/social-coding/CanvasLoader/src/hcl-1.0.0-jquery.js",
+		"/Users/rob/Workspace/social-coding/CanvasLoader/demos/shape-demo.html",
+		"/Users/rob/Workspace/social-coding/CanvasLoader/src/hcl-1.0.0.js",
+		"/Users/rob/Workspace/social-coding/CanvasLoader/.git/COMMIT_EDITMSG",
 		"/Users/rob/Workspace/social-coding/CanvasLoader/hcl.sublime-project",
+		"/Users/rob/Workspace/social-coding/CanvasLoader/examples/shape-demo.html",
+		"/Users/rob/Workspace/social-coding/CanvasLoader/examples/jquery-demo.html",
+		"/Users/rob/Workspace/social-coding/CanvasLoader/Gruntfile.js",
+		"/Users/rob/Workspace/social-coding/CanvasLoader/build/hcl-1.0.0.jquery.min.js",
+		"/Users/rob/Workspace/social-coding/CanvasLoader/README.markdown",
+		"/Users/rob/Workspace/social-coding/CanvasLoader/examples/hcl-shape-demo.html",
+		"/Users/rob/Workspace/social-coding/CanvasLoader/src/hcl-1.0.0.jquery.js",
+		"/Users/rob/Workspace/social-coding/CanvasLoader/examples/hcl-simple-creation.html",
+		"/Users/rob/Workspace/social-coding/CanvasLoader/.gitignore",
+		"/Users/rob/Workspace/ustwo/bkey/.git/COMMIT_EDITMSG",
+		"/Users/rob/Workspace/social-coding/CanvasLoader/examples/hcl.html",
+		"/Users/rob/Workspace/social-coding/CanvasLoader/package.json",
+		"/Users/rob/Workspace/social-coding/CanvasLoader/examples/heartcode-canvasloader.html",
 		"/Users/rob/Workspace/social-coding/CanvasLoader/heartcode-canvasloader.html",
 		"/Users/rob/Workspace/social-coding/CanvasLoader/Gemfile",
 		"/Users/rob/Workspace/social-coding/CanvasLoader/js/heartcode-canvasloader.js",
 		"/Users/rob/Workspace/social-coding/CanvasLoader/config/assets.yml",
-		"/Users/rob/Workspace/social-coding/CanvasLoader/README.markdown",
 		"/Users/rob/Workspace/ustwo/bkey/src/common/js/bk/payment/bk.payment-stack.js",
 		"/Users/rob/Workspace/ustwo/bkey/src/common/js/bk/bk.stack-step.js",
 		"/Users/rob/Workspace/ustwo/bkey/src/common/js/bk/models/bk.payment-stack-model.js",
@@ -350,7 +331,6 @@
 		"/Users/rob/Workspace/ustwo/bkey/src/common/js/bk/guards/bk.guards.ui-input-guard.js",
 		"/Users/rob/Workspace/ustwo/bkey/src/common/js/us2/us2.keycodes.js",
 		"/Users/rob/Workspace/ustwo/bkey/src/common/js/bk/payment/bk.payment-stack-step-1-recipient-details-subpage.js",
-		"/Users/rob/Workspace/ustwo/bkey/.git/COMMIT_EDITMSG",
 		"/Users/rob/Workspace/ustwo/bkey/src/common/js/bk/ui/view/bk.ui.dropdown-view.js",
 		"/Users/rob/Workspace/ustwo/bkey/src/common/js/bk/ui/view/bk.ui.searchbox-view.js",
 		"/Users/rob/Workspace/ustwo/bkey/spec/javascripts/spec_bk.payment-stack-step-1.js",
@@ -424,19 +404,7 @@
 		"/Users/rob/Workspace/ustwo/bkey/src/common/templates/transfer/bk.stack-step-3.handlebars",
 		"/Users/rob/Workspace/ustwo/bkey/src/common/sass/bk-stack-step.scss",
 		"/Users/rob/Workspace/ustwo/bkey/.git/config",
-		"/Users/rob/Workspace/ustwo/bkey/.gitconfig",
-		"/Users/rob/Workspace/ustwo/bkey/.git/rebase-merge/git-rebase-todo",
-		"/Users/rob/Workspace/ustwo/bkey/src/common/js/vendor/jquery.ui.datepicker-hacked.js",
-		"/Users/rob/Workspace/ustwo/bkey/src/common/js/bk/transfer/bk.transfer-stack.js",
-		"/Users/rob/Workspace/ustwo/bkey/src/common/js/bk/transfer/view/bk.transfer-stack-step-3-view.js",
-		"/Users/rob/Workspace/ustwo/bkey/src/common/js/bk/view/bk.stack-step-view.js",
-		"/Users/rob/Workspace/ustwo/bkey/src/common/js/us2/mvc/us2.mvc.view.js",
-		"/Users/rob/Workspace/ustwo/bkey/src/common/js/bk/outofband/view/bk.out-of-band-view.js",
-		"/Users/rob/Workspace/ustwo/bkey/acceptance-test/conf/locator.yml",
-		"/Users/rob/Workspace/ustwo/bkey/src/common/js/bk/outofband/bk.out-of-band.js",
-		"/Users/rob/Workspace/ustwo/bkey/src/common/sass/out-of-band.scss",
-		"/Users/rob/Workspace/ustwo/bkey/src/common/sass/change-passcode.scss",
-		"/Users/rob/Workspace/ustwo/bkey/src/common/js/bk/models/bk.standing-order-model.js"
+		"/Users/rob/Workspace/ustwo/bkey/.gitconfig"
 	],
 	"find":
 	{
@@ -510,6 +478,83 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"setinterval",
+			"t.",
+			"this.",
+			"t.",
+			"this",
+			"t.",
+			"t",
+			"t.",
+			"self",
+			"t.",
+			"t",
+			"show",
+			"_settings",
+			"get",
+			"destroy",
+			".style",
+			"args",
+			"._init",
+			"bitMod",
+			"opacity",
+			"px",
+			"'",
+			"_diameter",
+			"safeVML",
+			"pId",
+			"_init",
+			"settings",
+			"opt",
+			"_init",
+			"this",
+			".diameter",
+			".timer",
+			"_activeId",
+			"activeId",
+			".cCan",
+			".cCon",
+			".con",
+			".can",
+			".cRGB",
+			".color",
+			".shape",
+			"density",
+			".range",
+			".speed",
+			".fps",
+			"fps",
+			"_fps",
+			"fps",
+			".fps",
+			"this",
+			".cont",
+			"cont = ",
+			"_cont",
+			"cont",
+			"fps",
+			"\"number\"",
+			"get",
+			"init",
+			".cont",
+			"cont",
+			"timer = ",
+			"destruct",
+			"this.cont",
+			"this.cont = ",
+			"this.cont",
+			"kill",
+			"safeDensity",
+			"arguments",
+			"_settings",
+			"_arguments",
+			"this.arguments",
+			"arguments",
+			"visibility",
+			"transcon",
+			"addEl",
+			"setCSS",
+			"setAttr",
 			"transCon",
 			"public",
 			"@method",
@@ -560,84 +605,7 @@
 			"recipient-details",
 			"isComplete",
 			"getFirstIncompleteStepId",
-			"payee-details",
-			"recipient-details",
-			"hasPayeesSubpageManager",
-			"pagemanager",
-			"addPage",
-			"gotoPage",
-			"validate",
-			"gotoPage",
-			"isComplete",
-			"setValues",
-			"selectedAccountProductIdentifier",
-			"selectedPID",
-			"selectedAccount",
-			"this.accountSelector",
-			"selected",
-			"this.userAccountCollection",
-			"this.userAccountCollection.findOne",
-			"view-payees",
-			"userAccountCollection",
-			"activate",
-			".subscribe",
-			"subscribe",
-			"payee",
-			"accountSelector",
-			"multipleAccount",
-			"account-selector",
-			"accounts",
-			"gotoPage",
-			"addPage",
-			"#page-payees",
-			"dark",
-			"=",
-			"<<<<",
-			"HEAD",
-			"transactions",
-			".css",
-			".bk-ui-searchbox .dropdown",
-			"Listening to UI change events on field",
-			"this.error",
-			"this.erorr",
-			"this.erporr",
-			"this.error",
-			"BK.Guards.UISearchBoxGuard",
-			"US2.UIInput.Events.Set",
-			"Events.Set",
-			"setValue",
-			"chooseItem",
-			"showRecipientDetails",
-			"BK.UI.SearchBox.Events.Select",
-			"chooseItem",
-			"trace",
-			"function open",
-			"onkeydown",
-			"click",
-			"forceclose",
-			"force",
-			"forceClose",
-			".open",
-			"searchPayeeNames",
-			"chooseItem",
-			"keyDown",
-			"jeyDown",
-			"dropdown",
-			"this.error",
-			"function open",
-			"searchbox",
-			".focus",
-			"getField('name",
-			"getField(",
-			"searchbox",
-			"getField('name",
-			"getField(\"name",
-			"getField('name",
-			"bk-ui-searchbox",
-			"recipient-details",
-			"searchBox",
-			"click",
-			"chooseItem"
+			"payee-details"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -656,129 +624,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "Gruntfile.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2025,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1891,
-								1909
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true,
-							"word_separators": "./\\\\()\\\"\\'-:,.;<>~!@#%^&*|+=[]{}`~?"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "package.json",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 408,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								401,
-								401
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JSON.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "src/hcl-1.0.0.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 16495,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								448,
-								448
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false,
-							"word_separators": "./\\\\()\\\"\\'-:,.;<>~!@#%^&*|+=[]{}`~?"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "examples/hcl.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2607,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2561,
-								2566
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -828,6 +675,10 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"giti",
+				".gitignore"
+			],
 			[
 				"stack.js",
 				"src/common/js/bk/bk.stack.js"
@@ -1335,10 +1186,6 @@
 			[
 				"us2.form",
 				"src/common/js/us2/us2.form.js"
-			],
-			[
-				"uidatepicker",
-				"src/common/js/bk/ui/bk.ui.datepicker.js"
 			]
 		],
 		"width": 0.0

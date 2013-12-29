@@ -547,7 +547,7 @@
         },
         {
             "file": "src/hcl-1.0.0.js",
-            "line": 561,
+            "line": 560,
             "description": "Clears the DOM and resets all params",
             "itemtype": "method",
             "name": "destruct",
@@ -556,7 +556,7 @@
         },
         {
             "file": "src/hcl-1.0.0.js",
-            "line": 576,
+            "line": 574,
             "description": "Return argument value by key if defined",
             "params": [
                 {

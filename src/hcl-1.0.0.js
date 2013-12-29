@@ -275,23 +275,23 @@
 	* @param settings {Object} Settings to customise the spinner instance
 	**/
 	p._init = function (target, settings) {
-    var t = this,
-    	arg = t._settings;
 
-		t.mum = target;
+		var arg = this._settings;
+
+		this.mum = target;
 
 		// Creates the parent div of the loader instance
-		t._cont = _addEl("div", t.mum, {className: "canvasloader"});
+		this._cont = _addEl("div", this.mum, {className: "canvasloader"});
 
 		if (canSup) {
 		// For browsers with Canvas support...
 			engine = engines[0];
 			// Createse the canvas element
-			t._can = _addEl("canvas", t._cont);
-			t._con = t._can.getContext("2d");
+			this._can = _addEl("canvas", this._cont);
+			this._con = this._can.getContext("2d");
 			// Create the cache canvas element
-			t._cCan = _setCSS(_addEl("canvas", t._cont), { display: "none" });
-			t._cCon = t._cCan.getContext("2d");
+			this._cCan = _setCSS(_addEl("canvas", this._cont), { display: "none" });
+			this._cCon = this._cCan.getContext("2d");
 		} else {
 		// For browsers without Canvas support...
 			engine = engines[1];
@@ -302,14 +302,14 @@
 				var a = ["group", "oval", "roundrect", "fill"];
 				for ( var n = 0; n < a.length; ++n ) { CanvasLoader.vmlSheet.addRule(a[n], "behavior:url(#default#VML); position:absolute;"); }
 			}
-			t.vml = _addEl("group", t._cont);
+			this.vml = _addEl("group", this._cont);
 		}	
 
     // Shape setup
     var shape = settings.shape || arg.shape;
     for (var i = 0; i < shapes.length; i++) {
       if (shape === shapes[i]) {
-        t._shape = shape;
+        this._shape = shape;
         break;
       }
     }
@@ -319,39 +319,39 @@
 
 		// Diameter setup
 		var diameter = settings.diameter || arg.diameter;
-		t._diameter = Math.round(Math.abs(diameter));
+		this._diameter = Math.round(Math.abs(diameter));
 
 		_setCSS(this.mum, {"margin-left": Math.round(diameter * -0.5) + 'px'});
 
     // Density setup
     var density = settings.density || arg.density;
     if (safeVML && engine === engines[1]) {
-      t._density = Math.round(Math.abs(density)) <= safeDensity ? Math.round(Math.abs(density)) : safeDensity;
+      this._density = Math.round(Math.abs(density)) <= safeDensity ? Math.round(Math.abs(density)) : safeDensity;
     } else {
-      t._density = Math.round(Math.abs(density));
+      this._density = Math.round(Math.abs(density));
     }
-    if (t._density > 360) { t._density = 360; }
-    t._currentId = 0;
+    if (this._density > 360) { this._density = 360; }
+    this._currentId = 0;
 
     // Colour setup
     var color = settings.color;
-    t._color = cRX.test(color) ? color : arg.color;
-    t._cRGB = t._getRGB(t._color);
+    this._color = cRX.test(color) ? color : arg.color;
+    this._cRGB = this._getRGB(this._color);
     
     // Range setup
-    t._range = Math.abs(settings.range || arg.range);
+    this._range = Math.abs(settings.range || arg.range);
     
     // Speed setup
-    t._speed = Math.round(Math.abs(settings.speed || arg.speed));
+    this._speed = Math.round(Math.abs(settings.speed || arg.speed));
     
     // FPS setup
-    t._fps = Math.round(Math.abs(settings.fps || arg.fps));
+    this._fps = Math.round(Math.abs(settings.fps || arg.fps));
 
     // Initial rendering
-		t._draw();
+		this._draw();
 
 		//Hides the preloader
-		_setCSS(t._cont, {visibility: "hidden", display: "none"});
+		_setCSS(this._cont, {visibility: "hidden", display: "none"});
 
 		var autoShow = settings.autoShow || arg.autoShow;
 		if(autoShow) {
@@ -385,24 +385,24 @@
 	* @method _draw
 	*/
 	p._draw = function () {
-		var t = this, i = 0, size, w, h, x, y, ang, rads, rad, de = t._density, animBits = Math.round(de * t._range), bitMod, minBitMod = 0, s, g, sh, f, d = 1000, arc = 0, c = t._cCon, di = t._diameter, e = 0.47;
+		var i = 0, size, w, h, x, y, ang, rads, rad, de = this._density, animBits = Math.round(de * this._range), bitMod, minBitMod = 0, s, g, sh, f, d = 1000, arc = 0, c = this._cCon, di = this._diameter, e = 0.47;
 		if (engine === engines[0]) {
 			c.clearRect(0, 0, d, d);
-			_setAttr(t._can, {width: di, height: di});
-			_setAttr(t._cCan, {width: di, height: di});
+			_setAttr(this._can, {width: di, height: di});
+			_setAttr(this._cCan, {width: di, height: di});
 			while (i < de) {
 				bitMod = i <= animBits ? 1 - ((1 - minBitMod) / animBits * i) : bitMod = minBitMod;
 				ang = 270 - 360 / de * i;
 				rads = ang / 180 * Math.PI;
-				c.fillStyle = "rgba(" + t._cRGB.r + "," + t._cRGB.g + "," + t._cRGB.b + "," + bitMod.toString() + ")";
-				switch (t._shape) {
+				c.fillStyle = "rgba(" + this._cRGB.r + "," + this._cRGB.g + "," + this._cRGB.b + "," + bitMod.toString() + ")";
+				switch (this._shape) {
 				case shapes[0]:
 				case shapes[1]:
 					size = di * 0.07;
 					x = di * e + Math.cos(rads) * (di * e - size) - di * e;
 					y = di * e + Math.sin(rads) * (di * e - size) - di * e;
 					c.beginPath();
-					if (t._shape === shapes[1]) { c.arc(di * 0.5 + x, di * 0.5 + y, size * bitMod, 0, Math.PI * 2, false); } else { c.arc(di * 0.5 + x, di * 0.5 + y, size, 0, Math.PI * 2, false); }
+					if (this._shape === shapes[1]) { c.arc(di * 0.5 + x, di * 0.5 + y, size * bitMod, 0, Math.PI * 2, false); } else { c.arc(di * 0.5 + x, di * 0.5 + y, size, 0, Math.PI * 2, false); }
 					break;
 				case shapes[2]:
 					size = di * 0.12;
@@ -418,7 +418,7 @@
 					x = Math.cos(rads) * (h + (di - h) * 0.13) + di * 0.5;
 					y = Math.sin(rads) * (h + (di - h) * 0.13) + di * 0.5;
 					_transCon(c, x, y, rads);
-					if(t._shape === shapes[3]) {
+					if(this._shape === shapes[3]) {
 						c.fillRect(x, y - h * 0.5, w, h);
 					} else {
 						rad = h * 0.55;
@@ -440,9 +440,9 @@
 				++i;
 			}
 		} else {
-			_setCSS(t._cont, {width: di, height: di});
-			_setCSS(t.vml, {width: di, height: di});
-			switch (t._shape) {
+			_setCSS(this._cont, {width: di, height: di});
+			_setCSS(this.vml, {width: di, height: di});
+			switch (this._shape) {
 			case shapes[0]:
 			case shapes[1]:
 				sh = "oval";
@@ -464,7 +464,7 @@
 			while (i < de) {
 				bitMod = i <= animBits ? 1 - ((1 - minBitMod) / animBits * i) : bitMod = minBitMod;
 				ang = 270 - 360 / de * i;
-				switch (t._shape) {
+				switch (this._shape) {
 				case shapes[1]:
 					w = h = size * bitMod;
 					x = d * 0.5 - size * 0.5 - size * bitMod * 0.5;
@@ -474,7 +474,7 @@
 				case shapes[2]:
 					if (ie8) {
 						y = 0;
-						if(t._shape === shapes[2]) {
+						if(this._shape === shapes[2]) {
 							x = d * 0.5 -h * 0.5;
 						}
 					}
@@ -490,16 +490,16 @@
 						x = d * 0.5 - w;
 						y = -h * 0.5;
 					}
-					arc = t._shape === shapes[4] ? 0.6 : 0; 
+					arc = this._shape === shapes[4] ? 0.6 : 0; 
 					break;
 				}
-				g = _setAttr(_setCSS(_addEl("group", t.vml), {width: d, height: d, rotation: ang}), {coordsize: d + "," + d, coordorigin: -d * 0.5 + "," + (-d * 0.5)});
+				g = _setAttr(_setCSS(_addEl("group", this.vml), {width: d, height: d, rotation: ang}), {coordsize: d + "," + d, coordorigin: -d * 0.5 + "," + (-d * 0.5)});
 				s = _setCSS(_addEl(sh, g, {stroked: false, arcSize: arc}), { width: w, height: h, top: y, left: x});
-				f = _addEl("fill", s, {color: t._color, opacity: bitMod});
+				f = _addEl("fill", s, {color: this._color, opacity: bitMod});
 				++i;
 			}
 		}
-		t._tick(true);
+		this._tick(true);
 	};
 
 	/**
@@ -508,16 +508,16 @@
 	* @method _tick
 	*/
 	p._tick = function (init) {
-		var t = this, c = t._con, di = t._diameter;
-		if (!init) { t._currentId += 360 / t._density * t._speed; }
+		var c = this._con, di = this._diameter;
+		if (!init) { this._currentId += 360 / this._density * this._speed; }
 		if (engine === engines[0]) {
 			c.clearRect(0, 0, di, di);
-			_transCon(c, di * 0.5, di * 0.5, t._currentId / 180 * Math.PI);
-			c.drawImage(t._cCan, 0, 0, di, di);
+			_transCon(c, di * 0.5, di * 0.5, this._currentId / 180 * Math.PI);
+			c.drawImage(this._cCan, 0, 0, di, di);
 			c.restore();
 		} else {
-			if (t._currentId >= 360) { t._currentId -= 360; }
-			_setCSS(t.vml, {rotation:t._currentId});
+			if (this._currentId >= 360) { this._currentId -= 360; }
+			_setCSS(this.vml, {rotation:this._currentId});
 		}
 	};
 
@@ -533,12 +533,12 @@
 	* @return {CanvasLoader} The CanvasLoader instance
 	*/
 	p.show = function () {
-		var t = this;
-		if(!t._timer) {
-			t._timer = self.setInterval(function () { t._tick(); }, Math.round(1000 / t._fps));
-			_setCSS(t._cont, {visibility: "visible", display: "block"});
+		var self = this;
+		if(!self._timer) {
+			self._timer = setInterval(function () { self._tick(); }, Math.round(1000 / self._fps));
+			_setCSS(self._cont, {visibility: "visible", display: "block"});
 		}
-    return t;
+    return self;
 	};
 	
 	/**
@@ -548,14 +548,13 @@
 	* @return {CanvasLoader} The CanvasLoader instance
 	*/
 	p.hide = function () {
-		var t = this;
-		if(t._timer) {
-			clearInterval(t._timer);
-			t._timer = null;
+		if(this._timer) {
+			clearInterval(this._timer);
+			this._timer = null;
 
-			_setCSS(t._cont, {visibility: "hidden", display: "none"});	
+			_setCSS(this._cont, {visibility: "hidden", display: "none"});	
 		}
-		return t;
+		return this;
 	};
 
 	/**
@@ -563,13 +562,12 @@
 	* @method destruct
 	*/
 	p.destruct = function () {
-		var t = this, n;
-		t.hide();
-		t.mum.removeChild(t._cont);
+		this.hide();
+		this.mum.removeChild(this._cont);
 
-		for (n in t) {
-			delete t[n];
-			t[n] = null;
+		for (var n in this) {
+			delete this[n];
+			this[n] = null;
 		}
 	};
 

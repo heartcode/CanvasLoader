@@ -1,24 +1,13 @@
 (function ($) {
   $.fn.hcl = function(settings) {
-    var cl = new CanvasLoader(this[0], settings).show();
-
-    this.show = function() {
-      return cl.show();
-    };
-
-    this.hide = function() {
-      return cl.hide();
-    };
-
-    this.get = function(key) {
-      return cl.get(key);
-    };
-
-    this.destruct = function() {
-      cl.destruct();
-      cl = null;
-    };
-
-    return this;
+    return this.each(function() {
+        var instance = $.data(this, "hcl");
+        // destroy previous instance and prepare for new load
+        if (instance && typeof instance.destruct === 'function') {
+            instance.destruct();
+        }
+        // load the new gallery
+        $.data(this, "hcl",  new CanvasLoader(this, settings));
+    });
   };
 })(jQuery);
