@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013 Róbert Pataki
+* Copyright (c) 2014 Róbert Pataki
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -21,10 +21,10 @@
 * 
 * ----------------------------------------------------------------------------------------
 * 
-* Check out my GitHub:	http://github.com/heartcode/
+* Check out my GitHub:		http://github.com/heartcode/
 * Send me an email:			heartcode@robertpataki.com
-* Follow me on Twitter:	http://twitter.com/#iHeartcode
-* Blog:									http://heartcode.robertpataki.com
+* Follow me on Twitter:		http://twitter.com/#iHeartcode
+* Blog:						http://heartcode.robertpataki.com
 */
 
 /**
@@ -40,8 +40,8 @@
 	* If no id is passed in the constructor, the canvas objects are paced in the document directly.
 	* @class CanvasLoader
 	* @constructor
-	* @param {Object} 	target								The target DOM element to place the spinner into
-	* @param {Object} 	[settings]						Settings to customise the spinner instance
+	* @param {Object} 		target					The target DOM element to place the spinner into
+	* @param {Object} 		[settings]				Settings to customise the spinner instance
 	*	@param {Number} 	[settings.diameter]		The expected diameter
 	*	@param {Number} 	[settings.density]		The number of the shapes
 	*	@param {Number} 	[settings.color]			The color of the shapes
@@ -59,69 +59,69 @@
 		this._init(target, settings);
 	}, p = CanvasLoader.prototype, engine, engines = ["canvas", "vml"], shapes = ["oval", "spiral", "square", "rect", "roundRect"], cRX = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/, ie8 = navigator.appVersion.indexOf("MSIE") !== -1 && parseFloat(navigator.appVersion.split("MSIE")[1]) === 8 ? true : false, canSup = !!document.createElement("canvas").getContext, safeDensity = 40, safeVML = true,
 	
-		/**
-		* Creates a new element with the tag and applies the passed properties on it
-		* @private
-		* @method _addEl
-		* @param tag {String} The tag to be created
-		* @param par {String} The DOM element the new element will be appended to
-		* @param opt {Object} Additional properties passed to the new DOM element
-		* @return {Object} The DOM element
-		*/
-		_addEl = function (tag, par, opt) {
-			var el = document.createElement(tag), n;
-			for (n in opt) {
-				el[n] = opt[n];
-			}
+	/**
+	* Creates a new element with the tag and applies the passed properties on it
+	* @private
+	* @method 	_addEl
+	* @param 	tag 		{String} 	The tag to be created
+	* @param 	par 		{String} 	The DOM element the new element will be appended to
+	* @param 	opt 		{Object} 	Additional properties passed to the new DOM element
+	* @return 				{Object} 	The DOM element
+	*/
+	_addEl = function (tag, par, opt) {
+		var el = document.createElement(tag), n;
+		for (n in opt) {
+			el[n] = opt[n];
+		}
 
-			if(typeof par !== "undefined") {
-				par.appendChild(el);
-			}
-			return el;
-		},
+		if(typeof par !== "undefined") {
+			par.appendChild(el);
+		}
+		return el;
+	},
 
-		/**
-		* Sets the css properties on the element
-		* @private
-		* @method _setCSS
-		* @param el {Object} The DOM element to be styled
-		* @param opt {Object} The style properties
-		* @return {Object} The DOM element
-		*/
-		_setCSS = function (el, opt) {
-			for (var n in opt) { el.style[n] = opt[n]; }
-			return el;
-		},
+	/**
+	* Sets the css properties on the element
+	* @private
+	* @method 	_setCSS
+	* @param 	el 			{Object} 	The DOM element to be styled
+	* @param 	opt 		{Object} 	The style properties
+	* @return 				{Object}	The DOM element
+	*/
+	_setCSS = function (el, opt) {
+		for (var n in opt) { el.style[n] = opt[n]; }
+		return el;
+	},
 
-		/**
-		* Sets the attributes on the element
-		* @private
-		* @method _setAttr
-		* @param el {Object} The DOM element to add the attributes to
-		* @param opt {Object} The attributes
-		* @return {Object} The DOM element
-		*/
-		_setAttr = function (el, opt) {
-			for (var n in opt) { el.setAttribute(n, opt[n]); }
-			return el;
-		},
+	/**
+	* Sets the attributes on the element
+	* @private
+	* @method 	_setAttr
+	* @param 	el 			{Object}	The DOM element to add the attributes to
+	* @param 	opt 		{Object}	The attributes
+	* @return 				{Object}	The DOM element
+	*/
+	_setAttr = function (el, opt) {
+		for (var n in opt) { el.setAttribute(n, opt[n]); }
+		return el;
+	},
 
-		/**
-		* Transforms the cache canvas before drawing
-		* @private
-		* @method _transCon
-		* @param	x {Object} The canvas context to be transformed
-		* @param	x {Number} x translation
-		* @param	y {Number} y translation
-		* @param	r {Number} Rotation radians
-		*/
-		_transCon = function(c, x, y, r) {
-			c.save();
-			c.translate(x, y);
-			c.rotate(r);
-			c.translate(-x, -y);
-			c.beginPath();
-		};
+	/**
+	* Transforms the cache canvas before drawing
+	* @private
+	* @method 	_transCon
+	* @param	x 			{Object}	The canvas context to be transformed
+	* @param	x 			{Number}	x translation
+	* @param	y 			{Number}	y translation
+	* @param	r 			{Number}	Rotation radians
+	*/
+	_transCon = function(c, x, y, r) {
+		c.save();
+		c.translate(x, y);
+		c.rotate(r);
+		c.translate(-x, -y);
+		c.beginPath();
+	};
 
 
 	//////////////
@@ -129,100 +129,102 @@
 	/////////////
 
 	/**
-   * Holds settings (this is updated with user settings)
-   * @private
-   * @type {Object}
-   */
-  p._settings = {
-    shape: "oval",
-    color: "#000000",
-    diameter: 40,
-    range: 0.2,
-    density: 40,
-    speed: 2,
-    fps: 60,
-    autoShow: true
-  };
+	* Holds settings (this is updated with user settings)
+	* @property 	_settings
+	* @private
+	* @type 		{Object}
+	*/
+	p._settings = {
+	shape: "oval",
+	color: "#000000",
+	diameter: 40,
+	range: 0.2,
+	density: 40,
+	speed: 2,
+	fps: 60,
+	autoShow: true
+	};
 
-  /**
-   * Holds default settings
-   * @private
-   * @type {Object}
-   */
-  p._defaults = p._settings;
+	/**
+	* Holds default settings
+	* @property 	_defaults
+	* @private
+	* @type 		{Object}
+	*/
+	p._defaults = p._settings;
 
 	/**
 	* The div we place the canvas object into
 	* @property _cont
 	* @private
-	* @type Object
+	* @type 	{Object}
 	**/
 	p._cont = null;
 	/**
 	* The div we draw the shapes into
 	* @property _can
 	* @private
-	* @type Object
+	* @type 	{Object}
 	**/
 	p._can = null;
 	/**
 	* The canvas context
 	* @property _con
 	* @private
-	* @type Object
+	* @type 	{Object}
 	**/
 	p._con = null;
 	/**
 	* The canvas we use for caching
 	* @property _cCan
 	* @private
-	* @type Object
+	* @type 	{Object}
 	**/
 	p._cCan = null;
 	/**
 	* The context of the cache canvas
 	* @property _cCon
 	* @private
-	* @type Object
+	* @type 	{Object}
 	**/
 	p._cCon = null;
 	/**
 	* Adds a timer for the rendering
 	* @property _timer
 	* @private
-	* @type Boolean
+	* @type 	{Boolean}
 	**/
 	p._timer = 0;
 	/**
 	* The active shape id for rendering
 	* @property _currentId
 	* @private
-	* @type Number
+	* @type 	{Number}
 	**/
 	p._currentId = 0;
 	/**
 	* The diameter of the loader
 	* @property _diameter
 	* @private
-	* @type Number
-	* @default 40
+	* @type 	{Number}
+	* @default 	40
 	**/
 	p._diameter = p._settings.diameter;
 	/**
 	* The color of the loader shapes in RGB
 	* @property _cRGB
 	* @private
-	* @type Object
+	* @type 	{Object}
 	**/
 	p._cRGB = {};
-  /**
-  * The color of the loader shapes in HEX
-  * @property _color
-  * @private
-  * @type String
-  * @default "#000000"
-  **/
-  p._color = p._settings.color;
+	/**
+	* The color of the loader shapes in HEX
+	* @property 	_color
+	* @private
+	* @type 		{String}
+	* @default 	"#000000"
+	**/
+	p._color = p._settings.color;
 	/**
 	* The type of the loader shapes
 	* @property _shape
@@ -243,21 +245,21 @@
 	* The amount of the modified shapes in percent.
 	* @property _range
 	* @private
-	* @type Number
+	* @type 	{Number}
 	**/
 	p._range = p._settings.range;
 	/**
 	* The speed of the loader animation
 	* @property _speed
 	* @private
-	* @type Number
+	* @type 	{Number}
 	**/
 	p._speed = p._settings.speed;
 	/**
 	* The FPS value of the loader animation rendering
 	* @property _fps
 	* @private
-	* @type Number
+	* @type 	{Number}
 	**/
 	p._fps = p._settings.fps;
 
@@ -271,8 +273,8 @@
 	* Initialization method
 	* @method _init
 	* @private
-	* @param target {Object} The target DOM element to place the spinner into
-	* @param settings {Object} Settings to customise the spinner instance
+	* @param 	target 		{Object} 	The target DOM element to place the spinner into
+	* @param 	settings 	{Object}	Settings to customise the spinner instance
 	**/
 	p._init = function (target, settings) {
 
@@ -305,49 +307,50 @@
 			this.vml = _addEl("group", this._cont);
 		}	
 
-    // Shape setup
-    var shape = settings.shape || arg.shape;
-    for (var i = 0; i < shapes.length; i++) {
-      if (shape === shapes[i]) {
-        this._shape = shape;
-        break;
-      }
-    }
+	    // Shape setup
+	    var shape = settings.shape || arg.shape;
+	    for (var i = 0; i < shapes.length; i++) {
+	      if (shape === shapes[i]) {
+	        this._shape = shape;
+	        break;
+	      }
+	    }
 
-    // safeVML for safe IE rendering
-    safeVML = settings.safeVML || true;
+	    // safeVML for safe IE rendering
+	    safeVML = settings.safeVML || true;
 
-		// Diameter setup
-		var diameter = settings.diameter || arg.diameter;
-		this._diameter = Math.round(Math.abs(diameter));
+			// Diameter setup
+			var diameter = settings.diameter || arg.diameter;
+			// this._diameter = Math.round(Math.abs(diameter));
+			this._diameter = diameter;
 
-		_setCSS(this.mum, {"margin-left": Math.round(diameter * -0.5) + 'px'});
+			_setCSS(this.mum, {"margin-left": Math.round(diameter * -0.5) + 'px'});
 
-    // Density setup
-    var density = settings.density || arg.density;
-    if (safeVML && engine === engines[1]) {
-      this._density = Math.round(Math.abs(density)) <= safeDensity ? Math.round(Math.abs(density)) : safeDensity;
-    } else {
-      this._density = Math.round(Math.abs(density));
-    }
-    if (this._density > 360) { this._density = 360; }
-    this._currentId = 0;
+	    // Density setup
+	    var density = settings.density || arg.density;
+	    if (safeVML && engine === engines[1]) {
+	      this._density = Math.round(Math.abs(density)) <= safeDensity ? Math.round(Math.abs(density)) : safeDensity;
+	    } else {
+	      this._density = Math.round(Math.abs(density));
+	    }
+	    if (this._density > 360) { this._density = 360; }
+	    this._currentId = 0;
 
-    // Colour setup
-    var color = settings.color;
-    this._color = cRX.test(color) ? color : arg.color;
-    this._cRGB = this._getRGB(this._color);
-    
-    // Range setup
-    this._range = Math.abs(settings.range || arg.range);
-    
-    // Speed setup
-    this._speed = Math.round(Math.abs(settings.speed || arg.speed));
-    
-    // FPS setup
-    this._fps = Math.round(Math.abs(settings.fps || arg.fps));
+	    // Colour setup
+	    var color = settings.color;
+	    this._color = cRX.test(color) ? color : arg.color;
+	    this._cRGB = this._getRGB(this._color);
+	    
+	    // Range setup
+	    this._range = Math.abs(settings.range || arg.range);
+	    
+	    // Speed setup
+	    this._speed = Math.round(Math.abs(settings.speed || arg.speed));
+	    
+	    // FPS setup
+	    this._fps = Math.round(Math.abs(settings.fps || arg.fps));
 
-    // Initial rendering
+	    // Initial rendering
 		this._draw();
 
 		//Hides the preloader
@@ -362,8 +365,8 @@
 	/**
 	* Return the RGB values of the passed color
 	* @private
-	* @method _getRGB
-	* @param color {String} The HEX color value to be converted to RGB
+	* @method 	_getRGB
+	* @param 	color 		{String}	The HEX color value to be converted to RGB
 	*/
 	p._getRGB = function (c) {
 		c = c.charAt(0) === "#" ? c.substring(1, 7) : c;
@@ -373,7 +376,7 @@
 	/**
 	* Return the default settings
 	* @private
-	* @method _getDefaults
+	* @method 	_getDefaults
 	*/
 	p._getDefaults = function () {
 		return this._defaults;
@@ -382,7 +385,7 @@
 	/**
 	* Draw the shapes on the canvas
 	* @private
-	* @method _draw
+	* @method 	_draw
 	*/
 	p._draw = function () {
 		var i = 0, size, w, h, x, y, ang, rads, rad, de = this._density, animBits = Math.round(de * this._range), bitMod, minBitMod = 0, s, g, sh, f, d = 1000, arc = 0, c = this._cCon, di = this._diameter, e = 0.47;
@@ -505,7 +508,7 @@
 	/**
 	* Renders the loader animation
 	* @private
-	* @method _tick
+	* @method 	_tick
 	*/
 	p._tick = function (init) {
 		var c = this._con, di = this._diameter;
@@ -530,7 +533,7 @@
 	* Shows the rendering of the loader animation
 	* @method show
 	* @chainable
-	* @return {CanvasLoader} The CanvasLoader instance
+	* @return 		{CanvasLoader}		The CanvasLoader instance
 	*/
 	p.show = function () {
 		var self = this;
@@ -545,7 +548,7 @@
 	* Stops the rendering of the loader animation and hides the loader
 	* @method hide
 	* @chainable
-	* @return {CanvasLoader} The CanvasLoader instance
+	* @return 		{CanvasLoader}		The CanvasLoader instance
 	*/
 	p.hide = function () {
 		if(this._timer) {
@@ -572,20 +575,20 @@
 	};
 
 	/**
-   * Return argument value by key if defined
-   * @param  {String} 	key The key to look up
-   * @return 						The value of the key
-   * @method get
-   */
-  p.get = function(key) {
-    if(key === "defaults") {
-    	return this._getDefaults();
-    }
+	* Return argument value by key if defined
+	* @param 	key		{String}	The key to look up
+	* @return 						The value of the key
+	* @method get
+	*/
+	p.get = function(key) {
+		if(key === "defaults") {
+			return this._getDefaults();
+		}
 
-    if(this._settings.hasOwnProperty(key) && this.hasOwnProperty("_" + key)) {
-      return this["_" + key];
-    }
-  };
+		if(this._settings.hasOwnProperty(key) && this.hasOwnProperty("_" + key)) {
+		  return this["_" + key];
+		}
+	};
 
 	window.CanvasLoader = CanvasLoader;
 }(window));
