@@ -135,14 +135,14 @@
 	* @type 		{Object}
 	*/
 	p._settings = {
-	shape: "oval",
-	color: "#000000",
-	diameter: 40,
-	range: 0.2,
-	density: 40,
-	speed: 2,
-	fps: 60,
-	autoShow: true
+		shape: "oval",
+		color: "#000000",
+		diameter: 40,
+		range: 0.2,
+		density: 40,
+		speed: 2,
+		fps: 60,
+		autoShow: true
 	};
 
 	/**
@@ -319,12 +319,12 @@
 	    // safeVML for safe IE rendering
 	    safeVML = settings.safeVML || true;
 
-			// Diameter setup
-			var diameter = settings.diameter || arg.diameter;
-			// this._diameter = Math.round(Math.abs(diameter));
-			this._diameter = diameter;
+		// Diameter setup
+		var diameter = settings.diameter || arg.diameter;
+		// this._diameter = Math.round(Math.abs(diameter));
+		this._diameter = diameter;
 
-			_setCSS(this.mum, {"margin-left": Math.round(diameter * -0.5) + 'px'});
+		_setCSS(this.mum, {"marginLeft": Math.round(diameter * -0.5) + 'px'});
 
 	    // Density setup
 	    var density = settings.density || arg.density;
@@ -388,11 +388,17 @@
 	* @method 	_draw
 	*/
 	p._draw = function () {
-		var i = 0, size, w, h, x, y, ang, rads, rad, de = this._density, animBits = Math.round(de * this._range), bitMod, minBitMod = 0, s, g, sh, f, d = 1000, arc = 0, c = this._cCon, di = this._diameter, e = 0.47;
+		var i = 0, size, w, h, x, y, ang, rads, rad, de = this._density, animBits = Math.round(de * this._range), bitMod, minBitMod = 0, s, g, sh, f, d = 1000, arc = 0, c = this._cCon, di = this._diameter, e = 0.47, pr = window.devicePixelRatio || 1;
 		if (engine === engines[0]) {
 			c.clearRect(0, 0, d, d);
-			_setAttr(this._can, {width: di, height: di});
-			_setAttr(this._cCan, {width: di, height: di});
+			
+			_setAttr(this._can, {width: di * pr, height: di * pr});
+			_setCSS(this._can, {width: di + 'px', height: di + 'px'});
+			_setAttr(this._cCan, {width: di * pr, height: di * pr});
+			_setCSS(this._cCan, {width: di + 'px', height: di + 'px'});
+			c.scale(pr, pr);
+			this._con.scale(pr, pr);
+
 			while (i < de) {
 				bitMod = i <= animBits ? 1 - ((1 - minBitMod) / animBits * i) : bitMod = minBitMod;
 				ang = 270 - 360 / de * i;
