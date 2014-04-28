@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>CanvasLoader HW Acceleration test</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="language" content="en" />
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	<script src="../src/canvasloader.js"></script>
+	<style>
+		body, html {
+			margin:0;
+			padding:0;
+		}
+		.wrapper {
+			width:200px;
+			height:100%;
+			margin:50px auto 50px auto;
+		}
+		.loader {
+			position:relative;
+			left:50%;
+			margin-bottom: 30px;
+		}
+		.loader:first-child {
+			margin-top: 20px;
+		}
+		.loader:last-child {
+			margin-bottom: 20px;
+		}
+
+		@-webkit-keyframes spin {
+		  0% {
+		  	-webkit-transform: rotateZ(1deg);
+		  }
+		  100% {
+		    -webkit-transform: rotateZ(360deg);
+		  }
+		}
+		@-moz-keyframes spin {
+		  0% {
+		  	-moz-transform: rotateZ(1deg);
+		  }
+		  100% {
+		    -moz-transform: rotateZ(360deg);
+		  }
+		}
+		@-o-keyframes spin {
+		  0% {
+		  	-o-transform: rotateZ(1deg);
+		  }
+		  100% {
+		    -o-transform: rotateZ(360deg);
+		  }
+		}
+		@-ms-keyframes spin {
+		  0% {
+		  	-ms-transform: rotateZ(1deg);
+		  }
+		  100% {
+		    -ms-transform: rotateZ(360deg);
+		  }
+		}
+		@-keyframes spin {
+		  0% {
+		  	transform: rotateZ(1deg);
+		  }
+		  100% {
+		    transform: rotateZ(360deg);
+		  }
+		}
+
+		.loader canvas {
+			/*-webkit-animation: spin 0.6s steps(12) infinite;*/
+		}
+	</style>
+</head>
+<body>
+	<div class='wrapper'>
+		<fieldset>
+			<div id='canvasloader-roundRect' class="loader"></div>
+		</fieldset>
+	</div>
+	<script>
+		var settings = {
+			shape: 'spiral',
+			diameter: 90,
+			density: 30,
+			speed: 1,
+			range: 1,
+			fps: 24,
+			color: '#0099ff'
+		};
+		var target = document.getElementById('canvasloader-roundRect');
+		target = document.getElementById('canvasloader-roundRect');
+		var cl = new CanvasLoader(target, settings);
+	</script>
+	<footer style="margin-bottom:0;">
+		<h1>360 Image Slider Demo</h1>
+		<span id="expand">Expand for details</span>
+		<div id="description">
+			<section id="info">
+				<h2>About the project</h2>
+				<p>Using JS, CSS and a pre-rendered image sequence we created a 360 view image slider, which enables the user to <span style="font-weight:bold;">drag and spin the 3D object around its y-axis</span> using simple mouse or touch events.</p>
+				<p>Rob's tutorial in <a href="http://www.netmagazine.com/tutorials/build-360-view-image-slider-javascript" target="_blank">.net magazine</a> (issue 224) explains how developers can use these simple techniques to create engaging interaction.</p>
+				<ul>
+					<li>Development:<span><a href="http://robertpataki.com" target="_blank">Róbert Pataki</a></span></li>
+					<li>Art direction:<span><a href="http://digi-mental.com/" target="_blank">Mateusz Sypien</a></span></li>
+					<li>Design:<span><a href="http://mayanova.co.uk/" target="_blank">Maya Prodanova</a></span></li>
+				</ul>
+			</section>
+		</div>
+    <nav class="social-nav"><ul class="social-sharing-ul"><li class="facebook">	<iframe id="facebook_button" src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fheartcode.robertpataki.com%2F360-image-slider&amp;layout=button_count&amp;show_faces=false&amp;width=78&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=20" scrolling="no" frameborder="0" style="border:none; overflow:hidden; position:relative; width:78px; height:20px; top:1px; margin-left:1px;" allowtransparency="true"></iframe></li><li class="twitter">	<iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" src="http://platform.twitter.com/widgets/tweet_button.1397165098.html#_=1398721330536&amp;count=horizontal&amp;id=twitter-widget-0&amp;lang=en&amp;original_referer=http%3A%2F%2Fheartcode.robertpataki.com%2F360-image-slider%2F&amp;size=m&amp;text=360%20View%20Image%20Slider%20Demo%20preview%20by%20%40iHeartcode%2C%20Mateusz%20Sypien%20and%20Maya%20Prodanova%20for%20%40netmag%20issue%20224&amp;url=http%3A%2F%2Fheartcode.robertpataki.com%2F360-image-slider" class="twitter-share-button twitter-tweet-button twitter-count-horizontal" title="Twitter Tweet Button" data-twttr-rendered="true" style="width: 107px; height: 20px;"></iframe><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></li><li class="linkedin">	<span class="wrapper">		<script src="http://platform.linkedin.com/in.js" type="text/javascript"></script>		<span class="IN-widget" style="line-height: 1; vertical-align: baseline; display: inline-block; text-align: center;"><span style="padding: 0px !important; margin: 0px !important; text-indent: 0px !important; display: inline-block !important; vertical-align: baseline !important; font-size: 1px !important;"><span id="li_ui_li_gen_1398721330791_0"><a id="li_ui_li_gen_1398721330791_0-link" href="javascript:void(0);"><span id="li_ui_li_gen_1398721330791_0-logo">in</span><span id="li_ui_li_gen_1398721330791_0-title"><span id="li_ui_li_gen_1398721330791_0-mark"></span><span id="li_ui_li_gen_1398721330791_0-title-text">Share</span></span></a></span></span><span style="padding: 0px !important; margin: 0px !important; text-indent: 0px !important; display: inline-block !important; vertical-align: baseline !important; font-size: 1px !important;"><span id="li_ui_li_gen_1398721330805_1-container" class="IN-right"><span id="li_ui_li_gen_1398721330805_1" class="IN-right"><span id="li_ui_li_gen_1398721330805_1-inner" class="IN-right"><span id="li_ui_li_gen_1398721330805_1-content" class="IN-right">12</span></span></span></span></span></span><script type="in/share+init" data-url="http://heartcode.robertpataki.com/360-image-slider" data-counter="right"></script>	</span></li><li class="googleplus">	<div id="___plusone_0" style="text-indent: 0px; margin: 0px; padding: 0px; background-color: transparent; border-style: none; float: none; line-height: normal; font-size: 1px; vertical-align: baseline; display: inline-block; width: 90px; height: 20px; background-position: initial initial; background-repeat: initial initial;"><iframe frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" style="position: static; top: 0px; width: 90px; margin: 0px; border-style: none; left: 0px; visibility: visible; height: 20px;" tabindex="0" vspace="0" width="100%" id="I0_1398721330555" name="I0_1398721330555" src="https://apis.google.com/u/0/_/+1/fastbutton?usegapi=1&amp;size=medium&amp;origin=http%3A%2F%2Fheartcode.robertpataki.com&amp;url=http%3A%2F%2Fheartcode.robertpataki.com%2F360-image-slider&amp;gsrc=3p&amp;ic=1&amp;jsh=m%3B%2F_%2Fscs%2Fapps-static%2F_%2Fjs%2Fk%3Doz.gapi.en.cCVWI5MlmOA.O%2Fm%3D__features__%2Fam%3DAQ%2Frt%3Dj%2Fd%3D1%2Fz%3Dzcms%2Frs%3DAItRSTMA-G1SqmbjaUDJnVyitvcWn8RbmQ#_methods=onPlusOne%2C_ready%2C_close%2C_open%2C_resizeMe%2C_renderstart%2Concircled%2Cdrefresh%2Cerefresh&amp;id=I0_1398721330555&amp;parent=http%3A%2F%2Fheartcode.robertpataki.com&amp;pfname=&amp;rpctoken=20085515" data-gapiattached="true" title="+1"></iframe></div></li></ul></nav>
+	</footer>
+	<script>
+		// Google Analytics Tracking
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-19326313-8']);
+		_gaq.push(['_trackPageview']);
+		(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+		
+		// Plusone
+		(function () {
+			var s = document.createElement('script'); s.async = true;
+			s.type = 'text/javascript';
+			s.src = 'https://apis.google.com/js/plusone.js';
+			if (typeof(navigator) != 'undefined'
+			&& navigator.userAgent
+			&& /iPad|iPhone|Android/.test(navigator.userAgent))
+			s.src = "https://ssl.gstatic.com/webclient/js/gc/" +
+			"22224365-adc8a19e" + // changed whenever Google make changes
+			"/googleapis.client__plusone.js";
+			(document.getElementsByTagName('HEAD')[0]
+			|| document.getElementsByTagName('BODY')[0]).appendChild(s);
+		}());
+	</script>
+	<script type="text/javascript">
+		/**
+		* Adds the social sharing buttons to the header navigation
+		*/
+		function initSocialFunctions () {
+			var socialContent = '<ul class="social-sharing-ul">';
+			socialContent += '<li class="facebook">';
+			socialContent += '<iframe id="facebook_button" src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fheartcode.robertpataki.com%2Fcanvasloader&amp;layout=button_count&amp;show_faces=false&amp;width=78&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=20" scrolling="no" frameborder="0" style="border:none; overflow:hidden; position:relative; width:78px; height:20px; top:1px; margin-left:1px;" allowTransparency="true"></iframe>';
+			socialContent += '</li>';
+			socialContent += '<li class="twitter">';
+			socialContent += '<a href="http://twitter.com/share?url=http://heartcode.robertpataki.com/canvasloader&text=Heartcode CanvasLoader Creator is a free tool for creating HTML preloaders. Simple, smart, cool." class="twitter-share-button" data-count="horizontal" data-via="iHeartcode">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"><\/script>';
+			socialContent += '</li>';
+			socialContent += '<li class="linkedin">';
+			socialContent += '<span class="wrapper">';
+			socialContent += '<script src="http://platform.linkedin.com/in.js" type="text/javascript"><\/script>';
+			socialContent += '<script type="in/share" data-url="http://heartcode.robertpataki.com/canvasloader" data-counter="right"><\/script>';
+			socialContent += '</span>';
+			socialContent += '</li>';
+			socialContent += '<li class="googleplus">';
+			socialContent += '<g:plusone size="medium" href="http://heartcode.robertpataki.com/canvasloader"></g:plusone>';
+			socialContent += '</li>';
+			socialContent += '<li><div class="paypal-donate-button">';
+			socialContent += '<form action="https://www.paypal.com/cgi-bin/webscr" method="post">';
+			socialContent += '<input type="hidden" name="cmd" value="_s-xclick">';
+			socialContent += '<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----">';
+			socialContent += '<input type="image" class="paypal-donate-image" src="img/btn_donate_SM.png" name="submit" alt="Donate the Heartcode CanvasLoader UI Library">';
+			socialContent += '<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">';
+			socialContent += '	</form>';
+			socialContent += '</div></li>';
+			socialContent += '<li class="facebook">';
+			socialContent += '<iframe id="facebook_button" src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fheartcode.robertpataki.com%2Fcanvasloader&amp;layout=button_count&amp;show_faces=false&amp;width=78&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=20" scrolling="no" frameborder="0" style="border:none; overflow:hidden; position:relative; width:78px; height:20px; top:1px; margin-left:1px;" allowTransparency="true"></iframe>';
+			socialContent += '</li>';
+			socialContent += '<li class="twitter">';
+			socialContent += '<a href="http://twitter.com/share?url=http://heartcode.robertpataki.com/canvasloader&text=Heartcode CanvasLoader Creator is a free tool for creating HTML preloaders. Simple, smart, cool." class="twitter-share-button" data-count="horizontal" data-via="iHeartcode">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"><\/script>';
+			socialContent += '</li>';
+			socialContent += '<li class="linkedin">';
+			socialContent += '<span class="wrapper">';
+			socialContent += '<script src="http://platform.linkedin.com/in.js" type="text/javascript"><\/script>';
+			socialContent += '<script type="in/share" data-url="http://heartcode.robertpataki.com/canvasloader" data-counter="right"><\/script>';
+			socialContent += '</span>';
+			socialContent += '</li>';
+			socialContent += '<li class="googleplus">';
+			socialContent += '<g:plusone size="medium" href="http://heartcode.robertpataki.com/canvasloader"></g:plusone>';
+			socialContent += '</li>';
+			socialContent += '<li><div class="paypal-donate-button">';
+			socialContent += '<form action="https://www.paypal.com/cgi-bin/webscr" method="post">';
+			socialContent += '<input type="hidden" name="cmd" value="_s-xclick">';
+			socialContent += '<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----">';
+			socialContent += '<input type="image" class="paypal-donate-image" src="img/btn_donate_SM.png" name="submit" alt="Donate the Heartcode CanvasLoader UI Library">';
+			socialContent += '<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">';
+			socialContent += '	</form>';
+			socialContent += '</div></li>';
+			socialContent += '<li class="facebook">';
+			socialContent += '<iframe id="facebook_button" src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fheartcode.robertpataki.com%2Fcanvasloader&amp;layout=button_count&amp;show_faces=false&amp;width=78&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=20" scrolling="no" frameborder="0" style="border:none; overflow:hidden; position:relative; width:78px; height:20px; top:1px; margin-left:1px;" allowTransparency="true"></iframe>';
+			socialContent += '</li>';
+			socialContent += '<li class="twitter">';
+			socialContent += '<a href="http://twitter.com/share?url=http://heartcode.robertpataki.com/canvasloader&text=Heartcode CanvasLoader Creator is a free tool for creating HTML preloaders. Simple, smart, cool." class="twitter-share-button" data-count="horizontal" data-via="iHeartcode">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"><\/script>';
+			socialContent += '</li>';
+			socialContent += '<li class="linkedin">';
+			socialContent += '<span class="wrapper">';
+			socialContent += '<script src="http://platform.linkedin.com/in.js" type="text/javascript"><\/script>';
+			socialContent += '<script type="in/share" data-url="http://heartcode.robertpataki.com/canvasloader" data-counter="right"><\/script>';
+			socialContent += '</span>';
+			socialContent += '</li>';
+			socialContent += '<li class="googleplus">';
+			socialContent += '<g:plusone size="medium" href="http://heartcode.robertpataki.com/canvasloader"></g:plusone>';
+			socialContent += '</li>';
+			socialContent += '<li><div class="paypal-donate-button">';
+			socialContent += '<form action="https://www.paypal.com/cgi-bin/webscr" method="post">';
+			socialContent += '<input type="hidden" name="cmd" value="_s-xclick">';
+			socialContent += '<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----">';
+			socialContent += '<input type="image" class="paypal-donate-image" src="img/btn_donate_SM.png" name="submit" alt="Donate the Heartcode CanvasLoader UI Library">';
+			socialContent += '<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">';
+			socialContent += '	</form>';
+			socialContent += '</div></li>';
+			socialContent += '<li class="facebook">';
+			socialContent += '<iframe id="facebook_button" src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fheartcode.robertpataki.com%2Fcanvasloader&amp;layout=button_count&amp;show_faces=false&amp;width=78&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=20" scrolling="no" frameborder="0" style="border:none; overflow:hidden; position:relative; width:78px; height:20px; top:1px; margin-left:1px;" allowTransparency="true"></iframe>';
+			socialContent += '</li>';
+			socialContent += '<li class="twitter">';
+			socialContent += '<a href="http://twitter.com/share?url=http://heartcode.robertpataki.com/canvasloader&text=Heartcode CanvasLoader Creator is a free tool for creating HTML preloaders. Simple, smart, cool." class="twitter-share-button" data-count="horizontal" data-via="iHeartcode">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"><\/script>';
+			socialContent += '</li>';
+			socialContent += '<li class="linkedin">';
+			socialContent += '<span class="wrapper">';
+			socialContent += '<script src="http://platform.linkedin.com/in.js" type="text/javascript"><\/script>';
+			socialContent += '<script type="in/share" data-url="http://heartcode.robertpataki.com/canvasloader" data-counter="right"><\/script>';
+			socialContent += '</span>';
+			socialContent += '</li>';
+			socialContent += '<li class="googleplus">';
+			socialContent += '<g:plusone size="medium" href="http://heartcode.robertpataki.com/canvasloader"></g:plusone>';
+			socialContent += '</li>';
+			socialContent += '<li><div class="paypal-donate-button">';
+			socialContent += '<form action="https://www.paypal.com/cgi-bin/webscr" method="post">';
+			socialContent += '<input type="hidden" name="cmd" value="_s-xclick">';
+			socialContent += '<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----">';
+			socialContent += '<input type="image" class="paypal-donate-image" src="img/btn_donate_SM.png" name="submit" alt="Donate the Heartcode CanvasLoader UI Library">';
+			socialContent += '<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">';
+			socialContent += '	</form>';
+			socialContent += '</div></li>';
+			socialContent += '</ul>';
+			
+			var socialEl = document.body.appendChild(document.createElement('div'));
+			socialEl.innerHTML = socialContent;
+		};
+		window.addEventListener('load', function(){
+			initSocialFunctions();
+		});
+	</script>
+</body>
+</html>

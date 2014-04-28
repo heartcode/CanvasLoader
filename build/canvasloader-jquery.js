@@ -1,0 +1,661 @@
+/*
+* Copyright (c) 2014 Róbert Pataki
+* 
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+* 
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+* 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+* 
+* ----------------------------------------------------------------------------------------
+* 
+* Check out my GitHub:		http://github.com/heartcode/
+* Send me an email:			heartcode@robertpataki.com
+* Follow me on Twitter:		http://twitter.com/#iHeartcode
+* Blog:						http://heartcode.robertpataki.com
+*/
+
+/**
+* CanvasLoader uses the HTML5 canvas element in modern browsers and VML in IE6/7/8 to create and animate the most popular preloader shapes (oval, spiral, rectangle, square and rounded rectangle).<br/><br/>
+* It is important to note that CanvasLoader doesn't show up and starts rendering automatically on instantiation. To start rendering and display the loader use the <code>show()</code> method.
+* @module CanvasLoader
+**/
+(function (window) {
+	"use strict";
+	/**
+	* CanvasLoader is a JavaScript UI library that draws and animates circular preloaders using the Canvas HTML object.<br/><br/>
+	* A CanvasLoader instance creates two canvas elements which are placed into a placeholder div (the id of the div has to be passed in the constructor). The second canvas is invisible and used for caching purposes only.<br/><br/>
+	* If no id is passed in the constructor, the canvas objects are paced in the document directly.
+	* @class CanvasLoader
+	* @constructor
+	* @param {Object} 		target					The target DOM element to place the spinner into
+	* @param {Object} 		[settings]				Settings to customise the spinner instance
+	*	@param {Number} 	[settings.diameter]		The expected diameter
+	*	@param {Number} 	[settings.density]		The number of the shapes
+	*	@param {Number} 	[settings.color]			The color of the shapes
+	*	@param {Number} 	[settings.range]			The weight of the trail
+	*	@param {Number} 	[settings.speed]			The speed
+	*	@param {Number} 	[settings.fps]				The FPS
+	*	@param {Number} 	[settings.shape]			The shape type (oval, rect, square, roundRect)
+	*	@param {String} 	[settings.id] 				The id of the CanvasLoader instance
+	*	@param {Boolean} 	[settings.safeVML]		Whether or not density should be capped in IE
+	* 
+	* 
+	**/
+	var CanvasLoader = function (target, settings) {
+		settings = settings || {};
+		this._init(target, settings);
+	}, p = CanvasLoader.prototype, engine, engines = ["canvas", "vml"], shapes = ["oval", "spiral", "square", "rect", "roundRect"], cRX = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/, ie8 = navigator.appVersion.indexOf("MSIE") !== -1 && parseFloat(navigator.appVersion.split("MSIE")[1]) === 8 ? true : false, canSup = !!document.createElement("canvas").getContext, safeDensity = 40, safeVML = true,
+	
+	/**
+	* Creates a new element with the tag and applies the passed properties on it
+	* @private
+	* @method 	_addEl
+	* @param 	tag 		{String} 	The tag to be created
+	* @param 	par 		{String} 	The DOM element the new element will be appended to
+	* @param 	opt 		{Object} 	Additional properties passed to the new DOM element
+	* @return 				{Object} 	The DOM element
+	*/
+	_addEl = function (tag, par, opt) {
+		var el = document.createElement(tag), n;
+		for (n in opt) {
+			el[n] = opt[n];
+		}
+
+		if(typeof par !== "undefined") {
+			par.appendChild(el);
+		}
+		return el;
+	},
+
+	/**
+	* Sets the css properties on the element
+	* @private
+	* @method 	_setCSS
+	* @param 	el 			{Object} 	The DOM element to be styled
+	* @param 	opt 		{Object} 	The style properties
+	* @return 				{Object}	The DOM element
+	*/
+	_setCSS = function (el, opt) {
+		for (var n in opt) { el.style[n] = opt[n]; }
+		return el;
+	},
+
+	/**
+	* Sets the attributes on the element
+	* @private
+	* @method 	_setAttr
+	* @param 	el 			{Object}	The DOM element to add the attributes to
+	* @param 	opt 		{Object}	The attributes
+	* @return 				{Object}	The DOM element
+	*/
+	_setAttr = function (el, opt) {
+		for (var n in opt) { el.setAttribute(n, opt[n]); }
+		return el;
+	},
+
+	/**
+	 * Returns if the browser supports CSS animations
+	 * @private
+	 * @method 		_supportsCSSAnimation
+	 * @return 		{Boolean}
+	 */
+	_supportsCSSAnimation = function () {
+		var el = document.body.appendChild(document.createElement('div'));
+		var result = false;
+		var prefs = ('webkit moz o ms khtml').split(' ');
+
+		for(var i = 0; i <= prefs.length; i++) {			
+			var pref = i === prefs.length ? 'animation' : prefs[i] + 'Animation';
+
+			if(typeof el.style[pref] !== 'undefiend') {
+				result = true;
+				break;
+			}
+		}
+
+		return result;
+	},
+
+	/**
+	* Transforms the cache canvas before drawing
+	* @private
+	* @method 	_transCon
+	* @param	x 			{Object}	The canvas context to be transformed
+	* @param	x 			{Number}	x translation
+	* @param	y 			{Number}	y translation
+	* @param	r 			{Number}	Rotation radians
+	*/
+	_transCon = function(c, x, y, r) {
+		c.save();
+		c.translate(x, y);
+		c.rotate(r);
+		c.translate(-x, -y);
+		c.beginPath();
+	};
+
+
+	//////////////
+	//// Private fields
+	/////////////
+
+	/**
+	* Holds settings (this is updated with user settings)
+	* @property 	_settings
+	* @private
+	* @type 		{Object}
+	*/
+	p._settings = {
+		shape: "oval",
+		color: "#000000",
+		diameter: 40,
+		range: 0.2,
+		density: 40,
+		speed: 2,
+		fps: 60,
+		autoShow: true
+	};
+
+	/**
+	* Holds default settings
+	* @property 	_defaults
+	* @private
+	* @type 		{Object}
+	*/
+	p._defaults = p._settings;
+
+	/**
+	* The div we place the canvas object into
+	* @property _cont
+	* @private
+	* @type 	{Object}
+	**/
+	p._cont = null;
+	/**
+	* The div we draw the shapes into
+	* @property _can
+	* @private
+	* @type 	{Object}
+	**/
+	p._can = null;
+	/**
+	* The canvas context
+	* @property _con
+	* @private
+	* @type 	{Object}
+	**/
+	p._con = null;
+	/**
+	* The canvas we use for caching
+	* @property _cCan
+	* @private
+	* @type 	{Object}
+	**/
+	p._cCan = null;
+	/**
+	* The context of the cache canvas
+	* @property _cCon
+	* @private
+	* @type 	{Object}
+	**/
+	p._cCon = null;
+	/**
+	* Adds a timer for the rendering
+	* @property _timer
+	* @private
+	* @type 	{Boolean}
+	**/
+	p._timer = 0;
+	/**
+	* The active shape id for rendering
+	* @property _currentId
+	* @private
+	* @type 	{Number}
+	**/
+	p._currentId = 0;
+	/**
+	* The diameter of the loader
+	* @property _diameter
+	* @private
+	* @type 	{Number}
+	* @default 	40
+	**/
+	p._diameter = p._settings.diameter;
+	/**
+	* The color of the loader shapes in RGB
+	* @property _cRGB
+	* @private
+	* @type 	{Object}
+	**/
+	p._cRGB = {};
+	/**
+	* The color of the loader shapes in HEX
+	* @property 	_color
+	* @private
+	* @type 		{String}
+	* @default 	"#000000"
+	**/
+	p._color = p._settings.color;
+	/**
+	* The type of the loader shapes
+	* @property _shape
+	* @private
+	* @type String
+	* @default "oval"
+	**/
+	p._shape = p._settings.shape;
+	/**
+	* The number of shapes drawn on the loader canvas
+	* @property _density
+	* @private
+	* @type Number
+	* @default 40
+	**/
+	p._density = p._settings.density;
+	/**
+	* The amount of the modified shapes in percent.
+	* @property _range
+	* @private
+	* @type 	{Number}
+	**/
+	p._range = p._settings.range;
+	/**
+	* The speed of the loader animation
+	* @property _speed
+	* @private
+	* @type 	{Number}
+	**/
+	p._speed = p._settings.speed;
+	/**
+	* The FPS value of the loader animation rendering
+	* @property _fps
+	* @private
+	* @type 	{Number}
+	**/
+	p._fps = p._settings.fps;
+
+
+	
+	//////////////
+	//// Private methods
+	/////////////
+	
+	/** 
+	* Initialization method
+	* @method _init
+	* @private
+	* @param 	target 		{Object} 	The target DOM element to place the spinner into
+	* @param 	settings 	{Object}	Settings to customise the spinner instance
+	**/
+	p._init = function (target, settings) {
+
+		var arg = this._settings;
+
+		this.mum = target;
+
+		// Creates the parent div of the loader instance
+		this._cont = _addEl("div", this.mum, {className: "canvasloader"});
+
+		if (canSup) {
+		// For browsers with Canvas support...
+			engine = engines[0];
+			// Createse the canvas element
+			this._can = _addEl("canvas", this._cont);
+			this._con = this._can.getContext("2d");
+			// Create the cache canvas element
+			this._cCan = _setCSS(_addEl("canvas", this._cont), { display: "none" });
+			this._cCon = this._cCan.getContext("2d");
+		} else {
+		// For browsers without Canvas support...
+			engine = engines[1];
+			// Adds the VML stylesheet
+			if (typeof CanvasLoader.vmlSheet === "undefined") {
+				document.getElementsByTagName("head")[0].appendChild(_addEl("style"));
+				CanvasLoader.vmlSheet = document.styleSheets[document.styleSheets.length - 1];
+				var a = ["group", "oval", "roundrect", "fill"];
+				for ( var n = 0; n < a.length; ++n ) { CanvasLoader.vmlSheet.addRule(a[n], "behavior:url(#default#VML); position:absolute;"); }
+			}
+			this.vml = _addEl("group", this._cont);
+		}	
+
+	    // Shape setup
+	    var shape = settings.shape || arg.shape;
+	    for (var i = 0; i < shapes.length; i++) {
+	      if (shape === shapes[i]) {
+	        this._shape = shape;
+	        break;
+	      }
+	    }
+
+	    // safeVML for safe IE rendering
+	    safeVML = settings.safeVML || true;
+
+		// Diameter setup
+		var diameter = settings.diameter || arg.diameter;
+		// this._diameter = Math.round(Math.abs(diameter));
+		this._diameter = diameter;
+
+		_setCSS(this.mum, {"marginLeft": Math.round(diameter * -0.5) + 'px'});
+
+	    // Density setup
+	    var density = settings.density || arg.density;
+	    if (safeVML && engine === engines[1]) {
+	      this._density = Math.round(Math.abs(density)) <= safeDensity ? Math.round(Math.abs(density)) : safeDensity;
+	    } else {
+	      this._density = Math.round(Math.abs(density));
+	    }
+	    if (this._density > 360) { this._density = 360; }
+	    this._currentId = 0;
+
+	    // Colour setup
+	    var color = settings.color;
+	    this._color = cRX.test(color) ? color : arg.color;
+	    this._cRGB = this._getRGB(this._color);
+	    
+	    // Range setup
+	    this._range = Math.abs(settings.range || arg.range);
+	    
+	    // Speed setup
+	    this._speed = Math.round(Math.abs(settings.speed || arg.speed));
+	    
+	    // FPS setup
+	    this._fps = Math.round(Math.abs(settings.fps || arg.fps));
+
+	    // Initial rendering
+		this._draw();
+
+		//Hides the preloader
+		_setCSS(this._cont, {visibility: "hidden", display: "none"});
+
+		var autoShow = settings.autoShow || arg.autoShow;
+		if(autoShow) {
+			this.show();
+		}
+	};
+
+	/**
+	* Return the RGB values of the passed color
+	* @private
+	* @method 	_getRGB
+	* @param 	color 		{String}	The HEX color value to be converted to RGB
+	*/
+	p._getRGB = function (c) {
+		c = c.charAt(0) === "#" ? c.substring(1, 7) : c;
+		return {r: parseInt(c.substring(0, 2), 16), g: parseInt(c.substring(2, 4), 16), b: parseInt(c.substring(4, 6), 16) };
+	};
+
+	/**
+	* Return the default settings
+	* @private
+	* @method 	_getDefaults
+	*/
+	p._getDefaults = function () {
+		return this._defaults;
+	};
+
+	/**
+	* Draw the shapes on the canvas
+	* @private
+	* @method 	_draw
+	*/
+	p._draw = function () {
+		var i = 0, size, w, h, x, y, ang, rads, rad, de = this._density, animBits = Math.round(de * this._range), bitMod, minBitMod = 0, s, g, sh, f, d = 1000, arc = 0, c = this._cCon, di = this._diameter, e = 0.47, pr = window.devicePixelRatio || 1;
+		if (engine === engines[0]) {
+			c.clearRect(0, 0, d, d);
+			
+			_setAttr(this._can, {width: di * pr, height: di * pr});
+			_setCSS(this._can, {width: di + 'px', height: di + 'px'});
+			_setAttr(this._cCan, {width: di * pr, height: di * pr});
+			_setCSS(this._cCan, {width: di + 'px', height: di + 'px'});
+			c.scale(pr, pr);
+			this._con.scale(pr, pr);
+
+			while (i < de) {
+				bitMod = i <= animBits ? 1 - ((1 - minBitMod) / animBits * i) : bitMod = minBitMod;
+				ang = 270 - 360 / de * i;
+				rads = ang / 180 * Math.PI;
+				c.fillStyle = "rgba(" + this._cRGB.r + "," + this._cRGB.g + "," + this._cRGB.b + "," + bitMod.toString() + ")";
+				switch (this._shape) {
+				case shapes[0]:
+				case shapes[1]:
+					size = di * 0.07;
+					x = di * e + Math.cos(rads) * (di * e - size) - di * e;
+					y = di * e + Math.sin(rads) * (di * e - size) - di * e;
+					c.beginPath();
+					if (this._shape === shapes[1]) { c.arc(di * 0.5 + x, di * 0.5 + y, size * bitMod, 0, Math.PI * 2, false); } else { c.arc(di * 0.5 + x, di * 0.5 + y, size, 0, Math.PI * 2, false); }
+					break;
+				case shapes[2]:
+					size = di * 0.12;
+					x = Math.cos(rads) * (di * e - size) + di * 0.5;
+					y = Math.sin(rads) * (di * e - size) + di * 0.5;
+					_transCon(c, x, y, rads);
+					c.fillRect(x, y - size * 0.5, size, size);
+					break;
+				case shapes[3]:
+				case shapes[4]:
+					w = di * 0.3;
+					h = w * 0.27;
+					x = Math.cos(rads) * (h + (di - h) * 0.13) + di * 0.5;
+					y = Math.sin(rads) * (h + (di - h) * 0.13) + di * 0.5;
+					_transCon(c, x, y, rads);
+					if(this._shape === shapes[3]) {
+						c.fillRect(x, y - h * 0.5, w, h);
+					} else {
+						rad = h * 0.55;
+						c.moveTo(x + rad, y - h * 0.5);
+						c.lineTo(x + w - rad, y - h * 0.5);
+						c.quadraticCurveTo(x + w, y - h * 0.5, x + w, y - h * 0.5 + rad);
+						c.lineTo(x + w, y - h * 0.5 + h - rad);
+						c.quadraticCurveTo(x + w, y - h * 0.5 + h, x + w - rad, y - h * 0.5 + h);
+						c.lineTo(x + rad, y - h * 0.5 + h);
+						c.quadraticCurveTo(x, y - h * 0.5 + h, x, y - h * 0.5 + h - rad);
+						c.lineTo(x, y - h * 0.5 + rad);
+						c.quadraticCurveTo(x, y - h * 0.5, x + rad, y - h * 0.5);
+					}
+					break;
+				}
+				c.closePath();
+				c.fill();
+				c.restore();
+				++i;
+			}
+		} else {
+			_setCSS(this._cont, {width: di, height: di});
+			_setCSS(this.vml, {width: di, height: di});
+			switch (this._shape) {
+			case shapes[0]:
+			case shapes[1]:
+				sh = "oval";
+				size = d * 0.14;
+				break;
+			case shapes[2]:
+				sh = "roundrect";
+				size = d * 0.12;
+				break;
+			case shapes[3]:
+			case shapes[4]:
+				sh = "roundrect";
+				size = d * 0.3;
+				break;
+			}
+			w = h = size;
+			x = d * 0.5 - h;
+			y = -h * 0.5;		
+			while (i < de) {
+				bitMod = i <= animBits ? 1 - ((1 - minBitMod) / animBits * i) : bitMod = minBitMod;
+				ang = 270 - 360 / de * i;
+				switch (this._shape) {
+				case shapes[1]:
+					w = h = size * bitMod;
+					x = d * 0.5 - size * 0.5 - size * bitMod * 0.5;
+					y = (size - size * bitMod) * 0.5;
+					break;
+				case shapes[0]:
+				case shapes[2]:
+					if (ie8) {
+						y = 0;
+						if(this._shape === shapes[2]) {
+							x = d * 0.5 -h * 0.5;
+						}
+					}
+					break;
+				case shapes[3]:
+				case shapes[4]:
+					w = size * 0.95;
+					h = w * 0.28;
+					if (ie8) {
+						x = 0;
+						y = d * 0.5 - h * 0.5;
+					} else {
+						x = d * 0.5 - w;
+						y = -h * 0.5;
+					}
+					arc = this._shape === shapes[4] ? 0.6 : 0; 
+					break;
+				}
+				g = _setAttr(_setCSS(_addEl("group", this.vml), {width: d, height: d, rotation: ang}), {coordsize: d + "," + d, coordorigin: -d * 0.5 + "," + (-d * 0.5)});
+				s = _setCSS(_addEl(sh, g, {stroked: false, arcSize: arc}), { width: w, height: h, top: y, left: x});
+				f = _addEl("fill", s, {color: this._color, opacity: bitMod});
+				++i;
+			}
+		}
+		this._renderWithSoftware(true);
+	};
+
+	/**
+	* Renders the loader animation
+	* @private
+	* @method 	_renderWithSoftware
+	*/
+	p._renderWithSoftware = function (init) {
+		var c = this._con, di = this._diameter;
+		if (!init) { this._currentId += 360 / this._density * this._speed; }
+		if (engine === engines[0]) {
+			c.clearRect(0, 0, di, di);
+			_transCon(c, di * 0.5, di * 0.5, this._currentId / 180 * Math.PI);
+			c.drawImage(this._cCan, 0, 0, di, di);
+			c.restore();
+		} else {
+			if (this._currentId >= 360) { this._currentId -= 360; }
+			_setCSS(this.vml, {rotation:this._currentId});
+		}
+	};
+
+	/**
+	 * Adds Hardware accelerated CSS animation
+	 * @private
+	 * @method 	_renderWithHardware
+	 */
+	p._renderWithHardware = function () {
+		// TODO - duration should come from `_settings.speed`
+		var duration = '1s';
+		var animPrefixes = ['webkitAnimation', 'mozAnimation', 'oAnimation', 'msAnimation', 'khtmlAnimation', 'animation'];
+		var animProps = 'spin ' + duration + ' steps(' + this._density + ') infinite';
+		var animObject = {};
+
+		for (var i = 0; i < animPrefixes.length; i++) {
+			animObject[animPrefixes[i]] = animProps;
+		}
+		_setCSS(this._can, animObject);
+	};
+
+
+	//////////////
+	//// Public methods
+	/////////////
+
+	/**
+	* Shows the rendering of the loader animation
+	* @method show
+	* @chainable
+	* @return 		{CanvasLoader}		The CanvasLoader instance
+	*/
+	p.show = function () {
+		var self = this;
+		_setCSS(self._cont, {visibility: "visible", display: "block"});
+		if(_supportsCSSAnimation()) {
+			document.body.style['background'] = 'rgba(255, 0, 0, 0.2)';
+			// If CSS animation is supported...
+			this._renderWithHardware();
+		}	else if (!self._timer) {
+			// JavaScript animation fallback...
+			self._timer = setInterval(function () { self._renderWithSoftware(); }, Math.round(1000 / self._fps));
+		}
+    	return self;
+	};
+	
+	/**
+	* Stops the rendering of the loader animation and hides the loader
+	* @method hide
+	* @chainable
+	* @return 		{CanvasLoader}		The CanvasLoader instance
+	*/
+	p.hide = function () {
+
+		// TODO - we probably will need to remove the CSS animation when hiding the spinner
+
+		if(this._timer) {
+			clearInterval(this._timer);
+			this._timer = null;
+
+			_setCSS(this._cont, {visibility: "hidden", display: "none"});	
+		}
+		return this;
+	};
+
+	/**
+	* Clears the DOM and resets all params
+	* @method destruct
+	*/
+	p.destruct = function () {
+		this.hide();
+		this.mum.removeChild(this._cont);
+
+		for (var n in this) {
+			delete this[n];
+			this[n] = null;
+		}
+	};
+
+	/**
+	* Return argument value by key if defined
+	* @param 	key		{String}	The key to look up
+	* @return 						The value of the key
+	* @method get
+	*/
+	p.get = function(key) {
+		if(key === "defaults") {
+			return this._getDefaults();
+		}
+
+		if(this._settings.hasOwnProperty(key) && this.hasOwnProperty("_" + key)) {
+		  return this["_" + key];
+		}
+	};
+
+	window.CanvasLoader = CanvasLoader;
+}(window));;(function ($) {
+  $.fn.hcl = function(settings) {
+    return this.each(function() {
+        var instance = $.data(this, "hcl");
+        // destroy previous instance and prepare for new load
+        if (instance && typeof instance.destruct === 'function') {
+            instance.destruct();
+        }
+        // load the new gallery
+        $.data(this, "hcl",  new CanvasLoader(this, settings));
+    });
+  };
+})(jQuery);

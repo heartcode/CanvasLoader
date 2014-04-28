@@ -1,8 +1,9 @@
 {
-  "name": "heartcode-canvasloader",
-  "version": "1.0.0",
-  "description": "JS spinners",
+  "name": "canvasloader",
+  "version": "0.9.1",
+  "description": "Smart UI and UX with <canvas> spinners",
   "author": "Róbert Pataki",
+  "url": "http://heartcode.robertpataki.com/canvasloader",
   "license": "MIT",
   "devDependencies": {
     "grunt": "~0.4.2",

@@ -1,13 +1,13 @@
 {
     "project": {
-        "name": "heartcode-canvasloader",
-        "description": "JS spinners",
-        "version": "1.0.0",
+        "name": "canvasloader",
+        "description": "Smart UI and UX with <canvas> spinners",
+        "version": "0.9.1",
         "url": ""
     },
     "files": {
-        "src/hcl-1.0.0.js": {
-            "name": "src/hcl-1.0.0.js",
+        "src/canvasloader.js": {
+            "name": "src/canvasloader.js",
             "modules": {
                 "CanvasLoader": 1
             },
@@ -28,7 +28,7 @@
             "fors": {},
             "namespaces": {},
             "tag": "module",
-            "file": "src/hcl-1.0.0.js",
+            "file": "src/canvasloader.js",
             "line": 37,
             "description": "CanvasLoader uses the HTML5 canvas element in modern browsers and VML in IE6/7/8 to create and animate the most popular preloader shapes (oval, spiral, rectangle, square and rounded rectangle).<br/><br/>\nIt is important to note that CanvasLoader doesn't show up and starts rendering automatically on instantiation. To start rendering and display the loader use the <code>show()</code> method."
         }
@@ -44,7 +44,7 @@
             "extension_for": [],
             "module": "CanvasLoader",
             "namespace": "",
-            "file": "src/hcl-1.0.0.js",
+            "file": "src/canvasloader.js",
             "line": 37,
             "description": "CanvasLoader is a JavaScript UI library that draws and animates circular preloaders using the Canvas HTML object.<br/><br/>\nA CanvasLoader instance creates two canvas elements which are placed into a placeholder div (the id of the div has to be passed in the constructor). The second canvas is invisible and used for caching purposes only.<br/><br/>\nIf no id is passed in the constructor, the canvas objects are paced in the document directly.",
             "is_constructor": 1,
@@ -121,7 +121,7 @@
     },
     "classitems": [
         {
-            "file": "src/hcl-1.0.0.js",
+            "file": "src/canvasloader.js",
             "line": 62,
             "description": "Creates a new element with the tag and applies the passed properties on it",
             "access": "private",
@@ -153,7 +153,7 @@
             "module": "CanvasLoader"
         },
         {
-            "file": "src/hcl-1.0.0.js",
+            "file": "src/canvasloader.js",
             "line": 83,
             "description": "Sets the css properties on the element",
             "access": "private",
@@ -180,7 +180,7 @@
             "module": "CanvasLoader"
         },
         {
-            "file": "src/hcl-1.0.0.js",
+            "file": "src/canvasloader.js",
             "line": 96,
             "description": "Sets the attributes on the element",
             "access": "private",
@@ -207,8 +207,23 @@
             "module": "CanvasLoader"
         },
         {
-            "file": "src/hcl-1.0.0.js",
+            "file": "src/canvasloader.js",
             "line": 109,
+            "description": "Returns if the browser supports CSS animations",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_supportsCSSAnimation",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/canvasloader.js",
+            "line": 132,
             "description": "Transforms the cache canvas before drawing",
             "access": "private",
             "tagname": "",
@@ -240,150 +255,154 @@
             "module": "CanvasLoader"
         },
         {
-            "file": "src/hcl-1.0.0.js",
-            "line": 131,
-            "description": "Holds settings (this is updated with user settings)",
-            "access": "private",
-            "tagname": "",
-            "type": "{Object}",
-            "class": "CanvasLoader",
-            "module": "CanvasLoader"
-        },
-        {
-            "file": "src/hcl-1.0.0.js",
-            "line": 147,
-            "description": "Holds default settings",
-            "access": "private",
-            "tagname": "",
-            "type": "{Object}",
-            "class": "CanvasLoader",
-            "module": "CanvasLoader"
-        },
-        {
-            "file": "src/hcl-1.0.0.js",
+            "file": "src/canvasloader.js",
             "line": 154,
+            "description": "Holds settings (this is updated with user settings)",
+            "itemtype": "property",
+            "name": "_settings",
+            "access": "private",
+            "tagname": "",
+            "type": "{Object}",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/canvasloader.js",
+            "line": 171,
+            "description": "Holds default settings",
+            "itemtype": "property",
+            "name": "_defaults",
+            "access": "private",
+            "tagname": "",
+            "type": "{Object}",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/canvasloader.js",
+            "line": 179,
             "description": "The div we place the canvas object into",
             "itemtype": "property",
             "name": "_cont",
             "access": "private",
             "tagname": "",
-            "type": "Object",
+            "type": "{Object}",
             "class": "CanvasLoader",
             "module": "CanvasLoader"
         },
         {
-            "file": "src/hcl-1.0.0.js",
-            "line": 161,
+            "file": "src/canvasloader.js",
+            "line": 186,
             "description": "The div we draw the shapes into",
             "itemtype": "property",
             "name": "_can",
             "access": "private",
             "tagname": "",
-            "type": "Object",
+            "type": "{Object}",
             "class": "CanvasLoader",
             "module": "CanvasLoader"
         },
         {
-            "file": "src/hcl-1.0.0.js",
-            "line": 168,
+            "file": "src/canvasloader.js",
+            "line": 193,
             "description": "The canvas context",
             "itemtype": "property",
             "name": "_con",
             "access": "private",
             "tagname": "",
-            "type": "Object",
+            "type": "{Object}",
             "class": "CanvasLoader",
             "module": "CanvasLoader"
         },
         {
-            "file": "src/hcl-1.0.0.js",
-            "line": 175,
+            "file": "src/canvasloader.js",
+            "line": 200,
             "description": "The canvas we use for caching",
             "itemtype": "property",
             "name": "_cCan",
             "access": "private",
             "tagname": "",
-            "type": "Object",
+            "type": "{Object}",
             "class": "CanvasLoader",
             "module": "CanvasLoader"
         },
         {
-            "file": "src/hcl-1.0.0.js",
-            "line": 182,
+            "file": "src/canvasloader.js",
+            "line": 207,
             "description": "The context of the cache canvas",
             "itemtype": "property",
             "name": "_cCon",
             "access": "private",
             "tagname": "",
-            "type": "Object",
+            "type": "{Object}",
             "class": "CanvasLoader",
             "module": "CanvasLoader"
         },
         {
-            "file": "src/hcl-1.0.0.js",
-            "line": 189,
+            "file": "src/canvasloader.js",
+            "line": 214,
             "description": "Adds a timer for the rendering",
             "itemtype": "property",
             "name": "_timer",
             "access": "private",
             "tagname": "",
-            "type": "Boolean",
+            "type": "{Boolean}",
             "class": "CanvasLoader",
             "module": "CanvasLoader"
         },
         {
-            "file": "src/hcl-1.0.0.js",
-            "line": 196,
+            "file": "src/canvasloader.js",
+            "line": 221,
             "description": "The active shape id for rendering",
             "itemtype": "property",
             "name": "_currentId",
             "access": "private",
             "tagname": "",
-            "type": "Number",
+            "type": "{Number}",
             "class": "CanvasLoader",
             "module": "CanvasLoader"
         },
         {
-            "file": "src/hcl-1.0.0.js",
-            "line": 203,
+            "file": "src/canvasloader.js",
+            "line": 228,
             "description": "The diameter of the loader",
             "itemtype": "property",
             "name": "_diameter",
             "access": "private",
             "tagname": "",
-            "type": "Number",
+            "type": "{Number}",
             "default": "40",
             "class": "CanvasLoader",
             "module": "CanvasLoader"
         },
         {
-            "file": "src/hcl-1.0.0.js",
-            "line": 211,
+            "file": "src/canvasloader.js",
+            "line": 236,
             "description": "The color of the loader shapes in RGB",
             "itemtype": "property",
             "name": "_cRGB",
             "access": "private",
             "tagname": "",
-            "type": "Object",
+            "type": "{Object}",
             "class": "CanvasLoader",
             "module": "CanvasLoader"
         },
         {
-            "file": "src/hcl-1.0.0.js",
-            "line": 218,
+            "file": "src/canvasloader.js",
+            "line": 243,
             "description": "The color of the loader shapes in HEX",
             "itemtype": "property",
             "name": "_color",
             "access": "private",
             "tagname": "",
-            "type": "String",
+            "type": "{String}",
             "default": "\"#000000\"",
             "class": "CanvasLoader",
             "module": "CanvasLoader"
         },
         {
-            "file": "src/hcl-1.0.0.js",
-            "line": 226,
+            "file": "src/canvasloader.js",
+            "line": 251,
             "description": "The type of the loader shapes",
             "itemtype": "property",
             "name": "_shape",
@@ -395,8 +414,8 @@
             "module": "CanvasLoader"
         },
         {
-            "file": "src/hcl-1.0.0.js",
-            "line": 234,
+            "file": "src/canvasloader.js",
+            "line": 259,
             "description": "The number of shapes drawn on the loader canvas",
             "itemtype": "property",
             "name": "_density",
@@ -408,44 +427,44 @@
             "module": "CanvasLoader"
         },
         {
-            "file": "src/hcl-1.0.0.js",
-            "line": 242,
+            "file": "src/canvasloader.js",
+            "line": 267,
             "description": "The amount of the modified shapes in percent.",
             "itemtype": "property",
             "name": "_range",
             "access": "private",
             "tagname": "",
-            "type": "Number",
+            "type": "{Number}",
             "class": "CanvasLoader",
             "module": "CanvasLoader"
         },
         {
-            "file": "src/hcl-1.0.0.js",
-            "line": 249,
+            "file": "src/canvasloader.js",
+            "line": 274,
             "description": "The speed of the loader animation",
             "itemtype": "property",
             "name": "_speed",
             "access": "private",
             "tagname": "",
-            "type": "Number",
+            "type": "{Number}",
             "class": "CanvasLoader",
             "module": "CanvasLoader"
         },
         {
-            "file": "src/hcl-1.0.0.js",
-            "line": 256,
+            "file": "src/canvasloader.js",
+            "line": 281,
             "description": "The FPS value of the loader animation rendering",
             "itemtype": "property",
             "name": "_fps",
             "access": "private",
             "tagname": "",
-            "type": "Number",
+            "type": "{Number}",
             "class": "CanvasLoader",
             "module": "CanvasLoader"
         },
         {
-            "file": "src/hcl-1.0.0.js",
-            "line": 270,
+            "file": "src/canvasloader.js",
+            "line": 295,
             "description": "Initialization method",
             "itemtype": "method",
             "name": "_init",
@@ -467,8 +486,8 @@
             "module": "CanvasLoader"
         },
         {
-            "file": "src/hcl-1.0.0.js",
-            "line": 362,
+            "file": "src/canvasloader.js",
+            "line": 388,
             "description": "Return the RGB values of the passed color",
             "access": "private",
             "tagname": "",
@@ -485,8 +504,8 @@
             "module": "CanvasLoader"
         },
         {
-            "file": "src/hcl-1.0.0.js",
-            "line": 373,
+            "file": "src/canvasloader.js",
+            "line": 399,
             "description": "Return the default settings",
             "access": "private",
             "tagname": "",
@@ -496,8 +515,8 @@
             "module": "CanvasLoader"
         },
         {
-            "file": "src/hcl-1.0.0.js",
-            "line": 382,
+            "file": "src/canvasloader.js",
+            "line": 408,
             "description": "Draw the shapes on the canvas",
             "access": "private",
             "tagname": "",
@@ -507,19 +526,30 @@
             "module": "CanvasLoader"
         },
         {
-            "file": "src/hcl-1.0.0.js",
-            "line": 505,
+            "file": "src/canvasloader.js",
+            "line": 537,
             "description": "Renders the loader animation",
             "access": "private",
             "tagname": "",
             "itemtype": "method",
-            "name": "_tick",
+            "name": "_renderWithSoftware",
             "class": "CanvasLoader",
             "module": "CanvasLoader"
         },
         {
-            "file": "src/hcl-1.0.0.js",
-            "line": 529,
+            "file": "src/canvasloader.js",
+            "line": 556,
+            "description": "Adds Hardware accelerated CSS animation",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_renderWithHardware",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/canvasloader.js",
+            "line": 579,
             "description": "Shows the rendering of the loader animation",
             "itemtype": "method",
             "name": "show",
@@ -532,8 +562,8 @@
             "module": "CanvasLoader"
         },
         {
-            "file": "src/hcl-1.0.0.js",
-            "line": 544,
+            "file": "src/canvasloader.js",
+            "line": 599,
             "description": "Stops the rendering of the loader animation and hides the loader",
             "itemtype": "method",
             "name": "hide",
@@ -546,8 +576,8 @@
             "module": "CanvasLoader"
         },
         {
-            "file": "src/hcl-1.0.0.js",
-            "line": 560,
+            "file": "src/canvasloader.js",
+            "line": 618,
             "description": "Clears the DOM and resets all params",
             "itemtype": "method",
             "name": "destruct",
@@ -555,8 +585,8 @@
             "module": "CanvasLoader"
         },
         {
-            "file": "src/hcl-1.0.0.js",
-            "line": 574,
+            "file": "src/canvasloader.js",
+            "line": 632,
             "description": "Return argument value by key if defined",
             "params": [
                 {
@@ -574,14 +604,5 @@
             "module": "CanvasLoader"
         }
     ],
-    "warnings": [
-        {
-            "message": "Missing item type\nHolds settings (this is updated with user settings)",
-            "line": " src/hcl-1.0.0.js:131"
-        },
-        {
-            "message": "Missing item type\nHolds default settings",
-            "line": " src/hcl-1.0.0.js:147"
-        }
-    ]
+    "warnings": []
 }

@@ -1,8 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src/canvasloader.js - canvasloader</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="canvasloader"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.9.1</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/CanvasLoader.html">CanvasLoader</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/CanvasLoader.html">CanvasLoader</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: src/canvasloader.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
 /*
 * Copyright (c) 2014 Róbert Pataki
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
-* of this software and associated documentation files (the "Software"), to deal
+* of this software and associated documentation files (the &quot;Software&quot;), to deal
 * in the Software without restriction, including without limitation the rights
 * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 * copies of the Software, and to permit persons to whom the Software is
@@ -11,7 +101,7 @@
 * The above copyright notice and this permission notice shall be included in
 * all copies or substantial portions of the Software.
 * 
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
@@ -28,15 +118,15 @@
 */
 
 /**
-* CanvasLoader uses the HTML5 canvas element in modern browsers and VML in IE6/7/8 to create and animate the most popular preloader shapes (oval, spiral, rectangle, square and rounded rectangle).<br/><br/>
-* It is important to note that CanvasLoader doesn't show up and starts rendering automatically on instantiation. To start rendering and display the loader use the <code>show()</code> method.
+* CanvasLoader uses the HTML5 canvas element in modern browsers and VML in IE6/7/8 to create and animate the most popular preloader shapes (oval, spiral, rectangle, square and rounded rectangle).&lt;br/&gt;&lt;br/&gt;
+* It is important to note that CanvasLoader doesn&#x27;t show up and starts rendering automatically on instantiation. To start rendering and display the loader use the &lt;code&gt;show()&lt;/code&gt; method.
 * @module CanvasLoader
 **/
 (function (window) {
-	"use strict";
+	&quot;use strict&quot;;
 	/**
-	* CanvasLoader is a JavaScript UI library that draws and animates circular preloaders using the Canvas HTML object.<br/><br/>
-	* A CanvasLoader instance creates two canvas elements which are placed into a placeholder div (the id of the div has to be passed in the constructor). The second canvas is invisible and used for caching purposes only.<br/><br/>
+	* CanvasLoader is a JavaScript UI library that draws and animates circular preloaders using the Canvas HTML object.&lt;br/&gt;&lt;br/&gt;
+	* A CanvasLoader instance creates two canvas elements which are placed into a placeholder div (the id of the div has to be passed in the constructor). The second canvas is invisible and used for caching purposes only.&lt;br/&gt;&lt;br/&gt;
 	* If no id is passed in the constructor, the canvas objects are paced in the document directly.
 	* @class CanvasLoader
 	* @constructor
@@ -57,7 +147,7 @@
 	var CanvasLoader = function (target, settings) {
 		settings = settings || {};
 		this._init(target, settings);
-	}, p = CanvasLoader.prototype, engine, engines = ["canvas", "vml"], shapes = ["oval", "spiral", "square", "rect", "roundRect"], cRX = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/, ie8 = navigator.appVersion.indexOf("MSIE") !== -1 && parseFloat(navigator.appVersion.split("MSIE")[1]) === 8 ? true : false, canSup = !!document.createElement("canvas").getContext, safeDensity = 40, safeVML = true,
+	}, p = CanvasLoader.prototype, engine, engines = [&quot;canvas&quot;, &quot;vml&quot;], shapes = [&quot;oval&quot;, &quot;spiral&quot;, &quot;square&quot;, &quot;rect&quot;, &quot;roundRect&quot;], cRX = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/, ie8 = navigator.appVersion.indexOf(&quot;MSIE&quot;) !== -1 &amp;&amp; parseFloat(navigator.appVersion.split(&quot;MSIE&quot;)[1]) === 8 ? true : false, canSup = !!document.createElement(&quot;canvas&quot;).getContext, safeDensity = 40, safeVML = true,
 	
 	/**
 	* Creates a new element with the tag and applies the passed properties on it
@@ -74,7 +164,7 @@
 			el[n] = opt[n];
 		}
 
-		if(typeof par !== "undefined") {
+		if(typeof par !== &quot;undefined&quot;) {
 			par.appendChild(el);
 		}
 		return el;
@@ -107,6 +197,29 @@
 	},
 
 	/**
+	 * Returns if the browser supports CSS animations
+	 * @private
+	 * @method 		_supportsCSSAnimation
+	 * @return 		{Boolean}
+	 */
+	_supportsCSSAnimation = function () {
+		var el = document.body.appendChild(document.createElement(&#x27;div&#x27;));
+		var result = false;
+		var prefs = (&#x27;webkit moz o ms khtml&#x27;).split(&#x27; &#x27;);
+
+		for(var i = 0; i &lt;= prefs.length; i++) {			
+			var pref = i === prefs.length ? &#x27;animation&#x27; : prefs[i] + &#x27;Animation&#x27;;
+
+			if(typeof el.style[pref] !== &#x27;undefiend&#x27;) {
+				result = true;
+				break;
+			}
+		}
+
+		return result;
+	},
+
+	/**
 	* Transforms the cache canvas before drawing
 	* @private
 	* @method 	_transCon
@@ -135,8 +248,8 @@
 	* @type 		{Object}
 	*/
 	p._settings = {
-		shape: "oval",
-		color: "#000000",
+		shape: &quot;oval&quot;,
+		color: &quot;#000000&quot;,
 		diameter: 40,
 		range: 0.2,
 		density: 40,
@@ -222,7 +335,7 @@
 	* @property 	_color
 	* @private
 	* @type 		{String}
-	* @default 	"#000000"
+	* @default 	&quot;#000000&quot;
 	**/
 	p._color = p._settings.color;
 	/**
@@ -230,7 +343,7 @@
 	* @property _shape
 	* @private
 	* @type String
-	* @default "oval"
+	* @default &quot;oval&quot;
 	**/
 	p._shape = p._settings.shape;
 	/**
@@ -283,33 +396,33 @@
 		this.mum = target;
 
 		// Creates the parent div of the loader instance
-		this._cont = _addEl("div", this.mum, {className: "canvasloader"});
+		this._cont = _addEl(&quot;div&quot;, this.mum, {className: &quot;canvasloader&quot;});
 
 		if (canSup) {
 		// For browsers with Canvas support...
 			engine = engines[0];
 			// Createse the canvas element
-			this._can = _addEl("canvas", this._cont);
-			this._con = this._can.getContext("2d");
+			this._can = _addEl(&quot;canvas&quot;, this._cont);
+			this._con = this._can.getContext(&quot;2d&quot;);
 			// Create the cache canvas element
-			this._cCan = _setCSS(_addEl("canvas", this._cont), { display: "none" });
-			this._cCon = this._cCan.getContext("2d");
+			this._cCan = _setCSS(_addEl(&quot;canvas&quot;, this._cont), { display: &quot;none&quot; });
+			this._cCon = this._cCan.getContext(&quot;2d&quot;);
 		} else {
 		// For browsers without Canvas support...
 			engine = engines[1];
 			// Adds the VML stylesheet
-			if (typeof CanvasLoader.vmlSheet === "undefined") {
-				document.getElementsByTagName("head")[0].appendChild(_addEl("style"));
+			if (typeof CanvasLoader.vmlSheet === &quot;undefined&quot;) {
+				document.getElementsByTagName(&quot;head&quot;)[0].appendChild(_addEl(&quot;style&quot;));
 				CanvasLoader.vmlSheet = document.styleSheets[document.styleSheets.length - 1];
-				var a = ["group", "oval", "roundrect", "fill"];
-				for ( var n = 0; n < a.length; ++n ) { CanvasLoader.vmlSheet.addRule(a[n], "behavior:url(#default#VML); position:absolute;"); }
+				var a = [&quot;group&quot;, &quot;oval&quot;, &quot;roundrect&quot;, &quot;fill&quot;];
+				for ( var n = 0; n &lt; a.length; ++n ) { CanvasLoader.vmlSheet.addRule(a[n], &quot;behavior:url(#default#VML); position:absolute;&quot;); }
 			}
-			this.vml = _addEl("group", this._cont);
+			this.vml = _addEl(&quot;group&quot;, this._cont);
 		}	
 
 	    // Shape setup
 	    var shape = settings.shape || arg.shape;
-	    for (var i = 0; i < shapes.length; i++) {
+	    for (var i = 0; i &lt; shapes.length; i++) {
 	      if (shape === shapes[i]) {
 	        this._shape = shape;
 	        break;
@@ -324,16 +437,16 @@
 		// this._diameter = Math.round(Math.abs(diameter));
 		this._diameter = diameter;
 
-		_setCSS(this.mum, {"marginLeft": Math.round(diameter * -0.5) + 'px'});
+		_setCSS(this.mum, {&quot;marginLeft&quot;: Math.round(diameter * -0.5) + &#x27;px&#x27;});
 
 	    // Density setup
 	    var density = settings.density || arg.density;
-	    if (safeVML && engine === engines[1]) {
-	      this._density = Math.round(Math.abs(density)) <= safeDensity ? Math.round(Math.abs(density)) : safeDensity;
+	    if (safeVML &amp;&amp; engine === engines[1]) {
+	      this._density = Math.round(Math.abs(density)) &lt;= safeDensity ? Math.round(Math.abs(density)) : safeDensity;
 	    } else {
 	      this._density = Math.round(Math.abs(density));
 	    }
-	    if (this._density > 360) { this._density = 360; }
+	    if (this._density &gt; 360) { this._density = 360; }
 	    this._currentId = 0;
 
 	    // Colour setup
@@ -354,7 +467,7 @@
 		this._draw();
 
 		//Hides the preloader
-		_setCSS(this._cont, {visibility: "hidden", display: "none"});
+		_setCSS(this._cont, {visibility: &quot;hidden&quot;, display: &quot;none&quot;});
 
 		var autoShow = settings.autoShow || arg.autoShow;
 		if(autoShow) {
@@ -369,7 +482,7 @@
 	* @param 	color 		{String}	The HEX color value to be converted to RGB
 	*/
 	p._getRGB = function (c) {
-		c = c.charAt(0) === "#" ? c.substring(1, 7) : c;
+		c = c.charAt(0) === &quot;#&quot; ? c.substring(1, 7) : c;
 		return {r: parseInt(c.substring(0, 2), 16), g: parseInt(c.substring(2, 4), 16), b: parseInt(c.substring(4, 6), 16) };
 	};
 
@@ -393,17 +506,17 @@
 			c.clearRect(0, 0, d, d);
 			
 			_setAttr(this._can, {width: di * pr, height: di * pr});
-			_setCSS(this._can, {width: di + 'px', height: di + 'px'});
+			_setCSS(this._can, {width: di + &#x27;px&#x27;, height: di + &#x27;px&#x27;});
 			_setAttr(this._cCan, {width: di * pr, height: di * pr});
-			_setCSS(this._cCan, {width: di + 'px', height: di + 'px'});
+			_setCSS(this._cCan, {width: di + &#x27;px&#x27;, height: di + &#x27;px&#x27;});
 			c.scale(pr, pr);
 			this._con.scale(pr, pr);
 
-			while (i < de) {
-				bitMod = i <= animBits ? 1 - ((1 - minBitMod) / animBits * i) : bitMod = minBitMod;
+			while (i &lt; de) {
+				bitMod = i &lt;= animBits ? 1 - ((1 - minBitMod) / animBits * i) : bitMod = minBitMod;
 				ang = 270 - 360 / de * i;
 				rads = ang / 180 * Math.PI;
-				c.fillStyle = "rgba(" + this._cRGB.r + "," + this._cRGB.g + "," + this._cRGB.b + "," + bitMod.toString() + ")";
+				c.fillStyle = &quot;rgba(&quot; + this._cRGB.r + &quot;,&quot; + this._cRGB.g + &quot;,&quot; + this._cRGB.b + &quot;,&quot; + bitMod.toString() + &quot;)&quot;;
 				switch (this._shape) {
 				case shapes[0]:
 				case shapes[1]:
@@ -454,24 +567,24 @@
 			switch (this._shape) {
 			case shapes[0]:
 			case shapes[1]:
-				sh = "oval";
+				sh = &quot;oval&quot;;
 				size = d * 0.14;
 				break;
 			case shapes[2]:
-				sh = "roundrect";
+				sh = &quot;roundrect&quot;;
 				size = d * 0.12;
 				break;
 			case shapes[3]:
 			case shapes[4]:
-				sh = "roundrect";
+				sh = &quot;roundrect&quot;;
 				size = d * 0.3;
 				break;
 			}
 			w = h = size;
 			x = d * 0.5 - h;
 			y = -h * 0.5;		
-			while (i < de) {
-				bitMod = i <= animBits ? 1 - ((1 - minBitMod) / animBits * i) : bitMod = minBitMod;
+			while (i &lt; de) {
+				bitMod = i &lt;= animBits ? 1 - ((1 - minBitMod) / animBits * i) : bitMod = minBitMod;
 				ang = 270 - 360 / de * i;
 				switch (this._shape) {
 				case shapes[1]:
@@ -502,21 +615,21 @@
 					arc = this._shape === shapes[4] ? 0.6 : 0; 
 					break;
 				}
-				g = _setAttr(_setCSS(_addEl("group", this.vml), {width: d, height: d, rotation: ang}), {coordsize: d + "," + d, coordorigin: -d * 0.5 + "," + (-d * 0.5)});
+				g = _setAttr(_setCSS(_addEl(&quot;group&quot;, this.vml), {width: d, height: d, rotation: ang}), {coordsize: d + &quot;,&quot; + d, coordorigin: -d * 0.5 + &quot;,&quot; + (-d * 0.5)});
 				s = _setCSS(_addEl(sh, g, {stroked: false, arcSize: arc}), { width: w, height: h, top: y, left: x});
-				f = _addEl("fill", s, {color: this._color, opacity: bitMod});
+				f = _addEl(&quot;fill&quot;, s, {color: this._color, opacity: bitMod});
 				++i;
 			}
 		}
-		this._tick(true);
+		this._renderWithSoftware(true);
 	};
 
 	/**
 	* Renders the loader animation
 	* @private
-	* @method 	_tick
+	* @method 	_renderWithSoftware
 	*/
-	p._tick = function (init) {
+	p._renderWithSoftware = function (init) {
 		var c = this._con, di = this._diameter;
 		if (!init) { this._currentId += 360 / this._density * this._speed; }
 		if (engine === engines[0]) {
@@ -525,9 +638,27 @@
 			c.drawImage(this._cCan, 0, 0, di, di);
 			c.restore();
 		} else {
-			if (this._currentId >= 360) { this._currentId -= 360; }
+			if (this._currentId &gt;= 360) { this._currentId -= 360; }
 			_setCSS(this.vml, {rotation:this._currentId});
 		}
+	};
+
+	/**
+	 * Adds Hardware accelerated CSS animation
+	 * @private
+	 * @method 	_renderWithHardware
+	 */
+	p._renderWithHardware = function () {
+		// TODO - duration should come from &#x60;_settings.speed&#x60;
+		var duration = &#x27;1s&#x27;;
+		var animPrefixes = [&#x27;webkitAnimation&#x27;, &#x27;mozAnimation&#x27;, &#x27;oAnimation&#x27;, &#x27;msAnimation&#x27;, &#x27;khtmlAnimation&#x27;, &#x27;animation&#x27;];
+		var animProps = &#x27;spin &#x27; + duration + &#x27; steps(&#x27; + this._density + &#x27;) infinite&#x27;;
+		var animObject = {};
+
+		for (var i = 0; i &lt; animPrefixes.length; i++) {
+			animObject[animPrefixes[i]] = animProps;
+		}
+		_setCSS(this._can, animObject);
 	};
 
 
@@ -543,11 +674,16 @@
 	*/
 	p.show = function () {
 		var self = this;
-		if(!self._timer) {
-			self._timer = setInterval(function () { self._tick(); }, Math.round(1000 / self._fps));
-			_setCSS(self._cont, {visibility: "visible", display: "block"});
+		_setCSS(self._cont, {visibility: &quot;visible&quot;, display: &quot;block&quot;});
+		if(_supportsCSSAnimation()) {
+			document.body.style[&#x27;background&#x27;] = &#x27;rgba(255, 0, 0, 0.2)&#x27;;
+			// If CSS animation is supported...
+			this._renderWithHardware();
+		}	else if (!self._timer) {
+			// JavaScript animation fallback...
+			self._timer = setInterval(function () { self._renderWithSoftware(); }, Math.round(1000 / self._fps));
 		}
-    return self;
+    	return self;
 	};
 	
 	/**
@@ -557,11 +693,14 @@
 	* @return 		{CanvasLoader}		The CanvasLoader instance
 	*/
 	p.hide = function () {
+
+		// TODO - we probably will need to remove the CSS animation when hiding the spinner
+
 		if(this._timer) {
 			clearInterval(this._timer);
 			this._timer = null;
 
-			_setCSS(this._cont, {visibility: "hidden", display: "none"});	
+			_setCSS(this._cont, {visibility: &quot;hidden&quot;, display: &quot;none&quot;});	
 		}
 		return this;
 	};
@@ -587,14 +726,33 @@
 	* @method get
 	*/
 	p.get = function(key) {
-		if(key === "defaults") {
+		if(key === &quot;defaults&quot;) {
 			return this._getDefaults();
 		}
 
-		if(this._settings.hasOwnProperty(key) && this.hasOwnProperty("_" + key)) {
-		  return this["_" + key];
+		if(this._settings.hasOwnProperty(key) &amp;&amp; this.hasOwnProperty(&quot;_&quot; + key)) {
+		  return this[&quot;_&quot; + key];
 		}
 	};
 
 	window.CanvasLoader = CanvasLoader;
 }(window));
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

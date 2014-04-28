@@ -7,15 +7,16 @@ module.exports = function(grunt) {
       options: {
           banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
           compress: true,
-          mangle: true
+          mangle: true,
+          report: 'gzip'
         },
         build_min: {
-          src: 'src/hcl-<%= pkg.version %>.js',
-          dest: 'build/hcl-<%= pkg.version %>.min.js'
+          src: 'src/canvasloader.js',
+          dest: 'build/canvasloader.min.js'
         },
         build_jquery_min: {
-          src: ['src/hcl-<%= pkg.version %>.js', 'src/hcl-<%= pkg.version %>-jquery.js'],
-          dest: 'build/hcl-<%= pkg.version %>-jquery.min.js'
+          src: ['src/canvasloader.js', 'src/canvasloader-jquery.js'],
+          dest: 'build/canvasloader-jquery.min.js'
         }
     },
     concat: {
@@ -23,8 +24,8 @@ module.exports = function(grunt) {
         separator: ';',
       },
       dist: {
-        src: ['src/hcl-<%= pkg.version %>.js', 'src/hcl-<%= pkg.version %>-jquery.js'],
-        dest: 'build/hcl-<%= pkg.version %>-jquery.js'
+        src: ['src/canvasloader.js', 'src/canvasloader-jquery.js'],
+        dest: 'build/canvasloader-jquery.js'
       },
     },
     yuidoc: {
