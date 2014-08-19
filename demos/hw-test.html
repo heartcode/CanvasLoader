@@ -29,49 +29,30 @@
 			margin-bottom: 20px;
 		}
 
+		/* TODO - Add this to the DOM via JS */
 		@-webkit-keyframes spin {
-		  0% {
-		  	-webkit-transform: rotateZ(1deg);
-		  }
-		  100% {
-		    -webkit-transform: rotateZ(360deg);
-		  }
+		  from { -webkit-transform: rotateZ(0deg); }
+		  to { -webkit-transform: rotateZ(360deg); }
 		}
 		@-moz-keyframes spin {
-		  0% {
-		  	-moz-transform: rotateZ(1deg);
-		  }
-		  100% {
-		    -moz-transform: rotateZ(360deg);
-		  }
-		}
-		@-o-keyframes spin {
-		  0% {
-		  	-o-transform: rotateZ(1deg);
-		  }
-		  100% {
-		    -o-transform: rotateZ(360deg);
-		  }
+		  from { -webkit-transform: rotateZ(0deg); }
+		  to { -webkit-transform: rotateZ(360deg); }
 		}
 		@-ms-keyframes spin {
-		  0% {
-		  	-ms-transform: rotateZ(1deg);
-		  }
-		  100% {
-		    -ms-transform: rotateZ(360deg);
-		  }
+		  from { -webkit-transform: rotateZ(0deg); }
+		  to { -webkit-transform: rotateZ(360deg); }
+		}
+		@-o-keyframes spin {
+		  from { -webkit-transform: rotateZ(0deg); }
+		  to { -webkit-transform: rotateZ(360deg); }
+		}
+		@-khtml-keyframes spin {
+		  from { -webkit-transform: rotateZ(0deg); }
+		  to { -webkit-transform: rotateZ(360deg); }
 		}
 		@-keyframes spin {
-		  0% {
-		  	transform: rotateZ(1deg);
-		  }
-		  100% {
-		    transform: rotateZ(360deg);
-		  }
-		}
-
-		.loader canvas {
-			/*-webkit-animation: spin 0.6s steps(12) infinite;*/
+		  from { -webkit-transform: rotateZ(0deg); }
+		  to { -webkit-transform: rotateZ(360deg); }
 		}
 	</style>
 </head>
@@ -83,12 +64,11 @@
 	</div>
 	<script>
 		var settings = {
-			shape: 'spiral',
-			diameter: 90,
-			density: 30,
-			speed: 1,
-			range: 1,
-			fps: 24,
+			shape: 'oval',
+			diameter: 120,
+			density: 12,
+			duration: 2,
+			range: 0.9,
 			color: '#0099ff'
 		};
 		var target = document.getElementById('canvasloader-roundRect');
