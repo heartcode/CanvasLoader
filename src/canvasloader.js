@@ -21,10 +21,10 @@
 * 
 * ----------------------------------------------------------------------------------------
 * 
-* Check out my GitHub:		http://github.com/heartcode/
-* Send me an email:			heartcode@robertpataki.com
-* Follow me on Twitter:		http://twitter.com/#iHeartcode
-* Blog:						http://heartcode.robertpataki.com
+* Check out my GitHub:		http://github.com/robertpataki/
+* Send me an email:			robert@robertpataki.com
+* Follow me on Twitter:		http://twitter.com/robertpataki
+* Blog:						http://robertpataki.com
 */
 
 /**
