@@ -28,32 +28,6 @@
 		.loader:last-child {
 			margin-bottom: 20px;
 		}
-
-		/* TODO - Add this to the DOM via JS */
-		@-webkit-keyframes spin {
-		  from { -webkit-transform: rotateZ(0deg); }
-		  to { -webkit-transform: rotateZ(360deg); }
-		}
-		@-moz-keyframes spin {
-		  from { -webkit-transform: rotateZ(0deg); }
-		  to { -webkit-transform: rotateZ(360deg); }
-		}
-		@-ms-keyframes spin {
-		  from { -webkit-transform: rotateZ(0deg); }
-		  to { -webkit-transform: rotateZ(360deg); }
-		}
-		@-o-keyframes spin {
-		  from { -webkit-transform: rotateZ(0deg); }
-		  to { -webkit-transform: rotateZ(360deg); }
-		}
-		@-khtml-keyframes spin {
-		  from { -webkit-transform: rotateZ(0deg); }
-		  to { -webkit-transform: rotateZ(360deg); }
-		}
-		@-keyframes spin {
-		  from { -webkit-transform: rotateZ(0deg); }
-		  to { -webkit-transform: rotateZ(360deg); }
-		}
 	</style>
 </head>
 <body>
@@ -64,11 +38,11 @@
 	</div>
 	<script>
 		var settings = {
-			shape: 'oval',
-			diameter: 120,
-			density: 12,
-			duration: 2,
-			range: 0.9,
+			shape: 'square',
+			diameter: 210,
+			density: 60,
+			duration: 0.1,
+			range: 0.4,
 			color: '#0099ff'
 		};
 		var target = document.getElementById('canvasloader-roundRect');

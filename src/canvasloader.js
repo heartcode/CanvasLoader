@@ -161,12 +161,12 @@
 	**/
 	proto._timer = 0;
 	/**
-	* The active shape id for rendering
-	* @property _currentId
+	* The current rotation degree of the spinner
+	* @property _currentDegree
 	* @private
 	* @type 	{Number}
 	**/
-	proto._currentId = 0;
+	proto._currentDegree = 0;
 	/**
 	* The diameter of the loader
 	* @property _diameter
@@ -283,10 +283,10 @@
 	/**
 	 * Returns if the browser supports CSS animations
 	 * @private
-	 * @method 		proto._supportsCSSAnimation
+	 * @method 		proto._supportsKeyframes
 	 * @return 		{Boolean}
 	 */
-	proto._supportsCSSAnimation = function () {
+	proto._supportsKeyframes = function () {
 		var el = document.body.appendChild(document.createElement('div'));
 		var result = false;
 		var prefs = ('webkit moz o ms khtml').split(' ');
@@ -329,27 +329,45 @@
 	**/
 	proto._init = function (target, settings) {
 
-		var arg = this._settings;
+		var args = this._settings;
 
 		this.dad = target;
 
-		// Creates the parent div of the loader instance
+		// Create the parent div of the loader instance
 		this._container = proto._addElement('div', this.dad, {className: 'canvasloader'});
 
+		// Create the canvas and cache canvas with context
 		if (this._supportsCanvas) {
-		// For browsers with Canvas support..
-			// Createse the canvas element
 			this._canvas = proto._addElement('canvas', this._container);
 			this._context = this._canvas.getContext('2d');
-			// Create the cache canvas element
 			this._cacheCanvas = proto._setCSS(proto._addElement('canvas', this._container), { display: 'none' });
 			this._cacheContext = this._cacheCanvas.getContext('2d');
 		} else {
 			console.warn('[CanvasLoader] - Browser won\'t support canvas, bye!');
 		}
 
-	    // Shape setup
-	    var shape = settings.shape || arg.shape;
+		// Add the keyframe animation definition to the <head>
+		if(this._supportsKeyframes() && !document.getElementById('cl-sheet')) {
+			var sheet = this._addElement('style', document.getElementsByTagName("head")[0]);
+			this._setAttribute(sheet, {id: 'cl-sheet'});
+			sheet = document.getElementById('cl-sheet');
+			
+			var keyframePrefixes = ['@-webkit-keyframes', '@-moz-keyframes', '@-o-keyframes', '@keyframes'];
+			var keyFrameRule = 'from {transform: rotateZ(0deg);} to {transform: rotateZ(360deg);}';
+
+			for (var i = 0; i < keyframePrefixes.length; i++) {
+				var prefixBegins = keyframePrefixes[i].indexOf('@') + 1;
+				var prefixEnds = keyframePrefixes[i].indexOf('-keyframes') + 1;
+				var prefix = keyframePrefixes[i].substring(prefixBegins, prefixEnds);
+				var re = new RegExp('transform', 'g');
+				var rule = prefix !== '@' ? keyFrameRule.replace(re, prefix + 'transform') : keyFrameRule;
+
+				sheet.innerHTML += '\n\n' + keyframePrefixes[i] + ' cl-spin {' + rule + '}';
+			}
+		}
+
+	    // Set up shapes
+	    var shape = settings.shape || args.shape;
 	    for (var i = 0; i < this._shapes.length; i++) {
 	      if (shape === this._shapes[i]) {
 	        this._shape = shape;
@@ -357,29 +375,30 @@
 	      }
 	    }
 
-		// Diameter setup
-		var diameter = settings.diameter || arg.diameter;
-		// this._diameter = Math.round(Math.abs(diameter));
+		// Set up diameter
+		var diameter = settings.diameter || args.diameter;
 		this._diameter = diameter;
 
 		this._setCSS(this.dad, {'marginLeft': Math.round(diameter * -0.5) + 'px'});
 
-	    // Density setup
-	    var density = settings.density || arg.density;
+	    // Set up density
+	    var density = settings.density || args.density;
 	    this._density = Math.round(Math.abs(density));
-	    if (this._density > 360) { this._density = 360; }
-	    this._currentId = 0;
+	    this._currentDegree = 0;
+	    this._degreeBlock = 360 / this._density;
 
-	    // Colour setup
+	    // Set up colour
 	    var color = settings.color;
-	    this._color = this._colorRegEx.test(color) ? color : arg.color;
+	    this._color = this._colorRegEx.test(color) ? color : args.color;
 	    this._cRGB = this._getRGB(this._color);
 	    
-	    // Range setup
-	    this._range = Math.abs(settings.range || arg.range);
+	    // Set up range
+	    this._range = Math.abs(settings.range || args.range);
 	    
-	    // Spin duration setup
-	    this._duration = Math.abs(settings.duration || arg.duration);
+	    // Set up spin duration
+	    this._duration = Math.abs(settings.duration || args.duration);
+
+		this._renderInterval = Math.round(this._duration * 1000 / this._density);
 
 	    // Initial rendering
 		this._draw();
@@ -387,7 +406,8 @@
 		//Hides the preloader
 		this._setCSS(this._container, {visibility: 'hidden', display: 'none'});
 
-		var autoShow = settings.autoShow || arg.autoShow;
+		// Show automatically if specifically required by the user
+		var autoShow = settings.autoShow || args.autoShow;
 		if(autoShow) {
 			this.show();
 		}
@@ -482,12 +502,11 @@
 	};
 
 	proto._render = function(initialRendering) {
-		if(this._supportsCSSAnimation()) {
+		if(this._supportsKeyframes()) {
 			this._context.drawImage(this._cacheCanvas, 0, 0, this._diameter, this._diameter);
 			
-			document.body.style['background'] = 'rgba(255, 0, 0, 0.2)';
-			var animPrefixes = ['webkitAnimation', 'mozAnimation', 'oAnimation', 'msAnimation', 'khtmlAnimation', 'animation'];
-			var animProps = 'spin ' + this._duration + 's' + ' steps(' + this._density + ') infinite';
+			var animPrefixes = ['webkitAnimation', 'mozAnimation', 'oAnimation', 'animation'];
+			var animProps = 'cl-spin ' + this._duration + 's' + ' steps(' + this._density + ') infinite';
 			var animObject = {};
 
 			for (var i = 0; i < animPrefixes.length; i++) {
@@ -495,20 +514,23 @@
 			}
 			this._setCSS(this._canvas, animObject);
 		} else {
-			if(typeof initialRendering !== 'undefined') {
-				this._currentId += 360 / this._density;
+			var self = this;
+			if(initialRendering) {
+				this._currentDegree = 0;
 			} else {
-				this._currentId = 0;
+				this._currentDegree += this._degreeBlock;
+				if(this._currentDegree > 360) {
+					this._currentDegree -= 360;
+				}
 			}
 
 			this._context.clearRect(0, 0, this._diameter, this._diameter);
-			this._transformCachedCanvasContext(this._context, this._diameter * 0.5, this._diameter * 0.5, this._currentId / 180 * Math.PI);
+			this._transformCachedCanvasContext(this._context, this._diameter * 0.5, this._diameter * 0.5, this._currentDegree / 180 * Math.PI);
 			this._context.drawImage(this._cacheCanvas, 0, 0, this._diameter, this._diameter);
 			this._context.restore();
 
-			if (!this._timer) {
-				var self = this;
-				this._timer = setInterval(function () { self._draw(); }, Math.round(self._duration * 1000 / this._density));
+			if (!self._timer) {
+				self._timer = setInterval(function () { self._render(); }, self._renderInterval);
 			}
 		}
 	}
@@ -547,7 +569,7 @@
 	*/
 	proto.show = function () {
 		this._setCSS(this._container, {visibility: 'visible', display: 'block'});
-		this._render();
+		this._render(true);
     	return self;
 	};
 	
@@ -560,7 +582,6 @@
 	proto.hide = function () {
 
 		// TODO - we probably will need to remove the CSS animation when hiding the spinner
-
 		if(this._timer) {
 			clearInterval(this._timer);
 			this._timer = null;
