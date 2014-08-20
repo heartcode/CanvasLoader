@@ -28,8 +28,8 @@
 */
 
 /**
-* CanvasLoader uses the HTML5 canvas element in modern browsers and VML in IE6/7/8 to create and animate the most popular preloader shapes (oval, spiral, rectangle, square and rounded rectangle).<br/><br/>
-* It is important to note that CanvasLoader doesn't show up and starts rendering automatically on instantiation. To start rendering and display the loader use the <code>show()</code> method.
+* CanvasLoader uses the HTML5 canvas element in modern browsers to create and animate the most popular preloader shapes (oval, spiral, rectangle, square and rounded rectangle).<br/><br/>
+* To start rendering and display the loader use the <code>show()</code> method.
 * @module CanvasLoader
 **/
 (function (window) {
@@ -439,7 +439,7 @@
 	* @method 	_draw
 	*/
 	proto._draw = function () {
-		var i = 0, size, w, h, x, y, ang, rads, rad, de = this._density, animBits = Math.round(de * this._range), bitMod, minBitMod = 0, s, g, sh, f, d = 1000, arc = 0, c = this._cacheContext, di = this._diameter, e = 0.47, pr = 4 || 1;
+		var i = 0, size, w, h, x, y, ang, rads, rad, de = this._density, animBits = Math.round(de * this._range), bitMod, minBitMod = 0, d = 1000, c = this._cacheContext, di = this._diameter, e = 0.47, pr = 4 || 1;
 		c.clearRect(0, 0, d, d);
 		
 		this._setAttribute(this._canvas, {width: di * pr, height: di * pr});

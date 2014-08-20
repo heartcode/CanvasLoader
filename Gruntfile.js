@@ -47,6 +47,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
 
   // Default task(s).
-  grunt.registerTask('default', ['uglify', 'concat', 'yuidoc']);
+  grunt.registerTask('build', ['uglify', 'concat', 'yuidoc']);
 
 };

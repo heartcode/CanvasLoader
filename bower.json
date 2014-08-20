@@ -1,7 +1,7 @@
 {
-    "name": "canvasloader",
-    "version": "0.9.1",
-    "description": "Smart UI and UX with <canvas> spinners",
+    "name": "CanvasLoader",
+    "version": "0.9.9",
+    "description": "Simple <canvas> spinners for HTML5 projects",
     "author": {
         "name": "Róbert Pataki",
         "url": "http://heartcode.robertpataki.com/canvasloader"
