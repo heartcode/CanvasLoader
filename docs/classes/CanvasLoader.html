@@ -280,28 +280,13 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
                             
                             <li class="param">
                                 
-                                    <code class="param-name optional">[speed]</code>
+                                    <code class="param-name optional">[duration]</code>
                                     <span class="type">Number</span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
                                 
 
                                 <div class="param-description">
-                                    <p>The speed</p>
-
-                                </div>
-
-                                
-                            </li>
-                            
-                            <li class="param">
-                                
-                                    <code class="param-name optional">[fps]</code>
-                                    <span class="type">Number</span>
-                                    <span class="flag optional" title="This parameter is optional.">optional</span>
-                                
-
-                                <div class="param-description">
-                                    <p>The FPS</p>
+                                    <p>The duration of 1 spin animation to completely go around</p>
 
                                 </div>
 
@@ -332,21 +317,6 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
 
                                 <div class="param-description">
                                     <p>The id of the CanvasLoader instance</p>
-
-                                </div>
-
-                                
-                            </li>
-                            
-                            <li class="param">
-                                
-                                    <code class="param-name optional">[safeVML]</code>
-                                    <span class="type">Boolean</span>
-                                    <span class="flag optional" title="This parameter is optional.">optional</span>
-                                
-
-                                <div class="param-description">
-                                    <p>Whether or not density should be capped in IE</p>
 
                                 </div>
 
@@ -394,13 +364,6 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
                     <ul class="index-list methods">
                         
                             <li class="index-item method private">
-                                <a href="#method__addEl">_addEl</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
                                 <a href="#method__draw">_draw</a>
 
                                 
@@ -428,48 +391,6 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
                                 
                             </li>
                         
-                            <li class="index-item method private">
-                                <a href="#method__renderWithHardware">_renderWithHardware</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method__renderWithSoftware">_renderWithSoftware</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method__setAttr">_setAttr</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method__setCSS">_setCSS</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method__supportsCSSAnimation">_supportsCSSAnimation</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method__transCon">_transCon</a>
-
-                                
-                                
-                            </li>
-                        
                             <li class="index-item method">
                                 <a href="#method_destruct">destruct</a>
 
@@ -486,6 +407,41 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
                         
                             <li class="index-item method">
                                 <a href="#method_hide">hide</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_proto._addElement">proto._addElement</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_proto._setAttribute">proto._setAttribute</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_proto._setCSS">proto._setCSS</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_proto._supportsKeyframes">proto._supportsKeyframes</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_proto._transformCachedCanvasContext">proto._transformCachedCanvasContext</a>
 
                                 
                                 
@@ -509,21 +465,21 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
                     <ul class="index-list properties">
                         
                             <li class="index-item property private">
-                                <a href="#property__can">_can</a>
+                                <a href="#property__cacheCanvas">_cacheCanvas</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__cCan">_cCan</a>
+                                <a href="#property__cacheContext">_cacheContext</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__cCon">_cCon</a>
+                                <a href="#property__canvas">_canvas</a>
 
                                 
                                 
@@ -537,14 +493,21 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__con">_con</a>
+                                <a href="#property__colorRegEx">_colorRegEx</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__cont">_cont</a>
+                                <a href="#property__container">_container</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__context">_context</a>
 
                                 
                                 
@@ -558,14 +521,14 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__currentId">_currentId</a>
+                                <a href="#property__currentDegree">_currentDegree</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__defaults">_defaults</a>
+                                <a href="#property__defaultSettings">_defaultSettings</a>
 
                                 
                                 
@@ -586,7 +549,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__fps">_fps</a>
+                                <a href="#property__duration">_duration</a>
 
                                 
                                 
@@ -614,7 +577,14 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
                             </li>
                         
                             <li class="index-item property private">
-                                <a href="#property__speed">_speed</a>
+                                <a href="#property__shapes">_shapes</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property private">
+                                <a href="#property__supportsCanvas">_supportsCanvas</a>
 
                                 
                                 
@@ -639,159 +609,6 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
         
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
-
-                
-                    <div id="method__addEl" class="method item private">
-    <h3 class="name"><code>_addEl</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>tag</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>par</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>opt</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Object</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_canvasloader.js.html#l62"><code>src&#x2F;canvasloader.js:62</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Creates a new element with the tag and applies the passed properties on it</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">tag</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The tag to be created</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">par</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The DOM element the new element will be appended to</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">opt</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Additional properties passed to the new DOM element</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Object</span>:
-                    
-                    <p>The DOM element</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
 
                 
                     <div id="method__draw" class="method item private">
@@ -828,7 +645,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
             
         
         
-        <a href="../files/src_canvasloader.js.html#l408"><code>src&#x2F;canvasloader.js:408</code></a>
+        <a href="../files/src_canvasloader.js.html#l436"><code>src&#x2F;canvasloader.js:436</code></a>
         
         </p>
 
@@ -885,7 +702,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
             
         
         
-        <a href="../files/src_canvasloader.js.html#l399"><code>src&#x2F;canvasloader.js:399</code></a>
+        <a href="../files/src_canvasloader.js.html#l427"><code>src&#x2F;canvasloader.js:427</code></a>
         
         </p>
 
@@ -952,7 +769,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
             
         
         
-        <a href="../files/src_canvasloader.js.html#l388"><code>src&#x2F;canvasloader.js:388</code></a>
+        <a href="../files/src_canvasloader.js.html#l416"><code>src&#x2F;canvasloader.js:416</code></a>
         
         </p>
 
@@ -1049,7 +866,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
             
         
         
-        <a href="../files/src_canvasloader.js.html#l295"><code>src&#x2F;canvasloader.js:295</code></a>
+        <a href="../files/src_canvasloader.js.html#l323"><code>src&#x2F;canvasloader.js:323</code></a>
         
         </p>
 
@@ -1112,612 +929,6 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
 </div>
 
                 
-                    <div id="method__renderWithHardware" class="method item private">
-    <h3 class="name"><code>_renderWithHardware</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_canvasloader.js.html#l556"><code>src&#x2F;canvasloader.js:556</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Adds Hardware accelerated CSS animation</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method__renderWithSoftware" class="method item private">
-    <h3 class="name"><code>_renderWithSoftware</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_canvasloader.js.html#l537"><code>src&#x2F;canvasloader.js:537</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Renders the loader animation</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method__setAttr" class="method item private">
-    <h3 class="name"><code>_setAttr</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>el</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>opt</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Object</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_canvasloader.js.html#l96"><code>src&#x2F;canvasloader.js:96</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Sets the attributes on the element</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">el</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The DOM element to add the attributes to</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">opt</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The attributes</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Object</span>:
-                    
-                    <p>The DOM element</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method__setCSS" class="method item private">
-    <h3 class="name"><code>_setCSS</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>el</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>opt</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Object</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_canvasloader.js.html#l83"><code>src&#x2F;canvasloader.js:83</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Sets the css properties on the element</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">el</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The DOM element to be styled</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">opt</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The style properties</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Object</span>:
-                    
-                    <p>The DOM element</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method__supportsCSSAnimation" class="method item private">
-    <h3 class="name"><code>_supportsCSSAnimation</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Boolean</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_canvasloader.js.html#l109"><code>src&#x2F;canvasloader.js:109</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns if the browser supports CSS animations</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Boolean</span>:
-                    
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method__transCon" class="method item private">
-    <h3 class="name"><code>_transCon</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>x</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>x</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>y</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>r</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_canvasloader.js.html#l132"><code>src&#x2F;canvasloader.js:132</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Transforms the cache canvas before drawing</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">x</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The canvas context to be transformed</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">x</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>x translation</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">y</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>y translation</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">r</code>
-                        <span class="type">Number</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Rotation radians</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
                     <div id="method_destruct" class="method item">
     <h3 class="name"><code>destruct</code></h3>
 
@@ -1750,7 +961,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
             
         
         
-        <a href="../files/src_canvasloader.js.html#l618"><code>src&#x2F;canvasloader.js:618</code></a>
+        <a href="../files/src_canvasloader.js.html#l594"><code>src&#x2F;canvasloader.js:594</code></a>
         
         </p>
 
@@ -1819,7 +1030,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
             
         
         
-        <a href="../files/src_canvasloader.js.html#l632"><code>src&#x2F;canvasloader.js:632</code></a>
+        <a href="../files/src_canvasloader.js.html#l548"><code>src&#x2F;canvasloader.js:548</code></a>
         
         </p>
 
@@ -1916,7 +1127,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
             
         
         
-        <a href="../files/src_canvasloader.js.html#l599"><code>src&#x2F;canvasloader.js:599</code></a>
+        <a href="../files/src_canvasloader.js.html#l576"><code>src&#x2F;canvasloader.js:576</code></a>
         
         </p>
 
@@ -1947,6 +1158,651 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
                 
             </div>
         </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_proto._addElement" class="method item private">
+    <h3 class="name"><code>proto._addElement</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>tag</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>par</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>opt</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_canvasloader.js.html#l236"><code>src&#x2F;canvasloader.js:236</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Creates a new element with the tag and applies the passed properties on it</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">tag</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The tag to be created</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">par</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The DOM element the new element will be appended to</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">opt</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Additional properties passed to the new DOM element</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object</span>:
+                    
+                    <p>The DOM element</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_proto._setAttribute" class="method item private">
+    <h3 class="name"><code>proto._setAttribute</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>el</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>opt</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_canvasloader.js.html#l270"><code>src&#x2F;canvasloader.js:270</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Sets the attributes on the element</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">el</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The DOM element to add the attributes to</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">opt</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The attributes</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object</span>:
+                    
+                    <p>The DOM element</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_proto._setCSS" class="method item private">
+    <h3 class="name"><code>proto._setCSS</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>el</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>opt</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_canvasloader.js.html#l257"><code>src&#x2F;canvasloader.js:257</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Sets the css properties on the element</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">el</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The DOM element to be styled</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">opt</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The style properties</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Object</span>:
+                    
+                    <p>The DOM element</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_proto._supportsKeyframes" class="method item private">
+    <h3 class="name"><code>proto._supportsKeyframes</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_canvasloader.js.html#l283"><code>src&#x2F;canvasloader.js:283</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Returns if the browser supports CSS animations</p>
+
+    </div>
+
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Boolean</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_proto._transformCachedCanvasContext" class="method item private">
+    <h3 class="name"><code>proto._transformCachedCanvasContext</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>canvasContext</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>x</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>y</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>rads</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_canvasloader.js.html#l306"><code>src&#x2F;canvasloader.js:306</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Transforms the cache canvas before drawing</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">canvasContext</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The canvas context to be transformed</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">x</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>x translation</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">y</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>y translation</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">rads</code>
+                        <span class="type">Number</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Rotation in radians</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
     
 
     
@@ -1991,7 +1847,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
             
         
         
-        <a href="../files/src_canvasloader.js.html#l579"><code>src&#x2F;canvasloader.js:579</code></a>
+        <a href="../files/src_canvasloader.js.html#l564"><code>src&#x2F;canvasloader.js:564</code></a>
         
         </p>
 
@@ -2036,8 +1892,8 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property__can" class="property item private">
-    <h3 class="name"><code>_can</code></h3>
+                    <div id="property__cacheCanvas" class="property item private">
+    <h3 class="name"><code>_cacheCanvas</code></h3>
     <span class="type">Object</span>
 
     
@@ -2061,54 +1917,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
             
         
         
-        <a href="../files/src_canvasloader.js.html#l186"><code>src&#x2F;canvasloader.js:186</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The div we draw the shapes into</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property__cCan" class="property item private">
-    <h3 class="name"><code>_cCan</code></h3>
-    <span class="type">Object</span>
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_canvasloader.js.html#l200"><code>src&#x2F;canvasloader.js:200</code></a>
+        <a href="../files/src_canvasloader.js.html#l142"><code>src&#x2F;canvasloader.js:142</code></a>
         
         </p>
 
@@ -2130,8 +1939,8 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
 </div>
 
                 
-                    <div id="property__cCon" class="property item private">
-    <h3 class="name"><code>_cCon</code></h3>
+                    <div id="property__cacheContext" class="property item private">
+    <h3 class="name"><code>_cacheContext</code></h3>
     <span class="type">Object</span>
 
     
@@ -2155,7 +1964,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
             
         
         
-        <a href="../files/src_canvasloader.js.html#l207"><code>src&#x2F;canvasloader.js:207</code></a>
+        <a href="../files/src_canvasloader.js.html#l149"><code>src&#x2F;canvasloader.js:149</code></a>
         
         </p>
 
@@ -2166,6 +1975,53 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
 
     <div class="description">
         <p>The context of the cache canvas</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__canvas" class="property item private">
+    <h3 class="name"><code>_canvas</code></h3>
+    <span class="type">Object</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_canvasloader.js.html#l128"><code>src&#x2F;canvasloader.js:128</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The div we draw the shapes into</p>
 
     </div>
 
@@ -2202,7 +2058,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
             
         
         
-        <a href="../files/src_canvasloader.js.html#l243"><code>src&#x2F;canvasloader.js:243</code></a>
+        <a href="../files/src_canvasloader.js.html#l185"><code>src&#x2F;canvasloader.js:185</code></a>
         
         </p>
 
@@ -2217,7 +2073,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
     </div>
 
     
-        <p><strong>Default:</strong> &quot;#000000&quot;</p>
+        <p><strong>Default:</strong> &#x27;#000000&#x27;</p>
     
 
     
@@ -2226,8 +2082,8 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
 </div>
 
                 
-                    <div id="property__con" class="property item private">
-    <h3 class="name"><code>_con</code></h3>
+                    <div id="property__colorRegEx" class="property item private">
+    <h3 class="name"><code>_colorRegEx</code></h3>
     <span class="type">Object</span>
 
     
@@ -2251,7 +2107,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
             
         
         
-        <a href="../files/src_canvasloader.js.html#l193"><code>src&#x2F;canvasloader.js:193</code></a>
+        <a href="../files/src_canvasloader.js.html#l81"><code>src&#x2F;canvasloader.js:81</code></a>
         
         </p>
 
@@ -2261,7 +2117,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
     </div>
 
     <div class="description">
-        <p>The canvas context</p>
+        <p>Regular expression for matching Hexadecimal colour values</p>
 
     </div>
 
@@ -2273,8 +2129,8 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
 </div>
 
                 
-                    <div id="property__cont" class="property item private">
-    <h3 class="name"><code>_cont</code></h3>
+                    <div id="property__container" class="property item private">
+    <h3 class="name"><code>_container</code></h3>
     <span class="type">Object</span>
 
     
@@ -2298,7 +2154,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
             
         
         
-        <a href="../files/src_canvasloader.js.html#l179"><code>src&#x2F;canvasloader.js:179</code></a>
+        <a href="../files/src_canvasloader.js.html#l121"><code>src&#x2F;canvasloader.js:121</code></a>
         
         </p>
 
@@ -2309,6 +2165,53 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
 
     <div class="description">
         <p>The div we place the canvas object into</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__context" class="property item private">
+    <h3 class="name"><code>_context</code></h3>
+    <span class="type">Object</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_canvasloader.js.html#l135"><code>src&#x2F;canvasloader.js:135</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The canvas context</p>
 
     </div>
 
@@ -2345,7 +2248,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
             
         
         
-        <a href="../files/src_canvasloader.js.html#l236"><code>src&#x2F;canvasloader.js:236</code></a>
+        <a href="../files/src_canvasloader.js.html#l178"><code>src&#x2F;canvasloader.js:178</code></a>
         
         </p>
 
@@ -2367,8 +2270,8 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
 </div>
 
                 
-                    <div id="property__currentId" class="property item private">
-    <h3 class="name"><code>_currentId</code></h3>
+                    <div id="property__currentDegree" class="property item private">
+    <h3 class="name"><code>_currentDegree</code></h3>
     <span class="type">Number</span>
 
     
@@ -2392,7 +2295,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
             
         
         
-        <a href="../files/src_canvasloader.js.html#l221"><code>src&#x2F;canvasloader.js:221</code></a>
+        <a href="../files/src_canvasloader.js.html#l163"><code>src&#x2F;canvasloader.js:163</code></a>
         
         </p>
 
@@ -2402,7 +2305,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
     </div>
 
     <div class="description">
-        <p>The active shape id for rendering</p>
+        <p>The current rotation degree of the spinner</p>
 
     </div>
 
@@ -2414,8 +2317,8 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
 </div>
 
                 
-                    <div id="property__defaults" class="property item private">
-    <h3 class="name"><code>_defaults</code></h3>
+                    <div id="property__defaultSettings" class="property item private">
+    <h3 class="name"><code>_defaultSettings</code></h3>
     <span class="type">Object</span>
 
     
@@ -2439,7 +2342,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
             
         
         
-        <a href="../files/src_canvasloader.js.html#l171"><code>src&#x2F;canvasloader.js:171</code></a>
+        <a href="../files/src_canvasloader.js.html#l113"><code>src&#x2F;canvasloader.js:113</code></a>
         
         </p>
 
@@ -2486,7 +2389,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
             
         
         
-        <a href="../files/src_canvasloader.js.html#l259"><code>src&#x2F;canvasloader.js:259</code></a>
+        <a href="../files/src_canvasloader.js.html#l201"><code>src&#x2F;canvasloader.js:201</code></a>
         
         </p>
 
@@ -2535,7 +2438,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
             
         
         
-        <a href="../files/src_canvasloader.js.html#l228"><code>src&#x2F;canvasloader.js:228</code></a>
+        <a href="../files/src_canvasloader.js.html#l170"><code>src&#x2F;canvasloader.js:170</code></a>
         
         </p>
 
@@ -2559,8 +2462,8 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
 </div>
 
                 
-                    <div id="property__fps" class="property item private">
-    <h3 class="name"><code>_fps</code></h3>
+                    <div id="property__duration" class="property item private">
+    <h3 class="name"><code>_duration</code></h3>
     <span class="type">Number</span>
 
     
@@ -2584,7 +2487,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
             
         
         
-        <a href="../files/src_canvasloader.js.html#l281"><code>src&#x2F;canvasloader.js:281</code></a>
+        <a href="../files/src_canvasloader.js.html#l216"><code>src&#x2F;canvasloader.js:216</code></a>
         
         </p>
 
@@ -2594,7 +2497,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
     </div>
 
     <div class="description">
-        <p>The FPS value of the loader animation rendering</p>
+        <p>The duration of a 360 degree rotation in seconds</p>
 
     </div>
 
@@ -2631,7 +2534,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
             
         
         
-        <a href="../files/src_canvasloader.js.html#l267"><code>src&#x2F;canvasloader.js:267</code></a>
+        <a href="../files/src_canvasloader.js.html#l209"><code>src&#x2F;canvasloader.js:209</code></a>
         
         </p>
 
@@ -2678,7 +2581,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
             
         
         
-        <a href="../files/src_canvasloader.js.html#l154"><code>src&#x2F;canvasloader.js:154</code></a>
+        <a href="../files/src_canvasloader.js.html#l97"><code>src&#x2F;canvasloader.js:97</code></a>
         
         </p>
 
@@ -2725,7 +2628,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
             
         
         
-        <a href="../files/src_canvasloader.js.html#l251"><code>src&#x2F;canvasloader.js:251</code></a>
+        <a href="../files/src_canvasloader.js.html#l193"><code>src&#x2F;canvasloader.js:193</code></a>
         
         </p>
 
@@ -2740,7 +2643,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
     </div>
 
     
-        <p><strong>Default:</strong> &quot;oval&quot;</p>
+        <p><strong>Default:</strong> &#x27;oval&#x27;</p>
     
 
     
@@ -2749,9 +2652,9 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
 </div>
 
                 
-                    <div id="property__speed" class="property item private">
-    <h3 class="name"><code>_speed</code></h3>
-    <span class="type">Number</span>
+                    <div id="property__shapes" class="property item private">
+    <h3 class="name"><code>_shapes</code></h3>
+    <span class="type">Object</span>
 
     
 
@@ -2774,7 +2677,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
             
         
         
-        <a href="../files/src_canvasloader.js.html#l274"><code>src&#x2F;canvasloader.js:274</code></a>
+        <a href="../files/src_canvasloader.js.html#l73"><code>src&#x2F;canvasloader.js:73</code></a>
         
         </p>
 
@@ -2784,7 +2687,54 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
     </div>
 
     <div class="description">
-        <p>The speed of the loader animation</p>
+        <p>The type of supported spinner shapes</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property__supportsCanvas" class="property item private">
+    <h3 class="name"><code>_supportsCanvas</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_canvasloader.js.html#l89"><code>src&#x2F;canvasloader.js:89</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Check for canvas support</p>
 
     </div>
 
@@ -2821,7 +2771,7 @@ If no id is passed in the constructor, the canvas objects are paced in the docum
             
         
         
-        <a href="../files/src_canvasloader.js.html#l214"><code>src&#x2F;canvasloader.js:214</code></a>
+        <a href="../files/src_canvasloader.js.html#l156"><code>src&#x2F;canvasloader.js:156</code></a>
         
         </p>
 

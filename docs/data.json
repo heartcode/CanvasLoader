@@ -85,14 +85,8 @@
                             "optional": true
                         },
                         {
-                            "name": "speed",
-                            "description": "The speed",
-                            "type": "Number",
-                            "optional": true
-                        },
-                        {
-                            "name": "fps",
-                            "description": "The FPS",
+                            "name": "duration",
+                            "description": "The duration of 1 spin animation to completely go around",
                             "type": "Number",
                             "optional": true
                         },
@@ -107,12 +101,6 @@
                             "description": "The id of the CanvasLoader instance",
                             "type": "String",
                             "optional": true
-                        },
-                        {
-                            "name": "safeVML",
-                            "description": "Whether or not density should be capped in IE",
-                            "type": "Boolean",
-                            "optional": true
                         }
                     ]
                 }
@@ -122,12 +110,244 @@
     "classitems": [
         {
             "file": "src/canvasloader.js",
-            "line": 62,
+            "line": 73,
+            "description": "The type of supported spinner shapes",
+            "itemtype": "property",
+            "name": "_shapes",
+            "access": "private",
+            "tagname": "",
+            "type": "{Object}",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/canvasloader.js",
+            "line": 81,
+            "description": "Regular expression for matching Hexadecimal colour values",
+            "itemtype": "property",
+            "name": "_colorRegEx",
+            "access": "private",
+            "tagname": "",
+            "type": "{Object}",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/canvasloader.js",
+            "line": 89,
+            "description": "Check for canvas support",
+            "itemtype": "property",
+            "name": "_supportsCanvas",
+            "access": "private",
+            "tagname": "",
+            "type": "{Boolean}",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/canvasloader.js",
+            "line": 97,
+            "description": "Holds settings (this is updated with user settings)",
+            "itemtype": "property",
+            "name": "_settings",
+            "access": "private",
+            "tagname": "",
+            "type": "{Object}",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/canvasloader.js",
+            "line": 113,
+            "description": "Holds default settings",
+            "itemtype": "property",
+            "name": "_defaultSettings",
+            "access": "private",
+            "tagname": "",
+            "type": "{Object}",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/canvasloader.js",
+            "line": 121,
+            "description": "The div we place the canvas object into",
+            "itemtype": "property",
+            "name": "_container",
+            "access": "private",
+            "tagname": "",
+            "type": "{Object}",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/canvasloader.js",
+            "line": 128,
+            "description": "The div we draw the shapes into",
+            "itemtype": "property",
+            "name": "_canvas",
+            "access": "private",
+            "tagname": "",
+            "type": "{Object}",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/canvasloader.js",
+            "line": 135,
+            "description": "The canvas context",
+            "itemtype": "property",
+            "name": "_context",
+            "access": "private",
+            "tagname": "",
+            "type": "{Object}",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/canvasloader.js",
+            "line": 142,
+            "description": "The canvas we use for caching",
+            "itemtype": "property",
+            "name": "_cacheCanvas",
+            "access": "private",
+            "tagname": "",
+            "type": "{Object}",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/canvasloader.js",
+            "line": 149,
+            "description": "The context of the cache canvas",
+            "itemtype": "property",
+            "name": "_cacheContext",
+            "access": "private",
+            "tagname": "",
+            "type": "{Object}",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/canvasloader.js",
+            "line": 156,
+            "description": "Adds a timer for the rendering",
+            "itemtype": "property",
+            "name": "_timer",
+            "access": "private",
+            "tagname": "",
+            "type": "{Boolean}",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/canvasloader.js",
+            "line": 163,
+            "description": "The current rotation degree of the spinner",
+            "itemtype": "property",
+            "name": "_currentDegree",
+            "access": "private",
+            "tagname": "",
+            "type": "{Number}",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/canvasloader.js",
+            "line": 170,
+            "description": "The diameter of the loader",
+            "itemtype": "property",
+            "name": "_diameter",
+            "access": "private",
+            "tagname": "",
+            "type": "{Number}",
+            "default": "40",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/canvasloader.js",
+            "line": 178,
+            "description": "The color of the loader shapes in RGB",
+            "itemtype": "property",
+            "name": "_cRGB",
+            "access": "private",
+            "tagname": "",
+            "type": "{Object}",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/canvasloader.js",
+            "line": 185,
+            "description": "The color of the loader shapes in HEX",
+            "itemtype": "property",
+            "name": "_color",
+            "access": "private",
+            "tagname": "",
+            "type": "{String}",
+            "default": "'#000000'",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/canvasloader.js",
+            "line": 193,
+            "description": "The type of the loader shapes",
+            "itemtype": "property",
+            "name": "_shape",
+            "access": "private",
+            "tagname": "",
+            "type": "String",
+            "default": "'oval'",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/canvasloader.js",
+            "line": 201,
+            "description": "The number of shapes drawn on the loader canvas",
+            "itemtype": "property",
+            "name": "_density",
+            "access": "private",
+            "tagname": "",
+            "type": "Number",
+            "default": "40",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/canvasloader.js",
+            "line": 209,
+            "description": "The amount of the modified shapes in percent.",
+            "itemtype": "property",
+            "name": "_range",
+            "access": "private",
+            "tagname": "",
+            "type": "{Number}",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/canvasloader.js",
+            "line": 216,
+            "description": "The duration of a 360 degree rotation in seconds",
+            "itemtype": "property",
+            "name": "_duration",
+            "access": "private",
+            "tagname": "",
+            "type": "{Number}",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/canvasloader.js",
+            "line": 236,
             "description": "Creates a new element with the tag and applies the passed properties on it",
             "access": "private",
             "tagname": "",
             "itemtype": "method",
-            "name": "_addEl",
+            "name": "proto._addElement",
             "params": [
                 {
                     "name": "tag",
@@ -154,12 +374,12 @@
         },
         {
             "file": "src/canvasloader.js",
-            "line": 83,
+            "line": 257,
             "description": "Sets the css properties on the element",
             "access": "private",
             "tagname": "",
             "itemtype": "method",
-            "name": "_setCSS",
+            "name": "proto._setCSS",
             "params": [
                 {
                     "name": "el",
@@ -181,12 +401,12 @@
         },
         {
             "file": "src/canvasloader.js",
-            "line": 96,
+            "line": 270,
             "description": "Sets the attributes on the element",
             "access": "private",
             "tagname": "",
             "itemtype": "method",
-            "name": "_setAttr",
+            "name": "proto._setAttribute",
             "params": [
                 {
                     "name": "el",
@@ -208,12 +428,12 @@
         },
         {
             "file": "src/canvasloader.js",
-            "line": 109,
+            "line": 283,
             "description": "Returns if the browser supports CSS animations",
             "access": "private",
             "tagname": "",
             "itemtype": "method",
-            "name": "_supportsCSSAnimation",
+            "name": "proto._supportsKeyframes",
             "return": {
                 "description": "",
                 "type": "Boolean"
@@ -223,15 +443,15 @@
         },
         {
             "file": "src/canvasloader.js",
-            "line": 132,
+            "line": 306,
             "description": "Transforms the cache canvas before drawing",
             "access": "private",
             "tagname": "",
             "itemtype": "method",
-            "name": "_transCon",
+            "name": "proto._transformCachedCanvasContext",
             "params": [
                 {
-                    "name": "x",
+                    "name": "canvasContext",
                     "description": "The canvas context to be transformed",
                     "type": "Object"
                 },
@@ -246,8 +466,8 @@
                     "type": "Number"
                 },
                 {
-                    "name": "r",
-                    "description": "Rotation radians",
+                    "name": "rads",
+                    "description": "Rotation in radians",
                     "type": "Number"
                 }
             ],
@@ -256,215 +476,7 @@
         },
         {
             "file": "src/canvasloader.js",
-            "line": 154,
-            "description": "Holds settings (this is updated with user settings)",
-            "itemtype": "property",
-            "name": "_settings",
-            "access": "private",
-            "tagname": "",
-            "type": "{Object}",
-            "class": "CanvasLoader",
-            "module": "CanvasLoader"
-        },
-        {
-            "file": "src/canvasloader.js",
-            "line": 171,
-            "description": "Holds default settings",
-            "itemtype": "property",
-            "name": "_defaults",
-            "access": "private",
-            "tagname": "",
-            "type": "{Object}",
-            "class": "CanvasLoader",
-            "module": "CanvasLoader"
-        },
-        {
-            "file": "src/canvasloader.js",
-            "line": 179,
-            "description": "The div we place the canvas object into",
-            "itemtype": "property",
-            "name": "_cont",
-            "access": "private",
-            "tagname": "",
-            "type": "{Object}",
-            "class": "CanvasLoader",
-            "module": "CanvasLoader"
-        },
-        {
-            "file": "src/canvasloader.js",
-            "line": 186,
-            "description": "The div we draw the shapes into",
-            "itemtype": "property",
-            "name": "_can",
-            "access": "private",
-            "tagname": "",
-            "type": "{Object}",
-            "class": "CanvasLoader",
-            "module": "CanvasLoader"
-        },
-        {
-            "file": "src/canvasloader.js",
-            "line": 193,
-            "description": "The canvas context",
-            "itemtype": "property",
-            "name": "_con",
-            "access": "private",
-            "tagname": "",
-            "type": "{Object}",
-            "class": "CanvasLoader",
-            "module": "CanvasLoader"
-        },
-        {
-            "file": "src/canvasloader.js",
-            "line": 200,
-            "description": "The canvas we use for caching",
-            "itemtype": "property",
-            "name": "_cCan",
-            "access": "private",
-            "tagname": "",
-            "type": "{Object}",
-            "class": "CanvasLoader",
-            "module": "CanvasLoader"
-        },
-        {
-            "file": "src/canvasloader.js",
-            "line": 207,
-            "description": "The context of the cache canvas",
-            "itemtype": "property",
-            "name": "_cCon",
-            "access": "private",
-            "tagname": "",
-            "type": "{Object}",
-            "class": "CanvasLoader",
-            "module": "CanvasLoader"
-        },
-        {
-            "file": "src/canvasloader.js",
-            "line": 214,
-            "description": "Adds a timer for the rendering",
-            "itemtype": "property",
-            "name": "_timer",
-            "access": "private",
-            "tagname": "",
-            "type": "{Boolean}",
-            "class": "CanvasLoader",
-            "module": "CanvasLoader"
-        },
-        {
-            "file": "src/canvasloader.js",
-            "line": 221,
-            "description": "The active shape id for rendering",
-            "itemtype": "property",
-            "name": "_currentId",
-            "access": "private",
-            "tagname": "",
-            "type": "{Number}",
-            "class": "CanvasLoader",
-            "module": "CanvasLoader"
-        },
-        {
-            "file": "src/canvasloader.js",
-            "line": 228,
-            "description": "The diameter of the loader",
-            "itemtype": "property",
-            "name": "_diameter",
-            "access": "private",
-            "tagname": "",
-            "type": "{Number}",
-            "default": "40",
-            "class": "CanvasLoader",
-            "module": "CanvasLoader"
-        },
-        {
-            "file": "src/canvasloader.js",
-            "line": 236,
-            "description": "The color of the loader shapes in RGB",
-            "itemtype": "property",
-            "name": "_cRGB",
-            "access": "private",
-            "tagname": "",
-            "type": "{Object}",
-            "class": "CanvasLoader",
-            "module": "CanvasLoader"
-        },
-        {
-            "file": "src/canvasloader.js",
-            "line": 243,
-            "description": "The color of the loader shapes in HEX",
-            "itemtype": "property",
-            "name": "_color",
-            "access": "private",
-            "tagname": "",
-            "type": "{String}",
-            "default": "\"#000000\"",
-            "class": "CanvasLoader",
-            "module": "CanvasLoader"
-        },
-        {
-            "file": "src/canvasloader.js",
-            "line": 251,
-            "description": "The type of the loader shapes",
-            "itemtype": "property",
-            "name": "_shape",
-            "access": "private",
-            "tagname": "",
-            "type": "String",
-            "default": "\"oval\"",
-            "class": "CanvasLoader",
-            "module": "CanvasLoader"
-        },
-        {
-            "file": "src/canvasloader.js",
-            "line": 259,
-            "description": "The number of shapes drawn on the loader canvas",
-            "itemtype": "property",
-            "name": "_density",
-            "access": "private",
-            "tagname": "",
-            "type": "Number",
-            "default": "40",
-            "class": "CanvasLoader",
-            "module": "CanvasLoader"
-        },
-        {
-            "file": "src/canvasloader.js",
-            "line": 267,
-            "description": "The amount of the modified shapes in percent.",
-            "itemtype": "property",
-            "name": "_range",
-            "access": "private",
-            "tagname": "",
-            "type": "{Number}",
-            "class": "CanvasLoader",
-            "module": "CanvasLoader"
-        },
-        {
-            "file": "src/canvasloader.js",
-            "line": 274,
-            "description": "The speed of the loader animation",
-            "itemtype": "property",
-            "name": "_speed",
-            "access": "private",
-            "tagname": "",
-            "type": "{Number}",
-            "class": "CanvasLoader",
-            "module": "CanvasLoader"
-        },
-        {
-            "file": "src/canvasloader.js",
-            "line": 281,
-            "description": "The FPS value of the loader animation rendering",
-            "itemtype": "property",
-            "name": "_fps",
-            "access": "private",
-            "tagname": "",
-            "type": "{Number}",
-            "class": "CanvasLoader",
-            "module": "CanvasLoader"
-        },
-        {
-            "file": "src/canvasloader.js",
-            "line": 295,
+            "line": 323,
             "description": "Initialization method",
             "itemtype": "method",
             "name": "_init",
@@ -487,7 +499,7 @@
         },
         {
             "file": "src/canvasloader.js",
-            "line": 388,
+            "line": 416,
             "description": "Return the RGB values of the passed color",
             "access": "private",
             "tagname": "",
@@ -505,7 +517,7 @@
         },
         {
             "file": "src/canvasloader.js",
-            "line": 399,
+            "line": 427,
             "description": "Return the default settings",
             "access": "private",
             "tagname": "",
@@ -516,7 +528,7 @@
         },
         {
             "file": "src/canvasloader.js",
-            "line": 408,
+            "line": 436,
             "description": "Draw the shapes on the canvas",
             "access": "private",
             "tagname": "",
@@ -527,66 +539,7 @@
         },
         {
             "file": "src/canvasloader.js",
-            "line": 537,
-            "description": "Renders the loader animation",
-            "access": "private",
-            "tagname": "",
-            "itemtype": "method",
-            "name": "_renderWithSoftware",
-            "class": "CanvasLoader",
-            "module": "CanvasLoader"
-        },
-        {
-            "file": "src/canvasloader.js",
-            "line": 556,
-            "description": "Adds Hardware accelerated CSS animation",
-            "access": "private",
-            "tagname": "",
-            "itemtype": "method",
-            "name": "_renderWithHardware",
-            "class": "CanvasLoader",
-            "module": "CanvasLoader"
-        },
-        {
-            "file": "src/canvasloader.js",
-            "line": 579,
-            "description": "Shows the rendering of the loader animation",
-            "itemtype": "method",
-            "name": "show",
-            "chainable": 1,
-            "return": {
-                "description": "The CanvasLoader instance",
-                "type": "CanvasLoader"
-            },
-            "class": "CanvasLoader",
-            "module": "CanvasLoader"
-        },
-        {
-            "file": "src/canvasloader.js",
-            "line": 599,
-            "description": "Stops the rendering of the loader animation and hides the loader",
-            "itemtype": "method",
-            "name": "hide",
-            "chainable": 1,
-            "return": {
-                "description": "The CanvasLoader instance",
-                "type": "CanvasLoader"
-            },
-            "class": "CanvasLoader",
-            "module": "CanvasLoader"
-        },
-        {
-            "file": "src/canvasloader.js",
-            "line": 618,
-            "description": "Clears the DOM and resets all params",
-            "itemtype": "method",
-            "name": "destruct",
-            "class": "CanvasLoader",
-            "module": "CanvasLoader"
-        },
-        {
-            "file": "src/canvasloader.js",
-            "line": 632,
+            "line": 548,
             "description": "Return argument value by key if defined",
             "params": [
                 {
@@ -600,6 +553,43 @@
             },
             "itemtype": "method",
             "name": "get",
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/canvasloader.js",
+            "line": 564,
+            "description": "Shows the rendering of the loader animation",
+            "itemtype": "method",
+            "name": "show",
+            "chainable": 1,
+            "return": {
+                "description": "The CanvasLoader instance",
+                "type": "CanvasLoader"
+            },
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/canvasloader.js",
+            "line": 576,
+            "description": "Stops the rendering of the loader animation and hides the loader",
+            "itemtype": "method",
+            "name": "hide",
+            "chainable": 1,
+            "return": {
+                "description": "The CanvasLoader instance",
+                "type": "CanvasLoader"
+            },
+            "class": "CanvasLoader",
+            "module": "CanvasLoader"
+        },
+        {
+            "file": "src/canvasloader.js",
+            "line": 594,
+            "description": "Clears the DOM and resets all params",
+            "itemtype": "method",
+            "name": "destruct",
             "class": "CanvasLoader",
             "module": "CanvasLoader"
         }

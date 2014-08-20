@@ -439,7 +439,7 @@
 	* @method 	_draw
 	*/
 	proto._draw = function () {
-		var i = 0, size, w, h, x, y, ang, rads, rad, de = this._density, animBits = Math.round(de * this._range), bitMod, minBitMod = 0, s, g, sh, f, d = 1000, arc = 0, c = this._cacheContext, di = this._diameter, e = 0.47, pr = window.devicePixelRatio || 1;
+		var i = 0, size, w, h, x, y, ang, rads, rad, de = this._density, animBits = Math.round(de * this._range), bitMod, minBitMod = 0, s, g, sh, f, d = 1000, arc = 0, c = this._cacheContext, di = this._diameter, e = 0.47, pr = 4 || 1;
 		c.clearRect(0, 0, d, d);
 		
 		this._setAttribute(this._canvas, {width: di * pr, height: di * pr});
