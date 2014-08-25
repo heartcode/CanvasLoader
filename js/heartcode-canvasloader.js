@@ -587,6 +587,12 @@
 		if (!init) { this.activeId += 360 / this.density * this.speed; }
 		if (engine === engines[0]) {
 			c.clearRect(0, 0, di, di);
+			 // fix “ghost” or duplicate shapes on html5 android canvas
+			 if (window.navigator && window.navigator.userAgent.indexOf('534.30') > 0) {
+			 	this.can.style.display = 'none';
+			 	this.can.offsetHeight;
+			 	this.can.style.display = 'inherit';
+			 }
 			transCon(c, di * 0.5, di * 0.5, this.activeId / 180 * Math.PI);
 			c.drawImage(this.cCan, 0, 0, di, di);
 			c.restore();
