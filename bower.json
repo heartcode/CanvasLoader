@@ -1,0 +1,24 @@
+{
+  "name": "CanvasLoader",
+  "version": "0.9.1",
+  "homepage": "https://github.com/heartcode/CanvasLoader",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/heartcode/CanvasLoader.git"
+  },
+  "authors": [
+    "Róbert Pataki"
+  ],
+  "description": "Heartcode CanvasLoader is a lightweight JavaScript UI library, which uses the HTML canvas element to draw and animate circular preloaders. The library is currently in beta, some minor changes and improvements might be done to it in the near future.",
+  "main": "js/heartcode-canvasloader.js",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "loader",
+    "spinner",
+    "canvas",
+    "animation"
+  ],
+  "license": "MIT"
+}
