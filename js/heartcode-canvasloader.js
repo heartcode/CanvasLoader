@@ -112,7 +112,7 @@
 	* Initialization method
 	* @method init
 	* @protected
-	* @param id {String} The id of the placeholder div, where the loader will be nested into
+	* @param pId {String|HTMLElement} Either an html node element or the id of the placeholder div, where the loader will be nested into
 	* @param opt {Object} Optional parameters<br/><br/>
 	* <strong>Possible values of optional parameters:</strong><br/>
 	* <ul>
@@ -128,8 +128,10 @@
 		* If the container element cannot be found we use the document body itself
 		*/
 		try {
-			// Look for the parent element
-			if (document.getElementById(pId) !== undefined) {
+			if (pId instanceof window.Element){
+				this.mum = pId;
+			} else if (document.getElementById(pId) !== undefined) {
+				// Look for the parent element
 				this.mum = document.getElementById(pId);
 			} else {
 				this.mum = document.body;
