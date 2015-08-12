@@ -137,6 +137,13 @@
 		} catch (error) {
 			this.mum = document.body;
 		}
+		
+		var dpr = window.devicePixelRatio;
+		if (dpr == null || isNaN(new Number(dpr)) || dpr < 1) {
+		   dpr = 1;
+		}
+		this.dpr = dpr;
+		
 		// Creates the parent div of the loader instance
 		opt.id = typeof (opt.id) !== "undefined" ? opt.id : "canvasLoader";
 		this.cont = addEl("div", this.mum, {id: opt.id});
@@ -145,10 +152,11 @@
 			engine = engines[0];
 			// Create the canvas element
 			this.can = addEl("canvas", this.cont);
-			this.con = this.can.getContext("2d");
 			// Create the cache canvas element
 			this.cCan = setCSS(addEl("canvas", this.cont), { display: "none" });
-			this.cCon = this.cCan.getContext("2d");
+
+	      this.setCanvasSize();
+
 		} else {
 		// For browsers without Canvas support...
 			engine = engines[1];
@@ -427,8 +435,7 @@
 		var i = 0, size, w, h, x, y, ang, rads, rad, de = this.density, animBits = Math.round(de * this.range), bitMod, minBitMod = 0, s, g, sh, f, d = 1000, arc = 0, c = this.cCon, di = this.diameter, e = 0.47;
 		if (engine === engines[0]) {
 			c.clearRect(0, 0, d, d);
-			setAttr(this.can, {width: di, height: di});
-			setAttr(this.cCan, {width: di, height: di});
+
 			while (i < de) {
 				bitMod = i <= animBits ? 1 - ((1 - minBitMod) / animBits * i) : bitMod = minBitMod;
 				ang = 270 - 360 / de * i;
@@ -557,6 +564,31 @@
 			}
 		}
 	};
+	
+	p.setCanvasSize = function() {
+
+	   if (canSup) {
+   	   var di = this.diameter,
+   	       sd = di * this.dpr;
+
+         setCSS(this.can, {width: di + 'px', height: di + 'px'});
+         setAttr(this.can, {width: sd, height: sd});
+         setCSS(this.cCan, {width: di + 'px', height: di + 'px'});
+         setAttr(this.cCan, {width: sd, height: sd});
+
+         // recreate contexts
+         this.con = this.can.getContext("2d");
+         this.cCon = this.cCan.getContext("2d");
+
+         if (this.dpr != 1) {
+            this.con.scale(this.dpr, this.dpr);
+            this.cCon.scale(this.dpr, this.dpr);
+         }
+
+	   }
+	   
+	};
+
 	/**
 	* Redraws the canvas
 	* @method redraw
@@ -564,6 +596,7 @@
 	*/
 	p.redraw = function () {
 			this.clean();
+			this.setCanvasSize();
 			this.draw();
 	};
 	/**
