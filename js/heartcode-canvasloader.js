@@ -1,16 +1,16 @@
 /*
 * Copyright (c) 2011 Róbert Pataki
-* 
+*
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
 * in the Software without restriction, including without limitation the rights
 * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 * copies of the Software, and to permit persons to whom the Software is
 * furnished to do so, subject to the following conditions:
-* 
+*
 * The above copyright notice and this permission notice shall be included in
 * all copies or substantial portions of the Software.
-* 
+*
 * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -18,9 +18,9 @@
 * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 * THE SOFTWARE.
-* 
+*
 * ----------------------------------------------------------------------------------------
-* 
+*
 * Check out my GitHub:	http://github.com/heartcode/
 * Send me an email:		heartcode@robertpataki.com
 * Follow me on Twitter:	http://twitter.com/#iHeartcode
@@ -108,7 +108,7 @@
 			c.translate(-x, -y);
 			c.beginPath();
 		};
-	/** 
+	/**
 	* Initialization method
 	* @method init
 	* @protected
@@ -120,16 +120,18 @@
 	* <li><strong>safeVML (Boolean):</strong> If set to true, the amount of CanvasLoader shapes are limited in VML mode. It prevents CPU overkilling when rendering loaders with high density. The default value is true.</li>
 	**/
 	p.init = function (pId, opt) {
-		
+
 		if (typeof(opt.safeVML) === "boolean") { safeVML = opt.safeVML; }
-		
+
 		/*
 		* Find the containing div by id
 		* If the container element cannot be found we use the document body itself
 		*/
 		try {
 			// Look for the parent element
-			if (document.getElementById(pId) !== undefined) {
+			if (typeof pId == 'object') {
+				this.mum = pId;
+			} else if (document.getElementById(pId) !== undefined) {
 				this.mum = document.getElementById(pId);
 			} else {
 				this.mum = document.body;
@@ -319,7 +321,7 @@
 	* @public
 	* @param density {Number} The default value is 40
 	**/
-	p.setDensity = function (density) { 
+	p.setDensity = function (density) {
 		if (safeVML && engine === engines[1]) {
 			this.density = Math.round(Math.abs(density)) <= safeDensity ? Math.round(Math.abs(density)) : safeDensity;
 		} else {
@@ -407,7 +409,7 @@
 	**/
 	p.getFPS = function () { return this.fps; };
 // End of Property declarations
-/////////////////////////////////////////////////////////////////////////////////////////////	
+/////////////////////////////////////////////////////////////////////////////////////////////
 	/**
 	* Return the RGB values of the passed color
 	* @method getRGB
@@ -499,7 +501,7 @@
 			}
 			w = h = size;
 			x = d * 0.5 - h;
-			y = -h * 0.5;		
+			y = -h * 0.5;
 			while (i < de) {
 				bitMod = i <= animBits ? 1 - ((1 - minBitMod) / animBits * i) : bitMod = minBitMod;
 				ang = 270 - 360 / de * i;
@@ -529,7 +531,7 @@
 						x = d * 0.5 - w;
 						y = -h * 0.5;
 					}
-					arc = this.shape === shapes[4] ? 0.6 : 0; 
+					arc = this.shape === shapes[4] ? 0.6 : 0;
 					break;
 				}
 				g = setAttr(setCSS(addEl("group", this.vml), {width: d, height: d, rotation: ang}), {coordsize: d + "," + d, coordorigin: -d * 0.5 + "," + (-d * 0.5)});
@@ -614,7 +616,7 @@
 	*/
 	p.hide = function () {
 		if (typeof (this.timer) === "number") {
-			clearInterval(this.timer);			
+			clearInterval(this.timer);
 			delete this.timer;
 			setCSS(this.cont, {display: "none"});
 		}
